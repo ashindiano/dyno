@@ -21,16 +21,14 @@ function dyno(){
     
     complete -W "${allCommands}" dyno
     
-    
     case $1 in
         
         "open")
-            cd ~
             echo "Opening Current Folder"
             nautilus .
         ;;
         "script")
-            cd ~
+            
             echo "Opening $BASH_SOURCE"
             code "$BASH_SOURCE"
         ;;
