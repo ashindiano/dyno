@@ -28,7 +28,6 @@ function dyno(){
             nautilus .
         ;;
         "script")
-            
             echo "Opening $BASH_SOURCE"
             code "$BASH_SOURCE"
         ;;
@@ -59,11 +58,13 @@ function dyno(){
                 wget https://raw.githubusercontent.com/ashindiano/customScript/master/template.sh
                 if test -f "template.sh"; then
                     
+                    sed -i "s|_path_|$fullPath|g" "template.sh"
                     sed -i "s/template/$name/g" "template.sh"
                     mv "template.sh"  "$name.sh"
                     
                     echo "Adding $fullPath/$name.sh to Bash sources list "
                     echo "source $fullPath/$name.sh"  >> "$BASH_SOURCE"
+                    source "$BASH_SOURCE"
                     echo "Success: Project $name created "
                     echo "You can start using ' $name ' command"
                 else
@@ -76,7 +77,6 @@ function dyno(){
             
         ;;
         "source")
-            cd ~
             echo "Sourcing $BASH_SOURCE"
             
             source "$BASH_SOURCE"
