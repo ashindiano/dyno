@@ -18,20 +18,20 @@ function template(){
 
     complete -W "${allCommands}" template
     #########
+    
+    cd _path_
+    
     case $1 in
         
         "open")
-            cd ~
             echo "Opening Current Folder"
             nautilus .
         ;;
         "script")
-            cd ~
             echo "Opening $BASH_SOURCE"
             code "$BASH_SOURCE"
         ;;
         "source")
-            cd ~
             echo "Sourcing $BASH_SOURCE"       
             source "$BASH_SOURCE"
         ;;
