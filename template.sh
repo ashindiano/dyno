@@ -1,23 +1,23 @@
 #!/bin/bash
 #version 1.0
-declare -A commands
-commands=(
-    [open]="Opens current folder"
-    [script]="Open the 'template' Script file"
-    [source]="Source the Current file in Shell"
-    [help]="List all the commands the available"
-)
-
-#The following code helps in auto completion
-allCommands=""
-for key in ${!commands[@]}; do
-    allCommands+="${key} "
-done
-
-complete -W "${allCommands}" template
-#########
 
 function template(){
+    declare -A commands
+    commands=(
+        [open]="Opens current folder"
+        [script]="Open the 'template' Script file"
+        [source]="Source the Current file in Shell"
+        [help]="List all the commands the available"
+    )
+
+    #The following code helps in auto completion
+    allCommands=""
+    for key in ${!commands[@]}; do
+        allCommands+="${key} "
+    done
+
+    complete -W "${allCommands}" template
+    #########
     case $1 in
         
         "open")
