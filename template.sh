@@ -3,7 +3,7 @@
 declare -A commands
 commands=(
     [open]="Opens current folder"
-    [script]="Open the 'dyno' Script file"
+    [script]="Open the 'template' Script file"
     [source]="Source the Current file in Shell"
     [help]="List all the commands the available"
 )
@@ -14,10 +14,10 @@ for key in ${!commands[@]}; do
     allCommands+="${key} "
 done
 
-complete -W "${allCommands}" dyno
+complete -W "${allCommands}" template
 #########
 
-function dyno(){
+function template(){
     case $1 in
         
         "open")
