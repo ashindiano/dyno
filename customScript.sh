@@ -67,6 +67,7 @@ function dyno(){
                     source "$BASH_SOURCE"
                     echo "Success: Project $name created "
                     echo "You can start using ' $name ' command"
+                    $name # Need to execute atleast once fo autocomplete to work
                 else
                     echo "File Download Error " >&2
                 fi
