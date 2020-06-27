@@ -63,7 +63,7 @@ function dyno(){
                     mv "template.sh"  "$name.sh"
                     
                     echo "Adding $fullPath/$name.sh to Bash sources list "
-                    echo "source \"$fullPath/$name.sh\""  >> "$BASH_SOURCE"
+                    echo "source \"$fullPath/$name.sh\""  >> "$PWD/.nestedScripts"
                     source "$BASH_SOURCE"
                     echo "Success: Project $name created "
                     echo "You can start using ' $name ' command"
@@ -100,3 +100,4 @@ function dyno(){
 
 alias bye="systemctl poweroff"
 alias reboo="systemctl reboot"
+source ".nestedScripts"
