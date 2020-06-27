@@ -58,7 +58,7 @@ function dyno(){
                 wget https://raw.githubusercontent.com/ashindiano/customScript/master/template.sh
                 if test -f "template.sh"; then
                     
-                    sed -i "s|_path_|$fullPath|g" "template.sh"
+                    sed -i "s|_path_|\"$fullPath\"|g" "template.sh"
                     sed -i "s/template/$name/g" "template.sh"
                     mv "template.sh"  "$name.sh"
                     
