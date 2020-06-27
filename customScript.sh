@@ -38,7 +38,7 @@ function dyno(){
                 if  [[ "$fullPath" -ef "$BASH_SOURCE" ]]; then
                     echo "You cannot add Me Again"
                 else
-                    echo "source $fullPath"  >> "$BASH_SOURCE"
+                    echo "source \"$fullPath\""  >> "$BASH_SOURCE"
                     source "$BASH_SOURCE"
                 fi
             else
@@ -54,7 +54,7 @@ function dyno(){
                 read -e -p "Enter the NAME (single word) of the project: " name
                 
                 echo "Downloading script template"
-                cd $fullPath
+                cd "$fullPath"
                 wget https://raw.githubusercontent.com/ashindiano/customScript/master/template.sh
                 if test -f "template.sh"; then
                     
@@ -63,7 +63,7 @@ function dyno(){
                     mv "template.sh"  "$name.sh"
                     
                     echo "Adding $fullPath/$name.sh to Bash sources list "
-                    echo "source $fullPath/$name.sh"  >> "$BASH_SOURCE"
+                    echo "source \"$fullPath/$name.sh\""  >> "$BASH_SOURCE"
                     source "$BASH_SOURCE"
                     echo "Success: Project $name created "
                     echo "You can start using ' $name ' command"
