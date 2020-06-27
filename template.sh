@@ -9,13 +9,13 @@ function template(){
         [source]="Source the Current file in Shell"
         [help]="List all the commands the available"
     )
-
+    
     #The following code helps in auto completion
     allCommands=""
     for key in ${!commands[@]}; do
         allCommands+="${key} "
     done
-
+    
     complete -W "${allCommands}" template
     #########
     
@@ -32,7 +32,7 @@ function template(){
             code "$BASH_SOURCE"
         ;;
         "source")
-            echo "Sourcing $BASH_SOURCE"       
+            echo "Sourcing $BASH_SOURCE"
             source "$BASH_SOURCE"
         ;;
         "help"|"h"|"--help"|"-h")
@@ -43,3 +43,5 @@ function template(){
         
     esac
 }
+
+template

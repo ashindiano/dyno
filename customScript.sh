@@ -63,11 +63,10 @@ function dyno(){
                     mv "template.sh"  "$name.sh"
                     
                     echo "Adding $fullPath/$name.sh to Bash sources list "
-                    echo "source \"$fullPath/$name.sh\""  >> "$PWD/.nestedScripts"
+                    echo "source \"$fullPath/$name.sh\""  >> "$(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
                     source "$BASH_SOURCE"
                     echo "Success: Project $name created "
                     echo "You can start using ' $name ' command"
-                    $name # Need to execute atleast once fo autocomplete to work
                 else
                     echo "File Download Error " >&2
                 fi
@@ -98,6 +97,7 @@ function dyno(){
     esac
 }
 
+dyno #Run atleast once to list all autocomplete values
 alias bye="systemctl poweroff"
 alias reboo="systemctl reboot"
-source ".nestedScripts"
+source "$(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
