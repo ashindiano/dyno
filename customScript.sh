@@ -101,3 +101,4 @@ dyno #Run atleast once to list all autocomplete values
 alias bye="systemctl poweroff"
 alias reboo="systemctl reboot"
 source "$(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
+cd # Go back to the default folder
