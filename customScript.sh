@@ -100,8 +100,8 @@ function dyno(){
 dyno #Run atleast once to list all autocomplete values
 
 
-alias bye="systemctl poweroff"
-alias reboo="systemctl reboot"
+alias bye="systemctl poweroff -i"
+alias reboo="systemctl reboot -i"
 alias e=exit
 
 source "$(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
