@@ -1,10 +1,10 @@
-## To Install
+# To Install
 
 ```bash
 sh install.sh
 ```
     
-## To Uninstall
+# To Uninstall
 
 ```bash
 sh install.sh -uninstall
@@ -13,3 +13,6 @@ sh install.sh -uninstall
 ```
 sh install.sh -u
 ```
+
+# License
+ [MIT](https://choosealicense.com/licenses/mit/)
