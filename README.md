@@ -9,7 +9,8 @@ sh install.sh
 ```bash
 sh install.sh -uninstall
 ```
-        or
+  or
+        
 ```
 sh install.sh -u
 ```
