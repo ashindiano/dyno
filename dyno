@@ -22,15 +22,6 @@ function dyno(){
     complete -W "${allCommands}" dyno
     
     case $1 in
-        
-        "open")
-            echo "Opening Current Folder"
-            nautilus .
-        ;;
-        "script")
-            echo "Opening $BASH_SOURCE"
-            code "$BASH_SOURCE"
-        ;;
         "add")
             read -e -p "Enter the path of the new script to source: " FILE
             fullPath=$(realpath -m $FILE | sed 's/\~\///g')
