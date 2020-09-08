@@ -53,6 +53,7 @@ function dyno(){
                     sed -i "s|_path_|\"$fullPath\"|g" "template"
                     sed -i "s/template/$name/g" "template"
                     mv "template"  ".dynoScript"
+                    echo "# Ignore dyno tool support file"
                     echo ".dynoScript" >> .gitignore
                     
                     echo "Adding $fullPath/.dynoScript to Bash sources list "
