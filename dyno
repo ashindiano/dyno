@@ -52,10 +52,11 @@ function dyno(){
                     
                     sed -i "s|_path_|\"$fullPath\"|g" "template"
                     sed -i "s/template/$name/g" "template"
-                    mv "template"  "$name"
+                    mv "template"  ".dynoScript"
+                    echo ".dynoScript" >> .gitignore
                     
-                    echo "Adding $fullPath/$name to Bash sources list "
-                    echo "source \"$fullPath/$name\""  >> "$(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
+                    echo "Adding $fullPath/.dynoScript to Bash sources list "
+                    echo "source \"$fullPath/.dynoScript\""  >> "$(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
                     source "$BASH_SOURCE"
                     echo "Success: Project $name created "
                     echo "You can start using ' $name ' command"
