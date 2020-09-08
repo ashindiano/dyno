@@ -47,7 +47,7 @@ function dyno(){
                 
                 echo "Downloading script template"
                 cd "$fullPath"
-                wget https://raw.githubusercontent.com/ashindiano/customScript/master/template.sh
+                wget https://raw.githubusercontent.com/ashindiano/dyno/master/template
                 if test -f "template.sh"; then
                     
                     sed -i "s|_path_|\"$fullPath\"|g" "template.sh"
