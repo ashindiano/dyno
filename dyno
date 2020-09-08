@@ -7,6 +7,7 @@ function dyno(){
         [open]="Opens current folder"
         [script]="Open the 'dyno' Script file"
         [source]="Source the Current file in Shell"
+        [location]="Navigate to the source location of Dyno"
         [add]="Add another source script"
         [new]="Add a New Script to folder"
         [help]="List all the commands the available"
@@ -66,6 +67,13 @@ function dyno(){
                 echo "Directory does not exist."
             fi
             
+        ;;
+        "location")
+            cd "$( dirname "${BASH_SOURCE[0]}" )"
+        ;;
+        "script")
+            echo "Opening $(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
+            code "$(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
         ;;
         "source")
             echo "Sourcing $BASH_SOURCE"
