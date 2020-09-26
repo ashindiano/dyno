@@ -78,9 +78,8 @@ function dyno(){
             code "$(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
         ;;
         "source")
-            echo "Sourcing $BASH_SOURCE"
-            
-            source "$BASH_SOURCE"
+            echo "Sourcing $(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
+            source "$(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
         ;;
         "reset")
             echo "Are you sure you wanna reset Dyno? Yes/No"
