@@ -2,7 +2,7 @@
 #version 1.0
 
 function template(){
-    declare -A commands
+    declare -a commands
     commands=(
         [open]="Opens current folder"
         [script]="Open the 'template' Script file"
