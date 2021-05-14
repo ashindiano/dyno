@@ -92,7 +92,8 @@ function dyno(){
         "help"|"h"|"--help"|"-h")
             for index in "${commands[@]}" ; do
                 key="${index%%::*}"
-                echo ${key} - ${commands[${key}]}
+                value="${index##*::}"
+                echo ${key} - ${value}
             done
         ;;
         
