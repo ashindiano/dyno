@@ -4,19 +4,20 @@ function dyno(){
     
     declare -a commands
     commands=(
-        [open]="Opens current folder"
-        [script]="Open the 'dyno' Script file"
-        [source]="Source the Current file in Shell"
-        [location]="Navigate to the source location of Dyno"
-        [add]="Add another source script"
-        [new]="Add a New Script to folder"
-        [help]="List all the commands the available"
-        [reset]="Reset the script to the factory defaults"
+        "open::Opens current folder"
+        "script::Open the 'dyno' Script file"
+        "source::Source the Current file in Shell"
+        "location::Navigate to the source location of Dyno"
+        "add::Add another source script"
+        "new::Add a New Script to folder"
+        "help::List all the commands the available"
+        "reset::Reset the script to the factory defaults"
     )
     
     #The following code helps in auto completion
     allCommands=""
-    for key in ${!commands[@]}; do
+    for index in "${commands[@]}" ; do
+        key="${index%%::*}"
         allCommands+="${key} "
     done
     
@@ -89,7 +90,8 @@ function dyno(){
             fi
         ;;
         "help"|"h"|"--help"|"-h")
-            for key in ${!commands[@]}; do
+            for index in "${commands[@]}" ; do
+                key="${index%%::*}"
                 echo ${key} - ${commands[${key}]}
             done
         ;;
