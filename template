@@ -4,16 +4,17 @@
 function template(){
     declare -a commands
     commands=(
-        [open]="Opens current folder"
-        [script]="Open the 'template' Script file"
-        [code]="Open the folder in VS Code editor"
-        [source]="Source the Current file in Shell"
-        [help]="List all the commands the available"
+        "open::Opens current folder"
+        "script::Open the 'template' Script file"
+        "code::Open the folder in VS Code editor"
+        "source::Source the Current file in Shell"
+        "help::List all the commands the available"
     )
     
     #The following code helps in auto completion
     allCommands=""
-    for key in ${!commands[@]}; do
+    for index in "${commands[@]}" ; do
+        key="${index%%::*}"
         allCommands+="${key} "
     done
     
@@ -42,8 +43,9 @@ function template(){
             source "$BASH_SOURCE"
         ;;
         "help"|"h"|"--help"|"-h")
-            for key in ${!commands[@]}; do
-                echo ${key} - ${commands[${key}]}
+            for index in "${commands[@]}" ; do
+                key="${index%%::*}"
+                value="${index##*::}"
             done
         ;;
         
