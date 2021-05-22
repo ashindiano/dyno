@@ -72,6 +72,16 @@ function dyno(){
             
         ;;
         
+        "commands")        
+            x=$(locate .dynoScript)
+            IFS=$'\n' y=($x)
+            for file in "${y[@]}" ; do 
+              functionname=$(cat ${file})
+              functionname=${functionname%()*}   
+              echo "${functionname#*function }"
+            done
+        ;;
+        
         "repo")
             echo "Opening current Git Repository in github.com" 
 
