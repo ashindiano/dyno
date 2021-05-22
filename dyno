@@ -5,7 +5,6 @@ function dyno(){
     declare -a commands
     commands=(
         "open::Opens current folder"
-        "new::Creates a New Dyno Project and assigns a new command"
         "location::Shows the location of DYNO"
         "script::Open the 'dyno' Script file"
         "source::Source the Current file in Shell"
