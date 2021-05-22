@@ -73,11 +73,16 @@ function dyno(){
         ;;
         
         "repo")
-            echo "Opening Github.com Repo"
+            echo "Opening current Git Repository in github.com" 
+
             remote=$(git config --get remote.origin.url)
-            remote=${remote#*git@github.com:}   # remove prefix ending in "git@github.com:"
-            remote=${remote%.git*}   # remove suffix starting with ".git"
-            open "https://github.com/$remote"
+            if [[ $remote != *".git"* ]]; then
+                echo " No Git Found"
+            else
+                remote=${remote#*git@github.com:}   # remove prefix ending in "git@github.com:"
+                remote=${remote%.git*}   # remove suffix starting with ".git"
+                open "https://github.com/$remote"
+            fi
         ;;
         
         "location")
