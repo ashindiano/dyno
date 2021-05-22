@@ -71,6 +71,15 @@ function dyno(){
             fi
             
         ;;
+        
+        "repo")
+            echo "Opening Github.com Repo"
+            remote=$(git config --get remote.origin.url)
+            remote=${remote#*git@github.com:}   # remove prefix ending in "git@github.com:"
+            remote=${remote%.git*}   # remove suffix starting with ".git"
+            open "https://github.com/$remote"
+        ;;
+        
         "location")
             cd "$( dirname "${BASH_SOURCE[0]}" )"
         ;;
