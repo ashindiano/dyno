@@ -123,6 +123,16 @@ function dyno(){
                 value="${index##*::}"
                 echo ${key} - ${value}
             done
+            echo ""
+            echo "Projects created by DYNO"
+            echo "========================"
+            x=$(locate .dynoScript)
+            IFS=$'\n' y=($x)
+            for file in "${y[@]}" ; do 
+              functionname=$(cat ${file})
+              functionname=${functionname%()*}   
+              echo "${functionname#*function }"
+            done
         ;;
         
     esac
