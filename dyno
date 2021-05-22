@@ -5,11 +5,15 @@ function dyno(){
     declare -a commands
     commands=(
         "open::Opens current folder"
+        "new::Creates a New Dyno Project and assigns a new command"
+        "location::Shows the location of DYNO"
         "script::Open the 'dyno' Script file"
         "source::Source the Current file in Shell"
         "commands::List All commands created by DYNO"
         "location::Navigate to the source location of Dyno"
         "add::Add another source script"
+        "reset::Reset all Dyno files sourced"
+        "repo::Opens the Github.com link of the current folder's git repo"
         "new::Add a New Script to folder"
         "help::List all the commands the available"
         "reset::Reset the script to the factory defaults"
@@ -72,30 +76,6 @@ function dyno(){
             fi
             
         ;;
-        
-        "commands")        
-            x=$(locate .dynoScript)
-            IFS=$'\n' y=($x)
-            for file in "${y[@]}" ; do 
-              functionname=$(cat ${file})
-              functionname=${functionname%()*}   
-              echo "${functionname#*function }"
-            done
-        ;;
-        
-        "repo")
-            echo "Opening current Git Repository in github.com" 
-
-            remote=$(git config --get remote.origin.url)
-            if [[ $remote != *".git"* ]]; then
-                echo " No Git Found"
-            else
-                remote=${remote#*git@github.com:}   # remove prefix ending in "git@github.com:"
-                remote=${remote%.git*}   # remove suffix starting with ".git"
-                open "https://github.com/$remote"
-            fi
-        ;;
-        
         "location")
             cd "$( dirname "${BASH_SOURCE[0]}" )"
         ;;
@@ -114,6 +94,31 @@ function dyno(){
                 sed '/source/,$d'
             fi
         ;;
+
+        "commands")        
+            x=$(locate .dynoScript)
+            IFS=$'\n' y=($x)
+            for file in "${y[@]}" ; do 
+              functionname=$(cat ${file})
+              functionname=${functionname%()*}   
+              echo "${functionname#*function }"
+            done
+        ;;
+
+
+        "repo")
+            echo "Opening current Git Repository in github.com" 
+
+            remote=$(git config --get remote.origin.url)
+            if [[ $remote != *".git"* ]]; then
+                echo " No Git Found"
+            else
+                remote=${remote#*git@github.com:}   # remove prefix ending in "git@github.com:"
+                remote=${remote%.git*}   # remove suffix starting with ".git"
+                open "https://github.com/$remote"
+            fi
+        ;;
+
         "help"|"h"|"--help"|"-h")
             for index in "${commands[@]}" ; do
                 key="${index%%::*}"
