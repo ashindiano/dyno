@@ -124,7 +124,7 @@ function dyno(){
                 echo ${key} - ${value}
             done
             echo ""
-            echo "Projects created by DYNO"
+            echo "Project commands created by DYNO"
             echo "========================"
             x=$(locate .dynoScript)
             IFS=$'\n' y=($x)
