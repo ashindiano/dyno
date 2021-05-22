@@ -11,7 +11,6 @@ function dyno(){
         "commands::List All commands created by DYNO"
         "location::Navigate to the source location of Dyno"
         "add::Add another source script"
-        "reset::Reset all Dyno files sourced"
         "repo::Opens the Github.com link of the current folder's git repo"
         "new::Add a New Script to folder"
         "help::List all the commands the available"
