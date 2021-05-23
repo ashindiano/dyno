@@ -3,7 +3,7 @@ allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
 function dyno(){
-    version=1.4
+    version=1.5
     declare -a commands
     
     commands=(
