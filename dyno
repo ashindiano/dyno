@@ -1,5 +1,5 @@
 #!/bin/bash
-version=1.63
+version=1.65
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
@@ -21,6 +21,7 @@ function dyno(){
         "reset::Reset the script to the factory defaults"
         "refresh::Scans your entire omputer and updates commands of all DYNO Projects "
         "update::Updated DYNO to its latest version"
+        "inject-all::Injects a piece of code under a sub command in all dyno Projects: Do only if you know what you are doing"
     )
     
     #The following code helps in auto completion
@@ -45,7 +46,7 @@ function dyno(){
         IFS=$'\n' y=($x)
         for file in "${y[@]}" ; do 
             functionname=$(cat "${file}")
-            functionname=${functionname%()*}   
+            functionname=${functionname%()\{*}   
             echo "${functionname#*function }"
         done
     }
@@ -124,7 +125,7 @@ function dyno(){
             for sourcedFile in "${j[@]}" ; do
                 if [[ "$sourcedFile" == *"source "* ]]; then
                     local functionname=$(cat $(subString "$sourcedFile" "source "))
-                    functionname=${functionname%()*}   
+                    functionname=${functionname%()\{*}   
                     echo "${functionname#*function }"
                 fi
             done
@@ -164,6 +165,49 @@ function dyno(){
                    fi
             done
             echo "Refresh Complete"
+        ;;
+
+        "inject-all")
+            dir="$(dirname "${BASH_SOURCE[0]}")"
+              
+            tempFile1="${dir}/.tmp1"
+            tempFile2="${dir}/.tmp2"
+
+            read -e -p "Enter the sub Command you want in all Dyno Projects: " subCommand
+            read -e -p "Enter help description for '$subCommand' : " helpDescription
+            
+            read -e -p "Enter the File whose content you want to inject to all projects: " FILE
+            fullPath=$(realpath -m $FILE | sed 's/\~\///g')
+           
+            #generating dummy file with a switch case for the sub command
+            echo "\"$subCommand\")" >> "$tempFile1"
+            sed 's_^_     _' $fullPath >> $tempFile1
+            echo ";;" >> $tempFile1
+            
+            read -e -p "You are about to modify all Dyno projects. Are you sure you want to continue? (y/n) : " answer
+            
+            if [[ "$answer" == "y" ]]; then
+                # iteratively injecting to all dyno projects
+                # if test -f "$fullPath"; then
+                    echo "Running iterative injections to each Project"
+                    x=$(locate .dynoScript)
+                    IFS=$'\n' y=($x)
+                    for file in "${y[@]}" ; do 
+                        
+                        functionname=$(cat $(subString "$file" "source "))
+                        functionname=${functionname%()\{*}   
+                        functionname="${functionname#*function }"
+                        
+                        echo "Injecting '$subCommand' command in project: $functionname"
+                       awk '/"help"\|/{while(getline line<"'"$tempFile1"'"){print "        "line}}1' $file > $tempFile2 && mv -f $tempFile2 $file 
+                   
+                        reg="/commands=/{print;print \"        \\\"$subCommand::$helpDescription\\\"\";next}1"
+                        awk "$reg" $file > $tempFile2 && mv -f $tempFile2 $file 
+                        
+                    done     
+                # fi
+            fi
+            rm -f $tempFile1 $tempFile2
         ;;
 
         "update")
