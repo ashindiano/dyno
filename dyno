@@ -152,14 +152,16 @@ function dyno(){
         ;;
 
         "update")
+            echo "current Version $version"
             echo "Downloading new dyno version" 
                 dynoPath=~/.dyno/dyno
                 tmpPath=~/.dyno/.tmp
                 wget -O ${tmpPath} https://raw.githubusercontent.com/ashindiano/dyno/master/dyno
                 if test -f ${tmpPath}; then
                     mv -f ${tmpPath} ${dynoPath}
-                    echo "Update Complete !!!" 
+                    echo "Update Complete new version!!!" 
                     source "${BASH_SOURCE[0]}"
+                    echo "new Version $version"
                 else
                     echo "Download Failed !!!" 
                 fi
