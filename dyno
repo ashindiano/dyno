@@ -1,8 +1,11 @@
 #!/bin/bash
+allScriptsFileName=".nestedScripts"
+allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
 function dyno(){
-    version=1.3
+    version=1.4
     declare -a commands
+    
     commands=(
         "open::Opens current folder"
         "location::Shows the location of DYNO"
@@ -25,6 +28,14 @@ function dyno(){
     done
     
     complete -W "${allCommands}" dyno
+
+    subString(){
+       
+        local myresult="${1#*$2}" # removing prefix  
+        myresult="${myresult%$3*}" # removing suffix
+        echo "$myresult"
+      
+    }
     
     case $1 in
         "add")
@@ -61,7 +72,7 @@ function dyno(){
                     echo ".dynoScript" >> .gitignore
                     
                     echo "Adding $fullPath/.dynoScript to Bash sources list "
-                    echo "source \"$fullPath/.dynoScript\""  >> "$(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
+                    echo "source \"$fullPath/.dynoScript\""  >> ${allScriptsFile}
                     source "$BASH_SOURCE"
                     echo "Success: Project $name created "
                     echo "You can start using ' $name ' command"
@@ -78,12 +89,12 @@ function dyno(){
             cd "$( dirname "${BASH_SOURCE[0]}" )"
         ;;
         "script")
-            echo "Opening $(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
-            code "$(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
+            echo "Opening ${allScriptsFile}"
+            code ${allScriptsFile}
         ;;
         "source")
-            echo "Sourcing $(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
-            source "$(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
+            echo "Sourcing ${allScriptsFile}"
+            source ${allScriptsFile}
         ;;
         "reset")
             echo "Are you sure you wanna reset Dyno? Yes/No"
@@ -103,6 +114,42 @@ function dyno(){
             done
         ;;
 
+        "refresh")
+            echo "Searching for all local dyno Projects created"
+            case $(uname | tr '[:upper:]' '[:lower:]') in
+                linux*)
+                    sudo updatedb
+                    ;;
+                darwin*)
+                    sudo /usr/libexec/locate.updatedb
+                    ;;
+                *)
+
+                    ;;
+            esac
+            # sudo /usr/libexec/locate.updatedb
+            echo "Search Complete refreshing Projects"
+            x=$(locate .dynoScript)
+            IFS=$'\n' y=($x)
+            i=$(cat  ${allScriptsFile})
+            IFS=$'\n' j=($i)
+            for file in "${y[@]}" ; do 
+                    local isFileExist=false
+                    for sourcedFile in "${j[@]}" ; do
+                        if [[ "$sourcedFile" == *"source "* ]]; then
+                            
+                            if [[ "$file" ==  *"$(subString "$sourcedFile" "source ")"* ]]; then
+                                isFileExist=true
+                                break
+                            fi
+                        fi
+                   done
+                   if [ $isFileExist = false ]; then
+                        echo "source $file"  >> "${allScriptsFile}"
+                   fi
+            done
+            echo "Refresh Complete"
+        ;;
 
         "update")
             echo "Downloading new dyno version" 
@@ -163,5 +210,5 @@ alias bye="systemctl poweroff -i"
 alias reboo="systemctl reboot -i"
 alias e=exit
 
-source "$(dirname "${BASH_SOURCE[0]}")/.nestedScripts"
+source "${allScriptsFile}"
 cd # Go back to the default folder
