@@ -15,7 +15,6 @@ function dyno(){
         "new::Add a New Script to folder"
         "help::List all the commands the available"
         "reset::Reset the script to the factory defaults"
-        "version::Shows current Version of Dyno installed"
     )
     
     #The following code helps in auto completion
@@ -108,8 +107,10 @@ function dyno(){
         "update")
             echo "Downloading new dyno version" 
                 dynoPath=~/.dyno/dyno
-                wget -O ${dynoPath} https://raw.githubusercontent.com/ashindiano/dyno/master/dyno
+                tmpPath=~/.dyno/.tmp
+                wget -O ${tmpPath} https://raw.githubusercontent.com/ashindiano/dyno/master/dyno
                 if test -f ${dynoPath}; then
+                    mv -f ${tmpPath} ${dynoPath}
                     echo "Update Complete !!!" 
                     source "${BASH_SOURCE[0]}"
                 else
@@ -131,7 +132,7 @@ function dyno(){
         ;;
         
         "--version"|"-v")
-            echo version: ${version}
+            echo ${version}
         ;;
 
         "help"|"h"|"--help"|"-h")
@@ -155,7 +156,7 @@ function dyno(){
     esac
 }
 
-dyno #Run atleast once to list all autocomplete values
+dyno version #Run atleast once to list all autocomplete values
 
 
 alias bye="systemctl poweroff -i"
