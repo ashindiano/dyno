@@ -56,6 +56,23 @@ function template(){
             fi
         ;;
         
+        "rename")
+            echo "You are about to rename the command $FUNCNAME ? y/n"
+            read answer 
+            if [[ "$answer" == "y" ]]; then
+                echo "Please enter the new command: "
+                read newCommandName
+                if ! [ -x "$(command -v $newCommandName)" ]; then
+                    sed -i -e "s/$FUNCNAME()/$newCommandName()/g" "${BASH_SOURCE[0]}" # replacing the function name
+                    sed -i -e '$s'"/$FUNCNAME/$newCommandName/g" "${BASH_SOURCE[0]}" # replacing the command in last line
+                    source "${BASH_SOURCE[0]}"
+                    echo "Rename successful!!! $newCommandName  is effective now"        
+                else
+                    echo "Cannot use $newCommandName because this command already exists"
+                fi
+            fi
+        ;;
+        
         "help"|"h"|"--help"|"-h")
             for index in "${commands[@]}" ; do
                 key="${index%%::*}"
