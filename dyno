@@ -1,6 +1,5 @@
 #!/bin/bash
-
-version=1.62
+version=1.63
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
@@ -45,7 +44,7 @@ function dyno(){
         x=$(locate .dynoScript)
         IFS=$'\n' y=($x)
         for file in "${y[@]}" ; do 
-            functionname=$(cat ${file})
+            functionname=$(cat "${file}")
             functionname=${functionname%()*}   
             echo "${functionname#*function }"
         done
@@ -119,11 +118,20 @@ function dyno(){
         ;;
 
         "commands")        
-            allInstalledProjects
+            i=$(cat  ${allScriptsFile})
+            IFS=$'\n' j=($i)
+
+            for sourcedFile in "${j[@]}" ; do
+                if [[ "$sourcedFile" == *"source "* ]]; then
+                    local functionname=$(cat $(subString "$sourcedFile" "source "))
+                    functionname=${functionname%()*}   
+                    echo "${functionname#*function }"
+                fi
+            done
         ;;
 
         "refresh")
-            echo "Searching for all local dyno Projects created"
+            echo "Scanning computer for all local dyno Projects created"
             case $(uname | tr '[:upper:]' '[:lower:]') in
                 linux*)
                     sudo updatedb
@@ -135,7 +143,6 @@ function dyno(){
 
                     ;;
             esac
-            # sudo /usr/libexec/locate.updatedb
             echo "Search Complete refreshing Projects"
             x=$(locate .dynoScript)
             IFS=$'\n' y=($x)
