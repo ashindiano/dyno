@@ -9,6 +9,7 @@ function template(){
         "code::Open the folder in VS Code editor"
         "source::Source the Current file in Shell"
         "help::List all the commands the available"
+        "rename::Renames the currnet command"
     )
     
     #The following code helps in auto completion
