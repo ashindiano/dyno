@@ -3,7 +3,7 @@ allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
 function dyno(){
-    version=1.5
+    version=1.6
     declare -a commands
     
     commands=(
@@ -152,7 +152,7 @@ function dyno(){
         ;;
 
         "update")
-            echo "current Version $version"
+            echo "current version: $version"
             echo "Downloading new dyno version" 
                 dynoPath=~/.dyno/dyno
                 tmpPath=~/.dyno/.tmp
@@ -161,7 +161,7 @@ function dyno(){
                     mv -f ${tmpPath} ${dynoPath}
                     echo "Update Complete new version!!!" 
                     source "${BASH_SOURCE[0]}"
-                    echo "new Version $version"
+                    echo "update to version: $version"
                 else
                     echo "Download Failed !!!" 
                 fi
