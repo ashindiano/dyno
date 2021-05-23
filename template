@@ -58,8 +58,7 @@ function template(){
         ;;
         
         "rename")
-            echo "You are about to rename the command $FUNCNAME ? y/n"
-            read answer 
+            read -p -e "You are about to rename the command $FUNCNAME ? (y/n) : " answer
             if [[ "$answer" == "y" ]]; then
                 echo "Please enter the new command: "
                 read newCommandName
