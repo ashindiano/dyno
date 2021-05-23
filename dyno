@@ -15,6 +15,7 @@ function dyno(){
         "new::Add a New Script to folder"
         "help::List all the commands the available"
         "reset::Reset the script to the factory defaults"
+        "version::Shows current Version of Dyno installed"
     )
     
     #The following code helps in auto completion
@@ -130,7 +131,7 @@ function dyno(){
         ;;
         
         "--version"|"-v")
-            echo ${version}
+            echo version: ${version}
         ;;
 
         "help"|"h"|"--help"|"-h")
