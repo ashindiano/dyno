@@ -109,7 +109,7 @@ function dyno(){
                 dynoPath=~/.dyno/dyno
                 tmpPath=~/.dyno/.tmp
                 wget -O ${tmpPath} https://raw.githubusercontent.com/ashindiano/dyno/master/dyno
-                if test -f ${dynoPath}; then
+                if test -f ${tmpPath}; then
                     mv -f ${tmpPath} ${dynoPath}
                     echo "Update Complete !!!" 
                     source "${BASH_SOURCE[0]}"
