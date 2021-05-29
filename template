@@ -22,7 +22,7 @@ function template(){
     complete -W "${allCommands}" template
     #########
     
-    cd _path_
+    cd "$( dirname "${BASH_SOURCE[0]}" )"
     
     case $1 in
         
