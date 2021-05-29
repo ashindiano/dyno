@@ -1,5 +1,5 @@
 #!/bin/bash
-version=1.65
+version=1.66
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
@@ -52,8 +52,10 @@ function dyno(){
     
     case $1 in
         "new")
-            read -e -p "Enter the Directory of your Project: " FILE
-            fullPath=$(realpath -m $FILE | sed 's/\~\///g')
+            folder='.'
+            read -e  -p "Enter the Folder path of your Project (For current folder just hit enter key )  : "  prjFolder 
+            [ -n "$prjFolder" ] && folder=$prjFolder
+            fullPath=$(realpath -m $folder | sed 's/\~\///g')
             echo $fullPath
             if test -d "$fullPath"; then
                 
