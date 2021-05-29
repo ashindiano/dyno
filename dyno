@@ -1,5 +1,5 @@
 #!/bin/bash
-version=1.68
+version=1.69
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
@@ -230,18 +230,24 @@ function dyno(){
         ;;
 
         "update")
-            echo "current version: $version"
-            echo "Downloading ..." 
-                dynoPath=~/.dyno/dyno
-                tmpPath=~/.dyno/.tmp
-                wget -O ${tmpPath} https://raw.githubusercontent.com/ashindiano/dyno/master/dyno
-                if test -f ${tmpPath}; then
-                    mv -f ${tmpPath} ${dynoPath}                   
-                    source "${BASH_SOURCE[0]}"
-                    echo "updated to version: $version"
-                else
-                    echo "Download Failed !!!" 
-                fi
+            remoteVersion=$(checkRemoteVersion)
+            if [[ $version != $remoteVersion ]]; then
+                echo "current version: $version"
+                echo "Downloading ..." 
+                    dynoPath=~/.dyno/dyno
+                    tmpPath=~/.dyno/.tmp
+                    wget -O ${tmpPath} https://raw.githubusercontent.com/ashindiano/dyno/master/dyno
+                    if test -f ${tmpPath}; then
+                        mv -f ${tmpPath} ${dynoPath}                   
+                        source "${BASH_SOURCE[0]}"
+                        echo "updated to version: $version"
+                    else
+                        echo "Download Failed !!!" 
+                    fi
+            else
+                echo "No Update available"
+            fi
+          
         ;;
 
         "isUpdateAvailable")
