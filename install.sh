@@ -1,6 +1,17 @@
 if [ "$1" = "-uninstall" ] || [ "$1" = "-u" ]; then
     rm -rf ~/.dyno
-    sed -i '/source ~\/.dyno\/dyno/d' ~/.bash_profile
+    case $(uname | tr '[:upper:]' '[:lower:]') in
+        linux*)
+             sed -i '/source ~\/.dyno\/dyno/d' ~/.bash_profile
+            ;;
+        darwin*)
+            sed -i '' '/source ~\/.dyno\/dyno/d' ~/.bash_profile
+            ;;
+        *)
+
+            ;;
+    esac
+    
 else
     mkdir -p ~/.dyno
     cp dyno ~/.dyno
