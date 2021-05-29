@@ -51,7 +51,7 @@ function dyno(){
     }
     
     remoteVersion(){
-        curl -v --silent https://raw.githubusercontent.com/ashindiano/dyno/master/dyno 2>&1 | grep version= | sed 's/version=//g'
+        curl -v --silent https://raw.githubusercontent.com/ashindiano/dyno/master/dyno 2>&1 | grep version= | sed 's/version=[0-9.]*\n//g'
     }
 
     isUpdateAvailable(){
