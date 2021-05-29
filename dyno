@@ -1,5 +1,5 @@
 #!/bin/bash
-version=1.69
+version=1.70
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
@@ -51,11 +51,12 @@ function dyno(){
     }
     
     remoteVersion(){
-        curl -v --silent https://raw.githubusercontent.com/ashindiano/dyno/master/dyno 2>&1 | grep version= | sed 's/version=[0-9.]*\n//g'
+        curl -v --silent https://raw.githubusercontent.com/ashindiano/dyno/master/dyno 2>&1 | grep version= | sed 's/version=[0-9.]*$//g'
     }
 
     isUpdateAvailable(){
         remoteVersion=$(remoteVersion)
+        echo "Remote Version $remoteVersion"
         if [[ $version == $remoteVersion ]]; then
             echo ""
             echo ""
@@ -230,24 +231,18 @@ function dyno(){
         ;;
 
         "update")
-            remoteVersion=$(checkRemoteVersion)
-            if [[ $version != $remoteVersion ]]; then
-                echo "current version: $version"
-                echo "Downloading ..." 
-                    dynoPath=~/.dyno/dyno
-                    tmpPath=~/.dyno/.tmp
-                    wget -O ${tmpPath} https://raw.githubusercontent.com/ashindiano/dyno/master/dyno
-                    if test -f ${tmpPath}; then
-                        mv -f ${tmpPath} ${dynoPath}                   
-                        source "${BASH_SOURCE[0]}"
-                        echo "updated to version: $version"
-                    else
-                        echo "Download Failed !!!" 
-                    fi
-            else
-                echo "No Update available"
-            fi
-          
+            echo "current version: $version"
+            echo "Downloading ..." 
+                dynoPath=~/.dyno/dyno
+                tmpPath=~/.dyno/.tmp
+                wget -O ${tmpPath} https://raw.githubusercontent.com/ashindiano/dyno/master/dyno
+                if test -f ${tmpPath}; then
+                    mv -f ${tmpPath} ${dynoPath}                   
+                    source "${BASH_SOURCE[0]}"
+                    echo "updated to version: $version"
+                else
+                    echo "Download Failed !!!" 
+                fi
         ;;
 
         "isUpdateAvailable")
