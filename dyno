@@ -1,10 +1,10 @@
 #!/bin/bash
-version=1.67
+version=1.68
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
 function dyno(){
-    
+
     declare -a commands
     
     commands=(
@@ -50,6 +50,22 @@ function dyno(){
         done
     }
     
+    remoteVersion(){
+        curl -v --silent https://raw.githubusercontent.com/ashindiano/dyno/master/dyno 2>&1 | grep version= | sed 's/version=//g'
+    }
+
+    isUpdateAvailable(){
+        remoteVersion=$(remoteVersion)
+        if [[ $version == $remoteVersion ]]; then
+            echo ""
+            echo ""
+            echo "DYNO: New Update available ($remoteVersion) "
+            echo ""
+            echo "To update:   dyno update   "
+            echo ""
+        fi
+    }
+
     case $1 in
         "new")
             folder='.'
@@ -86,13 +102,16 @@ function dyno(){
             fi
             
         ;;
+
         "location")
             cd "$( dirname "${BASH_SOURCE[0]}" )"
         ;;
+
         "script")
             echo "Opening ${allScriptsFile}"
             code ${allScriptsFile}
         ;;
+
         "source")
             echo "Sourcing ${allScriptsFile}"
             source ${allScriptsFile}
@@ -225,6 +244,10 @@ function dyno(){
                 fi
         ;;
 
+        "isUpdateAvailable")
+            isUpdateAvailable
+        ;;
+
         "repo")
             echo "Opening current Git Repository in github.com" 
 
@@ -257,7 +280,7 @@ function dyno(){
     esac
 }
 
-dyno version #Run atleast once to list all autocomplete values
+dyno isUpdateAvailable #Run atleast once to list all autocomplete values
 
 
 alias bye="systemctl poweroff -i"
