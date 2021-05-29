@@ -1,5 +1,5 @@
 #!/bin/bash
-version=1.73
+version=1.74
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
@@ -64,7 +64,7 @@ function dyno(){
 
     isUpdateAvailable(){
         remoteVersion=$(remoteVersion)
-        if [[ $version != $remoteVersion ]]; then
+        if [[  ! -z "$remoteVersion"  && $version != $remoteVersion ]]; then
             echo ""
             echo -e "${Red}!!! Alert !!!$ColorOff"
             echo -e "Update found for ${Yellow}Dyno ${ColorOff}version: $Yellow$remoteVersion$ColorOff"
