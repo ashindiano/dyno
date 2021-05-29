@@ -1,5 +1,5 @@
 #!/bin/bash
-version=1.66
+version=1.67
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
@@ -148,7 +148,7 @@ function dyno(){
                         fi
                    done
                    if [ $isFileExist = false ]; then
-                        echo "source $file"  >> "${allScriptsFile}"
+                        echo "source \"$file\""  >> "${allScriptsFile}"
                    fi
             done
             echo "Refresh Complete"
@@ -195,6 +195,19 @@ function dyno(){
                 # fi
             fi
             rm -f $tempFile1 $tempFile2
+        ;;
+
+        "replace-all")
+
+            echo "Running iterative injections to each Project"
+            x=$(locate .dynoScript)
+            IFS=$'\n' y=($x)
+            for file in "${y[@]}" ; do 
+                echo "replacing on  $file"
+                ######## Replace Command ########
+              #  sed -i ''  "s/cd[^.]*\/code/cd \"$\( dirname \"$\{BASH_SOURCE[0]\}\" \)\/code/g" "$file"
+            done     
+              
         ;;
 
         "update")
