@@ -1,9 +1,9 @@
 #!/bin/bash
-version=1.74
+version=1.75
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
-ColorOff='\033[0m' 
+ColorOff='\033[0m'
 Black='\033[0;30m'        # Black
 Red='\033[0;31m'          # Red
 Green='\033[0;32m'        # Green
@@ -14,7 +14,7 @@ Cyan='\033[0;36m'         # Cyan
 White='\033[0;37m'        # White
 
 function dyno(){
-
+    
     declare -a commands
     
     commands=(
@@ -41,19 +41,19 @@ function dyno(){
     done
     
     complete -W "${allCommands}" dyno
-
-    subString(){     
-        local myresult="${1#*$2}" # removing prefix  
+    
+    subString(){
+        local myresult="${1#*$2}" # removing prefix
         myresult="${myresult%$3*}" # removing suffix
-        echo "$myresult" 
+        echo "$myresult"
     }
-
+    
     allInstalledProjects(){
         x=$(locate .dynoScript)
         IFS=$'\n' y=($x)
-        for file in "${y[@]}" ; do 
+        for file in "${y[@]}" ; do
             functionname=$(cat "${file}")
-            functionname=${functionname%()\{*}   
+            functionname=${functionname%()\{*}
             echo "${functionname#*function }"
         done
     }
@@ -61,7 +61,7 @@ function dyno(){
     remoteVersion(){
         curl -v --silent https://raw.githubusercontent.com/ashindiano/dyno/master/dyno 2>&1 | grep 'version=[0-9.]*$' | sed 's/version=//'
     }
-
+    
     isUpdateAvailable(){
         remoteVersion=$(remoteVersion)
         if [[  ! -z "$remoteVersion"  && $version != $remoteVersion ]]; then
@@ -73,11 +73,11 @@ function dyno(){
             echo ""
         fi
     }
-
+    
     case $1 in
         "new")
             folder='.'
-            read -e  -p "Enter the Folder path of your Project (For current folder just hit enter key )  : "  prjFolder 
+            read -e  -p "Enter the Folder path of your Project (For current folder just hit enter key )  : "  prjFolder
             [ -n "$prjFolder" ] && folder=$prjFolder
             fullPath=$(realpath -m $folder | sed 's/\~\///g')
             echo $fullPath
@@ -110,16 +110,16 @@ function dyno(){
             fi
             
         ;;
-
+        
         "location")
             cd "$( dirname "${BASH_SOURCE[0]}" )"
         ;;
-
+        
         "script")
             echo "Opening ${allScriptsFile}"
             code ${allScriptsFile}
         ;;
-
+        
         "source")
             echo "Sourcing ${allScriptsFile}"
             source ${allScriptsFile}
@@ -131,68 +131,68 @@ function dyno(){
                 sed '/source/,$d'
             fi
         ;;
-
-        "commands")        
+        
+        "commands")
             i=$(cat  ${allScriptsFile})
             IFS=$'\n' j=($i)
-
+            
             for sourcedFile in "${j[@]}" ; do
                 if [[ "$sourcedFile" == *"source "* ]]; then
                     local functionname=$(cat $(subString "$sourcedFile" "source "))
-                    functionname=${functionname%()\{*}   
+                    functionname=${functionname%()\{*}
                     echo "${functionname#*function }"
                 fi
             done
         ;;
-
+        
         "refresh")
             echo "Scanning computer for all local dyno Projects created"
             case $(uname | tr '[:upper:]' '[:lower:]') in
                 linux*)
                     sudo updatedb
-                    ;;
+                ;;
                 darwin*)
                     sudo /usr/libexec/locate.updatedb
-                    ;;
+                ;;
                 *)
-
-                    ;;
+                    
+                ;;
             esac
             echo "Search Complete refreshing Projects"
             x=$(locate .dynoScript)
             IFS=$'\n' y=($x)
             i=$(cat  ${allScriptsFile})
             IFS=$'\n' j=($i)
-            for file in "${y[@]}" ; do 
-                    local isFileExist=false
-                    for sourcedFile in "${j[@]}" ; do
-                        if [[ "$sourcedFile" == *"source "* ]]; then
-                            
-                            if [[ "$file" ==  *"$(subString "$sourcedFile" "source ")"* ]]; then
-                                isFileExist=true
-                                break
-                            fi
+            for file in "${y[@]}" ; do
+                local isFileExist=false
+                for sourcedFile in "${j[@]}" ; do
+                    if [[ "$sourcedFile" == *"source "* ]]; then
+                        
+                        if [[ "$file" ==  *"$(subString "$sourcedFile" "source ")"* ]]; then
+                            isFileExist=true
+                            break
                         fi
-                   done
-                   if [ $isFileExist = false ]; then
-                        echo "source \"$file\""  >> "${allScriptsFile}"
-                   fi
+                    fi
+                done
+                if [ $isFileExist = false ]; then
+                    echo "source \"$file\""  >> "${allScriptsFile}"
+                fi
             done
             echo "Refresh Complete"
         ;;
-
+        
         "inject-all")
             dir="$(dirname "${BASH_SOURCE[0]}")"
-              
+            
             tempFile1="${dir}/.tmp1"
             tempFile2="${dir}/.tmp2"
-
+            
             read -e -p "Enter the sub Command you want in all Dyno Projects: " subCommand
             read -e -p "Enter help description for '$subCommand' : " helpDescription
             
             read -e -p "Enter the File whose content you want to inject to all projects: " FILE
             fullPath=$(realpath -m $FILE | sed 's/\~\///g')
-           
+            
             #generating dummy file with a switch case for the sub command
             echo "\"$subCommand\")" >> "$tempFile1"
             sed 's_^_     _' $fullPath >> $tempFile1
@@ -203,62 +203,62 @@ function dyno(){
             if [[ "$answer" == "y" ]]; then
                 # iteratively injecting to all dyno projects
                 # if test -f "$fullPath"; then
-                    echo "Running iterative injections to each Project"
-                    x=$(locate .dynoScript)
-                    IFS=$'\n' y=($x)
-                    for file in "${y[@]}" ; do 
-                        
-                        functionname=$(cat $(subString "$file" "source "))
-                        functionname=${functionname%()\{*}   
-                        functionname="${functionname#*function }"
-                        
-                        echo "Injecting '$subCommand' command in project: $functionname"
-                       awk '/"help"\|/{while(getline line<"'"$tempFile1"'"){print "        "line}}1' $file > $tempFile2 && mv -f $tempFile2 $file 
-                   
-                        reg="/commands=/{print;print \"        \\\"$subCommand::$helpDescription\\\"\";next}1"
-                        awk "$reg" $file > $tempFile2 && mv -f $tempFile2 $file 
-                        
-                    done     
+                echo "Running iterative injections to each Project"
+                x=$(locate .dynoScript)
+                IFS=$'\n' y=($x)
+                for file in "${y[@]}" ; do
+                    
+                    functionname=$(cat $(subString "$file" "source "))
+                    functionname=${functionname%()\{*}
+                    functionname="${functionname#*function }"
+                    
+                    echo "Injecting '$subCommand' command in project: $functionname"
+                    awk '/"help"\|/{while(getline line<"'"$tempFile1"'"){print "        "line}}1' $file > $tempFile2 && mv -f $tempFile2 $file
+                    
+                    reg="/commands=/{print;print \"        \\\"$subCommand::$helpDescription\\\"\";next}1"
+                    awk "$reg" $file > $tempFile2 && mv -f $tempFile2 $file
+                    
+                done
                 # fi
             fi
             rm -f $tempFile1 $tempFile2
         ;;
-
+        
         "replace-all")
-
+            
             echo "Running iterative injections to each Project"
             x=$(locate .dynoScript)
             IFS=$'\n' y=($x)
-            for file in "${y[@]}" ; do 
+            for file in "${y[@]}" ; do
                 echo "replacing on  $file"
                 ######## Replace Command ########
-              #  sed -i ''  "s/cd[^.]*\/code/cd \"$\( dirname \"$\{BASH_SOURCE[0]\}\" \)\/code/g" "$file"
-            done     
-              
+                #  sed -i ''  "s/cd[^.]*\/code/cd \"$\( dirname \"$\{BASH_SOURCE[0]\}\" \)\/code/g" "$file"
+            done
+            
         ;;
-
+        
         "update")
             echo "current version: $version"
-            echo "Downloading ..." 
-                dynoPath=~/.dyno/dyno
-                tmpPath=~/.dyno/.tmp
-                wget -O ${tmpPath} https://raw.githubusercontent.com/ashindiano/dyno/master/dyno
-                if test -f ${tmpPath}; then
-                    mv -f ${tmpPath} ${dynoPath}                   
-                    source "${BASH_SOURCE[0]}"
-                    echo "updated to version: $version"
-                else
-                    echo "Download Failed !!!" 
-                fi
+            echo "Downloading ..."
+            dynoPath=~/.dyno/dyno
+            tmpPath=~/.dyno/.tmp
+            wget -O ${tmpPath} https://raw.githubusercontent.com/ashindiano/dyno/master/dyno
+            if test -f ${tmpPath}; then
+                mv -f ${tmpPath} ${dynoPath}
+                source "${BASH_SOURCE[0]}"
+                echo "updated to version: $version"
+            else
+                echo "Download Failed !!!"
+            fi
         ;;
-
+        
         "isUpdateAvailable")
             isUpdateAvailable
         ;;
-
+        
         "repo")
-            echo "Opening current Git Repository in github.com" 
-
+            echo "Opening current Git Repository in github.com"
+            
             remote=$(git config --get remote.origin.url)
             if [[ $remote != *".git"* ]]; then
                 echo " No Git Found"
@@ -272,7 +272,7 @@ function dyno(){
         "--version"|"-v")
             echo ${version}
         ;;
-
+        
         "help"|"h"|"--help"|"-h")
             for index in "${commands[@]}" ; do
                 key="${index%%::*}"
