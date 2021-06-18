@@ -54,9 +54,9 @@ function template(){
             echo "Opening Current Folder"
             if [ $OS == "linux" ];then 
                 nautilus .
-            elif [ $OS == "mac" ]
+            elif [ $OS == "mac" ];then
                 open .
-            elif [ $OS == "windows" ]
+            elif [ $OS == "windows" ];then
                 start .
             fi
         ;;
