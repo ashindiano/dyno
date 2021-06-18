@@ -41,6 +41,26 @@ function dyno(){
     done
     
     complete -W "${allCommands}" dyno
+
+    
+    getos(){
+        case "$(uname -s)" in
+        Darwin)
+            echo 'Mac OS X'
+            open="open"
+            ;;
+
+        Linux)
+            echo 'Linux'
+            open="open"
+            ;;
+
+        CYGWIN*|MINGW32*|MSYS*|MINGW*)
+            echo 'MS Windows'
+            open="start"
+            ;;
+        esac
+    }
     
     subString(){
         local myresult="${1#*$2}" # removing prefix
@@ -87,7 +107,7 @@ function dyno(){
                 
                 echo "Downloading script template"
                 cd "$fullPath"
-                wget https://raw.githubusercontent.com/ashindiano/dyno/master/template
+                curl  https://raw.githubusercontent.com/ashindiano/dyno/master/template --output template
                 if test -f "template"; then
                     
                     sed -i '' "s|_path_|\"$fullPath\"|g" "template"
@@ -242,7 +262,7 @@ function dyno(){
             echo "Downloading ..."
             dynoPath=~/.dyno/dyno
             tmpPath=~/.dyno/.tmp
-            wget -O ${tmpPath} https://raw.githubusercontent.com/ashindiano/dyno/master/dyno
+            curl https://raw.githubusercontent.com/ashindiano/dyno/master/dyno  --output ${tmpPath}
             if test -f ${tmpPath}; then
                 mv -f ${tmpPath} ${dynoPath}
                 source "${BASH_SOURCE[0]}"
@@ -265,7 +285,7 @@ function dyno(){
             else
                 remote=${remote#*git@github.com:}   # remove prefix ending in "git@github.com:"
                 remote=${remote%.git*}   # remove suffix starting with ".git"
-                open "https://github.com/$remote"
+                $open "https://github.com/$remote"
             fi
         ;;
         
