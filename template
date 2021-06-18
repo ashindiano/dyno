@@ -52,11 +52,11 @@ function template(){
         
         "open")
             echo "Opening Current Folder"
-            if [ $OS == "linux" ];then 
+            if [ $OS == "linux" ]; then 
                 nautilus .
-            elif [ $OS == "mac" ];then
+            elif [ $OS == "mac" ]; then
                 open .
-            elif [ $OS == "windows" ];then
+            elif [ $OS == "windows" ]; then
                 start .
             fi
         ;;
