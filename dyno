@@ -1,5 +1,5 @@
 #!/bin/bash
-version=1.76
+version=1.77
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
@@ -48,19 +48,16 @@ function dyno(){
     getos(){
         case "$(uname -s)" in
         Darwin)
-            echo 'Mac OS X'
             openCommand="open"
             OS="mac"
             ;;
 
         Linux)
-            echo 'Linux'
             openCommand="open"
             OS="linux"
             ;;
 
         CYGWIN*|MINGW32*|MSYS*|MINGW*)
-            echo 'MS Windows'
             openCommand="start"
             OS="windows"
             ;;
