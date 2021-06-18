@@ -23,6 +23,25 @@ function template(){
     #########
     
     cd "$( dirname "${BASH_SOURCE[0]}" )"
+
+    getos(){
+        case "$(uname -s)" in
+        Darwin)
+            echo 'Mac OS X'
+            open="open"
+            ;;
+
+        Linux)
+            echo 'Linux'
+            open="open"
+            ;;
+
+        CYGWIN*|MINGW32*|MSYS*|MINGW*)
+            echo 'MS Windows'
+            open="start"
+            ;;
+        esac
+    }
     
     case $1 in
         
@@ -53,7 +72,7 @@ function template(){
             else
                 remote=${remote#*git@github.com:}   # remove prefix ending in "git@github.com:"
                 remote=${remote%.git*}   # remove suffix starting with ".git"
-                open "https://github.com/$remote"
+                $open "https://github.com/$remote"
             fi
         ;;
         
