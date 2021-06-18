@@ -24,24 +24,29 @@ function template(){
     
     cd "$( dirname "${BASH_SOURCE[0]}" )"
 
-    getos(){
+     getos(){
         case "$(uname -s)" in
         Darwin)
             echo 'Mac OS X'
-            open="open"
+            openCommand="open"
+            OS="mac"
             ;;
 
         Linux)
             echo 'Linux'
-            open="open"
+            openCommand="open"
+            OS="linux"
             ;;
 
         CYGWIN*|MINGW32*|MSYS*|MINGW*)
             echo 'MS Windows'
-            open="start"
+            openCommand="start"
+            OS="windows"
             ;;
         esac
     }
+    
+    getos
     
     case $1 in
         
