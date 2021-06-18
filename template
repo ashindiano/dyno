@@ -52,7 +52,13 @@ function template(){
         
         "open")
             echo "Opening Current Folder"
-            nautilus .
+            if [ $OS == "linux" ];then 
+                nautilus .
+            elif [ $OS == "mac" ]
+                open .
+            elif [ $OS == "windows" ]
+                start .
+            fi
         ;;
         "script")
             echo "Opening $BASH_SOURCE"
