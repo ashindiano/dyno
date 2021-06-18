@@ -1,5 +1,5 @@
 #!/bin/bash
-version=1.77
+version=1.78
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
@@ -318,9 +318,14 @@ function dyno(){
 
 dyno isUpdateAvailable #Run atleast once to list all autocomplete values
 
+if [ $OS == "windows" ]; then
+    alias bye="shutdown -s -f -t 00"
+    alias reboo="shutdown -r -f -t 00"
+else
+    alias bye="systemctl poweroff -i"
+    alias reboo="systemctl reboot -i"
+fi
 
-alias bye="systemctl poweroff -i"
-alias reboo="systemctl reboot -i"
 alias e=exit
 
 source "${allScriptsFile}"
