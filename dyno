@@ -1,5 +1,5 @@
 #!/bin/bash
-version=1.78
+version=1.79
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
