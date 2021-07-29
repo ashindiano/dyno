@@ -238,7 +238,9 @@ function dyno(){
                 IFS=$'\n' y=($x)
                 for file in "${y[@]}" ; do
                     
-                    functionname=$(cat $(subString "$file" "source "))
+                    local functionname=$(subString "$sourcedFile" "source \"")
+                    functionname=${functionname%%\"*}
+                    functionname=$(cat $functionname)
                     functionname=${functionname%%()\{*}
                     functionname="${functionname#*function }"
                     
