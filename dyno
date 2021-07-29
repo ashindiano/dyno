@@ -1,5 +1,5 @@
 #!/bin/bash
-version=1.80
+version=1.81
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
@@ -166,7 +166,9 @@ function dyno(){
             
             for sourcedFile in "${j[@]}" ; do
                 if [[ "$sourcedFile" == *"source "* ]]; then
-                    local functionname=$(cat $(subString "$sourcedFile" "source "))
+                    local functionname=$(subString "$sourcedFile" "source \"")
+                    functionname=${functionname%%\"*}
+                    functionname=$(cat $functionname)
                     functionname=${functionname%%()\{*}
                     echo "${functionname#*function }"
                 fi
