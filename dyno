@@ -1,5 +1,5 @@
 #!/bin/bash
-version=1.79
+version=1.80
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
@@ -77,7 +77,7 @@ function dyno(){
         IFS=$'\n' y=($x)
         for file in "${y[@]}" ; do
             functionname=$(cat "${file}")
-            functionname=${functionname%()\{*}
+            functionname=${functionname%%()\{*}
             echo "${functionname#*function }"
         done
     }
@@ -167,7 +167,7 @@ function dyno(){
             for sourcedFile in "${j[@]}" ; do
                 if [[ "$sourcedFile" == *"source "* ]]; then
                     local functionname=$(cat $(subString "$sourcedFile" "source "))
-                    functionname=${functionname%()\{*}
+                    functionname=${functionname%%()\{*}
                     echo "${functionname#*function }"
                 fi
             done
@@ -237,7 +237,7 @@ function dyno(){
                 for file in "${y[@]}" ; do
                     
                     functionname=$(cat $(subString "$file" "source "))
-                    functionname=${functionname%()\{*}
+                    functionname=${functionname%%()\{*}
                     functionname="${functionname#*function }"
                     
                     echo "Injecting '$subCommand' command in project: $functionname"
