@@ -1,5 +1,5 @@
 #!/bin/bash
-version=1.81
+version=1.82
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
@@ -115,6 +115,9 @@ function dyno(){
                 if test -f "template"; then
                     
                     if [ $OS == "windows" ]; then
+                        sed -i "s/template/$name/g" "template"
+
+                    elif [ $OS == "linux" ]; then
                         sed -i "s/template/$name/g" "template"
                     else
                         sed -i '' "s/template/$name/g" "template"
