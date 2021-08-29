@@ -1,5 +1,5 @@
 #!/bin/bash
-version=1.83
+version=1.84
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
@@ -329,7 +329,7 @@ if [ $OS == "windows" ]; then
     alias bye="shutdown -s -f -t 00"
     alias reboo="shutdown -r -f -t 00"
 elif [ $OS == "mac" ]; then
-    alias bye="osascript -e \'tell app \"System Events\" to shut down\'"
+    alias bye="osascript -e 'tell app \"System Events\" to shut down'"
 else
     alias bye="systemctl poweroff -i"
     alias reboo="systemctl reboot -i"
