@@ -1,7 +1,7 @@
 #!/bin/bash
 version=1.87
 allScriptsFileName=".nestedScripts"
-allScriptsFile="~/.dyno/${allScriptsFileName}"
+allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
 
 ColorOff='\033[0m'
 Black='\033[0;30m'        # Black
