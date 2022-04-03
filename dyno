@@ -337,6 +337,6 @@ fi
 
 alias e=exit
 
-echo "sourcing all script fiels at ${allScriptsFile}"
+echo "sourcing all script files at ${allScriptsFile}"
 source "${allScriptsFile}"
 cd # Go back to the default folder
