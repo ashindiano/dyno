@@ -1,5 +1,5 @@
 #!/bin/bash
-version=1.86
+version=1.87
 allScriptsFileName=".nestedScripts"
 allScriptsFile="~/.dyno/${allScriptsFileName}"
 
