@@ -1,7 +1,7 @@
 #!/bin/bash
-version=1.89
+version=1.90
 allScriptsFileName=".nestedScripts"
-allScriptsFile="$(dirname "${BASH_SOURCE[0]}")/${allScriptsFileName}"
+allScriptsFile="$(dirname "${0}")/${allScriptsFileName}"
 
 ColorOff='\033[0m'
 Black='\033[0;30m'        # Black
