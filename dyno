@@ -325,10 +325,10 @@ function dyno(){
 
 dyno isUpdateAvailable #Run atleast once to list all autocomplete values
 
-if [ $OS == "windows" ]; then
+if [[ $OS == "windows" ]]; then
     alias bye="shutdown -s -f -t 00"
     alias reboo="shutdown -r -f -t 00"
-elif [ $OS == "mac" ]; then
+elif [[ $OS == "mac" ]]; then
     alias bye="osascript -e 'tell app \"System Events\" to shut down'"
 else
     alias bye="systemctl poweroff -i"
