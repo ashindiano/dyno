@@ -1,5 +1,5 @@
 #!/bin/bash
-version=1.91
+version=2.00
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname "${0}")/${allScriptsFileName}"
 
@@ -19,7 +19,6 @@ function dyno(){
     
     commands=(
         "open::Opens current folder"
-        "location::Shows the location of DYNO"
         "script::Open the 'dyno' Script file"
         "source::Source the Current file in Shell"
         "commands::List All commands created by DYNO"
@@ -83,7 +82,7 @@ function dyno(){
     }
     
     remoteVersion(){
-        curl -v --silent https://raw.githubusercontent.com/ashindiano/dyno/master/dyno 2>&1 | grep 'version=[0-9.]*$' | sed 's/version=//'
+        curl -sL https://api.github.com/repos/ashindiano/dyno/releases/latest | jq -r ".tag_name"
     }
     
     isUpdateAvailable(){
@@ -108,10 +107,9 @@ function dyno(){
             if test -d "$fullPath"; then
                 
                 read -e -p "Enter the NAME (single word) of the project: " name
-                
-                echo "Downloading script template"
+
                 cd "$fullPath"
-                curl  https://raw.githubusercontent.com/ashindiano/dyno/master/template --output template
+                cp ~/.dyno/template template
                 if test -f "template"; then
                     
                     if [ $OS == "windows" ]; then
@@ -128,6 +126,16 @@ function dyno(){
                     echo ".dynoScript" >> .gitignore
                     
                     echo "Adding $fullPath/.dynoScript to Bash sources list "
+
+                    if [ $OS == "windows" ]; then # removing script entry if it already exists
+                        sed -i "source \"$fullPath/.dynoScript\"" ${allScriptsFile}
+
+                    elif [ $OS == "linux" ]; then
+                        sed -i "source \"$fullPath/.dynoScript\"" ${allScriptsFile}
+                    else
+                        sed -i '' "source \"$fullPath/.dynoScript\"" ${allScriptsFile}
+                    fi
+
                     echo "source \"$fullPath/.dynoScript\""  >> ${allScriptsFile}
                     source "$BASH_SOURCE"
                     echo "Success: Project $name created "
@@ -275,11 +283,13 @@ function dyno(){
         "update")
             echo "current version: $version"
             echo "Downloading ..."
-            dynoPath=~/.dyno/dyno
-            tmpPath=~/.dyno/.tmp
-            curl https://raw.githubusercontent.com/ashindiano/dyno/master/dyno  --output ${tmpPath}
-            if test -f ${tmpPath}; then
-                mv -f ${tmpPath} ${dynoPath}
+            if test -f main.zip; then
+                rm main.zip
+            fi
+
+            curl -L -O https://github.com/ashindiano/dyno/archive/refs/heads/main.zip            
+            if test -f main.zip; then
+                tar -xvf main.zip -C  ~/.dyno 
                 source "${BASH_SOURCE[0]}"
                 echo "updated to version: $version"
             else
