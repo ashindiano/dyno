@@ -1,4 +1,4 @@
-if [ "$1" = "-uninstall" ] || [ "$1" = "-u" ]; then
+if [[ "$1" = "-uninstall" ]] || [[ "$1" = "-u" ]]; then
     rm -rf ~/.dyno
     case $(uname | tr '[:upper:]' '[:lower:]') in
         darwin*)

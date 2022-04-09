@@ -46,11 +46,11 @@ function template(){
         
         "open")
             echo "Opening Current Folder"
-            if [ $OS == "linux" ]; then 
+            if [[ $OS == "linux" ]]; then 
                 nautilus .
-            elif [ $OS == "mac" ]; then
+            elif [[ $OS == "mac" ]]; then
                 open .
-            elif [ $OS == "windows" ]; then
+            elif [[ $OS == "windows" ]]; then
                 start .
             fi
         ;;
@@ -86,7 +86,7 @@ function template(){
             if [[ "$answer" == "y" ]]; then
                 echo "Please enter the new command: "
                 read newCommandName
-                if ! [ -x "$(command -v $newCommandName)" ]; then
+                if ! [[ -x "$(command -v $newCommandName)" ]]; then
                     sed -i -e "s/$FUNCNAME()/$newCommandName()/g" "${(%):-%x}" # replacing the function name
                     sed -i -e '$s'"/$FUNCNAME/$newCommandName/g" "${(%):-%x}" # replacing the command in last line
                     source "${(%):-%x}"
