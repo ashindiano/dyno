@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           persist-credentials: false
-          token: ${{ secrets.WORKFLOW_PAT }}
+          token: ${{ secrets.WORKFLOW_PAT || github.token }}
       - name: Set output
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
