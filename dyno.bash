@@ -1,7 +1,8 @@
 #!/bin/bash
 
-version=2.00
-allScriptsFileName=".nestedScripts" 
+version=$(cat $(dirname ${BASH_SOURCE})/version.json |jq -r ".version")
+version="v${version}"
+allScriptsFileName=".nestedScripts"
 allScriptsFile="$(dirname ${BASH_SOURCE})/${allScriptsFileName}"
 
 

@@ -1,4 +1,5 @@
-version=2.00
+version=$( cat $( dirname ${(%):-%x} )/version.json |jq -r ".version" )
+version="v${version}"
 allScriptsFileName=".nestedScripts"
 allScriptsFile="$( dirname ${(%):-%x} )/${allScriptsFileName}"
 
