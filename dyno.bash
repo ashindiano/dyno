@@ -308,9 +308,9 @@ function dyno(){
             if [[ $remote != *".git"* ]]; then
                 echo " No Git Found"
             else
-                remote=${remote#*git@github.com:}   # remove prefix ending in "git@github.com:"
-                remote=${remote%.git*}   # remove suffix starting with ".git"
-                $openCommand "https://github.com/$remote"
+                remote=${remote//:/\/} 
+                remote=${remote//git@/https:\/\/}
+                $openCommand $remote
             fi
         ;;
         

@@ -1,6 +1,6 @@
 version=2.00
 allScriptsFileName=".nestedScripts"
-allScriptsFile="$(dirname "${0}")/${allScriptsFileName}"
+allScriptsFile="$( dirname ${(%):-%x} )/${allScriptsFileName}"
 
 ColorOff='\033[0m'
 Black='\033[0;30m'        # Black
@@ -81,6 +81,7 @@ function dyno(){
     }
     
     remoteVersion(){
+        echo "I am here"
         curl -sL https://api.github.com/repos/ashindiano/dyno/releases/latest | jq -r ".tag_name"
     }
     
@@ -279,13 +280,18 @@ function dyno(){
         "update")
             echo "current version: $version"
             echo "Downloading ..."
-            if test -f main.zip; then
+            if test -f main.zip; then # delete previous copies
                 rm main.zip
             fi
 
-            curl -L -O https://github.com/ashindiano/dyno/archive/refs/heads/main.zip            
+            DOWNLOAD_URL=$(curl -s https://api.github.com/repos/ashindiano/dyno/releases/latest \
+                    | grep zipball_url \
+                    | cut -d '"' -f 4)
+
+            curl -L -o "$( dirname ${(%):-%x} )/main.zip" "$DOWNLOAD_URL" 
+            echo   "$( dirname ${(%):-%x} )/main.zip"
             if test -f main.zip; then
-                tar -xvf main.zip -C  ~/.dyno 
+                tar -xvf main.zip -C "$( dirname ${(%):-%x} )" 
                 source "${(%):-%x}"
                 echo "updated to version: $version"
             else
@@ -304,9 +310,9 @@ function dyno(){
             if [[ $remote != *".git"* ]]; then
                 echo " No Git Found"
             else
-                remote=${remote#*git@github.com:}   # remove prefix ending in "git@github.com:"
-                remote=${remote%.git*}   # remove suffix starting with ".git"
-                $openCommand "https://github.com/$remote"
+                remote=${remote//:/\/} 
+                remote=${remote//git@/https:\/\/}
+                $openCommand $remote
             fi
         ;;
         
