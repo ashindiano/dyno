@@ -287,7 +287,7 @@ function dyno(){
             echo "current version: $version"
             echo "Downloading ..."
             if test -f "$( dirname ${BASH_SOURCE} )/main.zip"; then # delete previous copies
-                rm main.zip
+                rm "$( dirname ${BASH_SOURCE} )/main.zip"
             fi
 
             DOWNLOAD_URL=$(curl -s https://api.github.com/repos/ashindiano/dyno/releases/latest \
