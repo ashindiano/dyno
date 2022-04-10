@@ -1,7 +1,6 @@
-#!/bin/bash
-version=1.91
+version=2.00
 allScriptsFileName=".nestedScripts"
-allScriptsFile="$(dirname "${0}")/${allScriptsFileName}"
+allScriptsFile="$( dirname ${(%):-%x} )/${allScriptsFileName}"
 
 ColorOff='\033[0m'
 Black='\033[0;30m'        # Black
@@ -19,7 +18,6 @@ function dyno(){
     
     commands=(
         "open::Opens current folder"
-        "location::Shows the location of DYNO"
         "script::Open the 'dyno' Script file"
         "source::Source the Current file in Shell"
         "commands::List All commands created by DYNO"
@@ -83,15 +81,15 @@ function dyno(){
     }
     
     remoteVersion(){
-        curl -v --silent https://raw.githubusercontent.com/ashindiano/dyno/master/dyno 2>&1 | grep 'version=[0-9.]*$' | sed 's/version=//'
+        curl -sL https://api.github.com/repos/ashindiano/dyno/releases/latest |jq -r ".tag_name"
     }
     
     isUpdateAvailable(){
-        remoteVersion=$(remoteVersion)
-        if [[  ! -z "$remoteVersion"  && $version != $remoteVersion ]]; then
+        remoteVs=$(remoteVersion)
+        if [[  ! -z "$remoteVs"  && $version != $remoteVs ]]; then
             echo ""
             echo -e "${Red}!!! Alert !!!$ColorOff"
-            echo -e "Update found for ${Yellow}Dyno ${ColorOff}version: $Yellow$remoteVersion$ColorOff"
+            echo -e "Update found for ${Yellow}Dyno ${ColorOff}version: $Yellow$remoteVs$ColorOff"
             echo -e "Your current version: $Red$version$ColorOff"
             echo -e "To Update:$Green dyno update  $ColorOff"
             echo ""
@@ -101,23 +99,24 @@ function dyno(){
     case $1 in
         "new")
             folder='.'
-            read -e  -p "Enter the Folder path of your Project (For current folder just hit enter key )  : "  prjFolder
+            echo "Enter the Folder path of your Project (For current folder just hit enter key )  : "
+            read  prjFolder
             [ -n "$prjFolder" ] && folder=$prjFolder
             fullPath=$(realpath -m $folder | sed 's/\~\///g')
             echo $fullPath
             if test -d "$fullPath"; then
                 
-                read -e -p "Enter the NAME (single word) of the project: " name
-                
-                echo "Downloading script template"
+                echo "Enter the NAME (single word) of the project: "
+                read name
+  
                 cd "$fullPath"
-                curl  https://raw.githubusercontent.com/ashindiano/dyno/master/template --output template
+                cp ~/.dyno/template template
                 if test -f "template"; then
                     
-                    if [ $OS == "windows" ]; then
+                    if [[ $OS == "windows" ]]; then
                         sed -i "s/template/$name/g" "template"
 
-                    elif [ $OS == "linux" ]; then
+                    elif [[ $OS == "linux" ]]; then
                         sed -i "s/template/$name/g" "template"
                     else
                         sed -i '' "s/template/$name/g" "template"
@@ -129,7 +128,7 @@ function dyno(){
                     
                     echo "Adding $fullPath/.dynoScript to Bash sources list "
                     echo "source \"$fullPath/.dynoScript\""  >> ${allScriptsFile}
-                    source "$BASH_SOURCE"
+                    source "${(%):-%x}"
                     echo "Success: Project $name created "
                     echo "You can start using ' $name ' command"
                 else
@@ -143,7 +142,7 @@ function dyno(){
         ;;
         
         "location")
-            cd "$( dirname "${BASH_SOURCE[0]}" )"
+            cd "$( dirname ${(%):-%x} )"
         ;;
         
         "script")
@@ -155,9 +154,9 @@ function dyno(){
             echo "Sourcing ${allScriptsFile}"
             source ${allScriptsFile}
         ;;
-        "reset")
+        "reset")  
             echo "Are you sure you wanna reset Dyno? Yes/No"
-            read answer
+            read answer 
             if [["$answer" == "Yes"]]; then
                 sed '/source/,$d'
             fi
@@ -215,15 +214,19 @@ function dyno(){
         ;;
         
         "inject-all")
-            dir="$(dirname "${BASH_SOURCE[0]}")"
+            dir="$(dirname ${(%):-%x})"
             
             tempFile1="${dir}/.tmp1"
             tempFile2="${dir}/.tmp2"
-            
-            read -e -p "Enter the sub Command you want in all Dyno Projects: " subCommand
-            read -e -p "Enter help description for '$subCommand' : " helpDescription
-            
-            read -e -p "Enter the File whose content you want to inject to all projects: " FILE
+
+            echo "Enter the sub Command you want in all Dyno Projects: "
+            read subCommand 
+
+            echo "Enter help description for '$subCommand' : "
+            read helpDescription
+
+            echo "Enter the File whose content you want to inject to all projects: "
+            read FILE 
             fullPath=$(realpath -m $FILE | sed 's/\~\///g')
             
             #generating dummy file with a switch case for the sub command
@@ -231,7 +234,8 @@ function dyno(){
             sed 's_^_     _' $fullPath >> $tempFile1
             echo ";;" >> $tempFile1
             
-            read -e -p "You are about to modify all Dyno projects. Are you sure you want to continue? (y/n) : " answer
+            echo "You are about to modify all Dyno projects. Are you sure you want to continue? (y/n) : "
+            read answer 
             
             if [[ "$answer" == "y" ]]; then
                 # iteratively injecting to all dyno projects
@@ -275,12 +279,20 @@ function dyno(){
         "update")
             echo "current version: $version"
             echo "Downloading ..."
-            dynoPath=~/.dyno/dyno
-            tmpPath=~/.dyno/.tmp
-            curl https://raw.githubusercontent.com/ashindiano/dyno/master/dyno  --output ${tmpPath}
-            if test -f ${tmpPath}; then
-                mv -f ${tmpPath} ${dynoPath}
-                source "${BASH_SOURCE[0]}"
+            if test -f "$( dirname ${(%):-%x} )/main.zip"; then # delete previous copies
+                rm main.zip
+            fi
+
+            DOWNLOAD_URL=$(curl -s https://api.github.com/repos/ashindiano/dyno/releases/latest \
+                    | grep zipball_url \
+                    | cut -d '"' -f 4)
+
+            curl -L -o "$( dirname ${(%):-%x} )/main.zip" "$DOWNLOAD_URL" 
+            
+            if test -f "$( dirname ${(%):-%x} )/main.zip"; then
+                echo "Extracting and Installing ..."
+                tar -xf "$( dirname ${(%):-%x} )/main.zip" -C "$( dirname ${(%):-%x} )"  --strip 1
+                source "${(%):-%x}"
                 echo "updated to version: $version"
             else
                 echo "Download Failed !!!"
@@ -298,9 +310,9 @@ function dyno(){
             if [[ $remote != *".git"* ]]; then
                 echo " No Git Found"
             else
-                remote=${remote#*git@github.com:}   # remove prefix ending in "git@github.com:"
-                remote=${remote%.git*}   # remove suffix starting with ".git"
-                $openCommand "https://github.com/$remote"
+                remote=${remote//:/\/} 
+                remote=${remote//git@/https:\/\/}
+                $openCommand $remote
             fi
         ;;
         
