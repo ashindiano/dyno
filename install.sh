@@ -14,7 +14,7 @@ if [[ "$1" = "-uninstall" ]] || [[ "$1" = "-u" ]]; then
     
 else
     mkdir -p ~/.dyno
-    cp * ~/.dyno/*
+    cp * ~/.dyno/
     touch ~/.dyno/.nestedScripts
 
     case $(uname | tr '[:upper:]' '[:lower:]') in # rm sourcing dyno files if they already exist to avoid duplicates
