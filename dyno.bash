@@ -4,6 +4,7 @@ version=2.00
 allScriptsFileName=".nestedScripts" 
 allScriptsFile="$(dirname ${BASH_SOURCE})/${allScriptsFileName}"
 
+
 ColorOff='\033[0m'
 Black='\033[0;30m'        # Black
 Red='\033[0;31m'          # Red
