@@ -1,3 +1,12 @@
+## [2.1.1](https://github.com/ashindiano/dyno/compare/v2.1.0...v2.1.1) (2022-04-10)
+
+
+### Bug Fixes
+
+* **release:** Update version check fixed ([d453859](https://github.com/ashindiano/dyno/commit/d45385904901d26ae9df2bea9e33ec4bb1fbc78c))
+
+
+
 # [2.1.0](https://github.com/ashindiano/dyno/compare/vv2.0.12...v2.1.0) (2022-04-10)
 
 
