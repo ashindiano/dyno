@@ -23,13 +23,13 @@ else
         darwin*)
             sed -i '' '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
             sed -i '' '/autoload -U compinit && compinit/d' ~/.zprofile
-            sed -i '' '/autoload -U bashcompinit && bashcompinit' ~/.zprofile
+            sed -i '' '/autoload -U bashcompinit && bashcompinit/d' ~/.zprofile
             sed -i '' '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
             ;;
         *)
             sed -i '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
             sed -i '/autoload -U compinit && compinit/d' ~/.zprofile
-            sed -i '/autoload -U bashcompinit && bashcompinit' ~/.zprofile
+            sed -i '/autoload -U bashcompinit && bashcompinit/d' ~/.zprofile
             sed -i '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
             ;;
 
