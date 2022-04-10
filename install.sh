@@ -16,6 +16,8 @@ else
     mkdir -p ~/.dyno
     cp * ~/.dyno/
     touch ~/.dyno/.nestedScripts
+    touch ~/.bash_profile
+    touch ~/.zprofile
 
     case $(uname | tr '[:upper:]' '[:lower:]') in # rm sourcing dyno files if they already exist to avoid duplicates
         darwin*)
