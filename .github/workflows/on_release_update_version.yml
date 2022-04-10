@@ -26,6 +26,8 @@ jobs:
           RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
         run: |
           echo $RELEASE_VERSION > version.txt
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           git add .
           git commit -m "version updated"
           git push
