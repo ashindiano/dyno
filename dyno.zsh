@@ -81,16 +81,15 @@ function dyno(){
     }
     
     remoteVersion(){
-        echo "I am here"
-        curl -sL https://api.github.com/repos/ashindiano/dyno/releases/latest | jq -r ".tag_name"
+        curl -sL https://api.github.com/repos/ashindiano/dyno/releases/latest |jq -r ".tag_name"
     }
     
     isUpdateAvailable(){
-        remoteVersion=$(remoteVersion)
-        if [[  ! -z "$remoteVersion"  && $version != $remoteVersion ]]; then
+        remoteVs=$(remoteVersion)
+        if [[  ! -z "$remoteVs"  && $version != $remoteVs ]]; then
             echo ""
             echo -e "${Red}!!! Alert !!!$ColorOff"
-            echo -e "Update found for ${Yellow}Dyno ${ColorOff}version: $Yellow$remoteVersion$ColorOff"
+            echo -e "Update found for ${Yellow}Dyno ${ColorOff}version: $Yellow$remoteVs$ColorOff"
             echo -e "Your current version: $Red$version$ColorOff"
             echo -e "To Update:$Green dyno update  $ColorOff"
             echo ""
@@ -280,7 +279,7 @@ function dyno(){
         "update")
             echo "current version: $version"
             echo "Downloading ..."
-            if test -f main.zip; then # delete previous copies
+            if test -f "$( dirname ${(%):-%x} )/main.zip"; then # delete previous copies
                 rm main.zip
             fi
 
@@ -289,9 +288,10 @@ function dyno(){
                     | cut -d '"' -f 4)
 
             curl -L -o "$( dirname ${(%):-%x} )/main.zip" "$DOWNLOAD_URL" 
-            echo   "$( dirname ${(%):-%x} )/main.zip"
-            if test -f main.zip; then
-                tar -xvf main.zip -C "$( dirname ${(%):-%x} )" 
+            
+            if test -f "$( dirname ${(%):-%x} )/main.zip"; then
+                echo "Extracting and Installing ..."
+                tar -xf "$( dirname ${(%):-%x} )/main.zip" -C "$( dirname ${(%):-%x} )"  --strip 1
                 source "${(%):-%x}"
                 echo "updated to version: $version"
             else

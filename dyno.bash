@@ -1,7 +1,8 @@
 #!/bin/bash
+
 version=2.00
 allScriptsFileName=".nestedScripts"
-allScriptsFile="$(dirname "${0}")/${allScriptsFileName}"
+allScriptsFile="$(dirname ${BASH_SOURCE})/${allScriptsFileName}"
 
 ColorOff='\033[0m'
 Black='\033[0;30m'        # Black
@@ -82,7 +83,7 @@ function dyno(){
     }
     
     remoteVersion(){
-        curl -sL https://api.github.com/repos/ashindiano/dyno/releases/latest | jq -r ".tag_name"
+        curl -sL https://api.github.com/repos/ashindiano/dyno/releases/latest |jq -r ".tag_name"
     }
     
     isUpdateAvailable(){
@@ -151,7 +152,7 @@ function dyno(){
         ;;
         
         "location")
-            cd "$( dirname "${BASH_SOURCE[0]}" )"
+            cd "$( dirname ${BASH_SOURCE} )"
         ;;
         
         "script")
@@ -223,7 +224,7 @@ function dyno(){
         ;;
         
         "inject-all")
-            dir="$(dirname "${BASH_SOURCE[0]}")"
+            dir="$(dirname ${BASH_SOURCE})"
             
             tempFile1="${dir}/.tmp1"
             tempFile2="${dir}/.tmp2"
@@ -275,7 +276,7 @@ function dyno(){
             for file in "${y[@]}" ; do
                 echo "replacing on  $file"
                 ######## Replace Command ########
-                #  sed -i ''  "s/cd[^.]*\/code/cd \"$\( dirname \"$\{BASH_SOURCE[0]\}\" \)\/code/g" "$file"
+                #  sed -i ''  "s/cd[^.]*\/code/cd \"$\( dirname \"$\{BASH_SOURCE\}\" \)\/code/g" "$file"
             done
             
         ;;
@@ -283,22 +284,24 @@ function dyno(){
         "update")
             echo "current version: $version"
             echo "Downloading ..."
-            if test -f main.zip; then
+            if test -f "$( dirname ${BASH_SOURCE} )/main.zip"; then # delete previous copies
                 rm main.zip
             fi
 
-            curl -L -O https://github.com/ashindiano/dyno/archive/refs/heads/main.zip            
-            if test -f main.zip; then
-                tar -xvf main.zip -C  ~/.dyno 
-                source "${BASH_SOURCE[0]}"
+            DOWNLOAD_URL=$(curl -s https://api.github.com/repos/ashindiano/dyno/releases/latest \
+                    | grep zipball_url \
+                    | cut -d '"' -f 4)
+
+            curl -L -o "$( dirname ${BASH_SOURCE} )/main.zip" "$DOWNLOAD_URL" 
+            
+            if test -f "$( dirname ${BASH_SOURCE} )/main.zip"; then
+                echo "Extracting and Installing ..."
+                tar -xf "$( dirname ${BASH_SOURCE} )/main.zip" -C "$( dirname ${BASH_SOURCE} )"  --strip 1
+                source "${BASH_SOURCE}"
                 echo "updated to version: $version"
             else
                 echo "Download Failed !!!"
             fi
-        ;;
-        
-        "isUpdateAvailable")
-            isUpdateAvailable
         ;;
         
         "repo")

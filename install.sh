@@ -20,10 +20,14 @@ else
     case $(uname | tr '[:upper:]' '[:lower:]') in # rm sourcing dyno files if they already exist to avoid duplicates
         darwin*)
             sed -i '' '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
+            sed -i '' '/autoload -U compinit && compinit/d' ~/.zprofile
+            sed -i '' '/autoload -U bashcompinit && bashcompinit' ~/.zprofile
             sed -i '' '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
             ;;
         *)
             sed -i '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
+            sed -i '/autoload -U compinit && compinit/d' ~/.zprofile
+            sed -i '/autoload -U bashcompinit && bashcompinit' ~/.zprofile
             sed -i '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
             ;;
 
