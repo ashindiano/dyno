@@ -1,3 +1,12 @@
+## [2.1.3](https://github.com/ashindiano/dyno/compare/v2.1.2...v2.1.3) (2022-04-10)
+
+
+### Bug Fixes
+
+* **release:** Applied fixes in removing the downloaded files ([6d236c7](https://github.com/ashindiano/dyno/commit/6d236c70dee5128f64cafe2a389dcc13f4db1d19))
+
+
+
 ## [2.1.2](https://github.com/ashindiano/dyno/compare/v2.1.1...v2.1.2) (2022-04-10)
 
 
@@ -31,10 +40,6 @@
 ### Bug Fixes
 
 * **release:** Fixing work flow ([3607629](https://github.com/ashindiano/dyno/commit/3607629ffd6a07c494b97c15a6ed5aeb9b73340a))
-
-
-
-# 1.91.0 (2022-04-04)
 
 
 
