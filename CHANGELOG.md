@@ -1,3 +1,12 @@
+## [2.1.5](https://github.com/ashindiano/dyno/compare/v2.1.4...v2.1.5) (2022-04-13)
+
+
+### Bug Fixes
+
+* **release:** One Location fixes ([787cb98](https://github.com/ashindiano/dyno/commit/787cb988a26007b9db4c0f49b488c9b7f7078c92))
+
+
+
 ## [2.1.4](https://github.com/ashindiano/dyno/compare/v2.1.3...v2.1.4) (2022-04-13)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **release:** Update version check fixed ([d453859](https://github.com/ashindiano/dyno/commit/d45385904901d26ae9df2bea9e33ec4bb1fbc78c))
-
-
-
-# [2.1.0](https://github.com/ashindiano/dyno/compare/vv2.0.12...v2.1.0) (2022-04-10)
-
-
-### Features
-
-* **release:** Testing workflow ([286084b](https://github.com/ashindiano/dyno/commit/286084bcbf83d4cc811f3023d649cdc49b22481f))
 
 
 
