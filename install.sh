@@ -15,7 +15,7 @@ if [[ "$1" = "-uninstall" ]] || [[ "$1" = "-u" ]]; then
 else
     mkdir -p ~/.dyno
     cp * ~/.dyno/
-    touch ~/.dyno/.nestedScripts
+    mkdir -p ~/.dyno/commands
     touch ~/.bash_profile
     touch ~/.zprofile
 

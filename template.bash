@@ -6,7 +6,7 @@ function template(){
         "code::Open the folder in VS Code editor"
         "source::Source the Current file in Shell"
         "help::List all the commands the available"
-        "rename::Renames the currnet command"
+        "rename::Renames the current command"
     )
     
     #The following code helps in auto completion
@@ -15,9 +15,6 @@ function template(){
         key="${index%%::*}"
         allCommands+="${key} "
     done
-    
-    complete -W "${allCommands}" template
-    #########
     
     cd "$( dirname "${BASH_SOURCE[0]}" )"
 
@@ -54,6 +51,11 @@ function template(){
                 start .
             fi
         ;;
+
+        "indexCommands")
+            complete -W "${allCommands}" template
+        ;;
+
         "script")
             echo "Opening $BASH_SOURCE"
             code "$BASH_SOURCE"
@@ -108,4 +110,4 @@ function template(){
     esac
 }
 
-template
+template indexCommands

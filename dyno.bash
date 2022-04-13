@@ -2,8 +2,8 @@
 
 version=$(cat $(dirname ${BASH_SOURCE})/version.json |jq -r ".version")
 version="v${version}"
-allScriptsFileName=".nestedScripts"
-allScriptsFile="$(dirname ${BASH_SOURCE})/${allScriptsFileName}"
+dynoFolder="$(dirname ${BASH_SOURCE})"
+sourceFolder="${dynoFolder}/commands"
 
 
 ColorOff='\033[0m'
@@ -16,13 +16,13 @@ Purple='\033[0;35m'       # Purple
 Cyan='\033[0;36m'         # Cyan
 White='\033[0;37m'        # White
 
+
 function dyno(){
     
     declare -a commands
     
     commands=(
         "open::Opens current folder"
-        "script::Open the 'dyno' Script file"
         "source::Source the Current file in Shell"
         "commands::List All commands created by DYNO"
         "location::Navigate to the source location of Dyno"
@@ -83,6 +83,12 @@ function dyno(){
             echo "${functionname#*function }"
         done
     }
+
+    sourceAll(){
+        for file in"$(dirname ${BASH_SOURCE})"; do
+            source "$file"
+        done
+    }
     
     remoteVersion(){
         curl -sL https://api.github.com/repos/ashindiano/dyno/releases/latest |jq -r ".tag_name"
@@ -112,40 +118,22 @@ function dyno(){
                 read -e -p "Enter the NAME (single word) of the project: " name
 
                 cd "$fullPath"
-                cp ~/.dyno/template template
-                if test -f "template"; then
-                    
-                    if [ $OS == "windows" ]; then
-                        sed -i "s/template/$name/g" "template"
 
-                    elif [ $OS == "linux" ]; then
-                        sed -i "s/template/$name/g" "template"
-                    else
-                        sed -i '' "s/template/$name/g" "template"
-                    fi
+                cp "${dynoFolder}/template.zsh"  "${sourceFolder}/${name}.zsh"
+                cp "${dynoFolder}/template.bash"  "${sourceFolder}/${name}.bash"
 
-                    mv "template"  ".dynoScript"
-                    echo "# Ignore dyno tool support file" >> .gitignore
-                    echo ".dynoScript" >> .gitignore
-                    
-                    echo "Adding $fullPath/.dynoScript to Bash sources list "
+                if [[ $OS == "mac" ]]; then
+                    sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.zsh"
+                    sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.bash"
 
-                    if [ $OS == "windows" ]; then # removing script entry if it already exists
-                        sed -i "source \"$fullPath/.dynoScript\"" ${allScriptsFile}
-
-                    elif [ $OS == "linux" ]; then
-                        sed -i "source \"$fullPath/.dynoScript\"" ${allScriptsFile}
-                    else
-                        sed -i '' "source \"$fullPath/.dynoScript\"" ${allScriptsFile}
-                    fi
-
-                    echo "source \"$fullPath/.dynoScript\""  >> ${allScriptsFile}
-                    source "$BASH_SOURCE"
-                    echo "Success: Project $name created "
-                    echo "You can start using ' $name ' command"
                 else
-                    echo "File Download Error " >&2
+                    sed -i "s/template/$name/g" "${sourceFolder}/${name}.zsh"
+                    sed -i "s/template/$name/g" "${sourceFolder}/${name}.bash"
                 fi
+                   
+                source "${sourceFolder}/${name}.bash"
+                echo "Success: Project $name created "
+                echo "You can start using ' $name ' command"
                 
             else
                 echo "Directory does not exist."
@@ -157,72 +145,16 @@ function dyno(){
             cd "$( dirname ${BASH_SOURCE} )"
         ;;
         
-        "script")
-            echo "Opening ${allScriptsFile}"
-            code ${allScriptsFile}
-        ;;
-        
         "source")
-            echo "Sourcing ${allScriptsFile}"
-            source ${allScriptsFile}
-        ;;
-        "reset")
-            echo "Are you sure you wanna reset Dyno? Yes/No"
-            read answer
-            if [["$answer" == "Yes"]]; then
-                sed '/source/,$d'
-            fi
+           sourceAll
         ;;
         
         "commands")
-            i=$(cat  ${allScriptsFile})
-            IFS=$'\n' j=($i)
-            
-            for sourcedFile in "${j[@]}" ; do
-                if [[ "$sourcedFile" == *"source "* ]]; then
-                    local functionname=$(subString "$sourcedFile" "source \"")
-                    functionname=${functionname%%\"*}
-                    functionname=$(cat $functionname)
-                    functionname=${functionname%%()\{*}
-                    echo "${functionname#*function }"
-                fi
-            done
-        ;;
-        
-        "refresh")
-            echo "Scanning computer for all local dyno Projects created"
-            case $(uname | tr '[:upper:]' '[:lower:]') in
-                linux*)
-                    sudo updatedb
-                ;;
-                darwin*)
-                    sudo /usr/libexec/locate.updatedb
-                ;;
-                *)
-                    
-                ;;
-            esac
-            echo "Search Complete refreshing Projects"
-            x=$(locate .dynoScript)
-            IFS=$'\n' y=($x)
-            i=$(cat  ${allScriptsFile})
-            IFS=$'\n' j=($i)
-            for file in "${y[@]}" ; do
-                local isFileExist=false
-                for sourcedFile in "${j[@]}" ; do
-                    if [[ "$sourcedFile" == *"source "* ]]; then
-                        
-                        if [[ "$file" ==  *"$(subString "$sourcedFile" "source ")"* ]]; then
-                            isFileExist=true
-                            break
-                        fi
-                    fi
+            if [[ -z "$(ls -A $sourceFolder)" ]]; then
+                for file in "$sourceFolder"/*.bash; do
+                    echo "${file##*/}"
                 done
-                if [ $isFileExist = false ]; then
-                    echo "source \"$file\""  >> "${allScriptsFile}"
-                fi
-            done
-            echo "Refresh Complete"
+            fi
         ;;
         
         "inject-all")
@@ -352,5 +284,4 @@ fi
 
 alias e=exit
 
-source "${allScriptsFile}"
-cd # Go back to the default folder
+dyno source
