@@ -125,14 +125,14 @@ function dyno(){
                 if [[ $OS == "mac" ]]; then
                     sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.zsh"
                     sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.bash"
-                    sed -i '' "s|path|${prjFolder}|g" "${sourceFolder}/${name}.zsh"
-                    sed -i '' "s|path|${prjFolder}|g" "${sourceFolder}/${name}.bash"
+                    sed -i '' "s|path|${fullPath}|g" "${sourceFolder}/${name}.zsh"
+                    sed -i '' "s|path|${fullPath}|g" "${sourceFolder}/${name}.bash"
 
                 else
                     sed -i "s/template/$name/g" "${sourceFolder}/${name}.zsh"
                     sed -i "s/template/$name/g" "${sourceFolder}/${name}.bash"
-                    sed -i "s|path/${prjFolder}|g" "${sourceFolder}/${name}.zsh"
-                    sed -i "s|path/${prjFolder}|g" "${sourceFolder}/${name}.bash"
+                    sed -i "s|path/${fullPath}|g" "${sourceFolder}/${name}.zsh"
+                    sed -i "s|path/${fullPath}|g" "${sourceFolder}/${name}.bash"
                 fi
                    
                    

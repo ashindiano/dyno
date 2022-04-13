@@ -15,8 +15,6 @@ function template(){
         key="${index%%::*}"
         allCommands+="${key} "
     done
-    
-    cd path
 
     getos(){
         case "$(uname -s)" in
@@ -38,6 +36,10 @@ function template(){
     }
     
     getos
+
+    if [[ $# -eq 0 ]] && [[ "$1" != "indexCommands" ]]; then
+        cd path
+    fi
     
     case $1 in
         
