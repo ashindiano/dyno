@@ -1,8 +1,7 @@
 #!/bin/bash
-
-version=$(cat $(dirname ${BASH_SOURCE})/version.json |jq -r ".version")
-version="v${version}"
 dynoFolder="$(dirname ${BASH_SOURCE})"
+version=$( cat ${dynoFolder}/version.json |jq -r ".version" )
+version="v${version}"
 sourceFolder="${dynoFolder}/commands"
 
 
@@ -73,21 +72,23 @@ function dyno(){
         myresult="${myresult%$3*}" # removing suffix
         echo "$myresult"
     }
-    
-    allInstalledProjects(){
-        x=$(locate .dynoScript)
-        IFS=$'\n' y=($x)
-        for file in "${y[@]}" ; do
-            functionname=$(cat "${file}")
-            functionname=${functionname%%()\{*}
-            echo "${functionname#*function }"
-        done
-    }
 
     sourceAll(){
-        for file in"$(dirname ${BASH_SOURCE})"; do
-            source "$file"
-        done
+        if [[ -z "$(ls -A $sourceFolder)" ]]; then
+        else
+            for file in "$sourceFolder"/*.zsh; do
+                source "$file"
+            done
+        fi
+    }
+
+    listCustomCommands(){
+        if [[ -z "$(ls -A $sourceFolder)" ]]; then
+            else
+                for file in "$sourceFolder"/*.zsh; do
+                    echo "${${file##*/}%.*}"
+                done
+        fi
     }
     
     remoteVersion(){
@@ -125,10 +126,14 @@ function dyno(){
                 if [[ $OS == "mac" ]]; then
                     sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.zsh"
                     sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.bash"
+                    sed -i '' "s|path|${sourceFolder}|g" "${sourceFolder}/${name}.zsh"
+                    sed -i '' "s|path|${sourceFolder}|g" "${sourceFolder}/${name}.bash"
 
                 else
                     sed -i "s/template/$name/g" "${sourceFolder}/${name}.zsh"
                     sed -i "s/template/$name/g" "${sourceFolder}/${name}.bash"
+                    sed -i "s|path/${sourceFolder}|g" "${sourceFolder}/${name}.zsh"
+                    sed -i "s|path/${sourceFolder}|g" "${sourceFolder}/${name}.bash"
                 fi
                    
                 source "${sourceFolder}/${name}.bash"
@@ -142,7 +147,7 @@ function dyno(){
         ;;
         
         "location")
-            cd "$( dirname ${BASH_SOURCE} )"
+            cd "$dynoFolder"
         ;;
         
         "source")
@@ -151,6 +156,8 @@ function dyno(){
         
         "commands")
             if [[ -z "$(ls -A $sourceFolder)" ]]; then
+
+            else
                 for file in "$sourceFolder"/*.bash; do
                     echo "${file##*/}"
                 done
@@ -158,7 +165,7 @@ function dyno(){
         ;;
         
         "inject-all")
-            dir="$(dirname ${BASH_SOURCE})"
+            dir="$dynoFolder"
             
             tempFile1="${dir}/.tmp1"
             tempFile2="${dir}/.tmp2"
@@ -218,19 +225,19 @@ function dyno(){
         "update")
             echo "current version: $version"
             echo "Downloading ..."
-            if test -f "$( dirname ${BASH_SOURCE} )/main.zip"; then # delete previous copies
-                rm "$( dirname ${BASH_SOURCE} )/main.zip"
+            if test -f "${dynoFolder}/main.zip"; then # delete previous copies
+                rm "${dynoFolder}/main.zip"
             fi
 
             DOWNLOAD_URL=$(curl -s https://api.github.com/repos/ashindiano/dyno/releases/latest \
                     | grep zipball_url \
                     | cut -d '"' -f 4)
 
-            curl -L -o "$( dirname ${BASH_SOURCE} )/main.zip" "$DOWNLOAD_URL" 
+            curl -L -o "${dynoFolder}/main.zip" "$DOWNLOAD_URL" 
             
-            if test -f "$( dirname ${BASH_SOURCE} )/main.zip"; then
+            if test -f "${dynoFolder}/main.zip"; then
                 echo "Extracting and Installing ..."
-                tar -xf "$( dirname ${BASH_SOURCE} )/main.zip" -C "$( dirname ${BASH_SOURCE} )"  --strip 1
+                tar -xf "${dynoFolder}/main.zip" -C "${dynoFolder}"  --strip 1
                 source "${BASH_SOURCE}"
                 echo "updated to version: $version"
             else
@@ -264,7 +271,7 @@ function dyno(){
             echo ""
             echo "Project commands by DYNO"
             echo "========================"
-            allInstalledProjects
+            listCustomCommands
         ;;
         
     esac

@@ -16,7 +16,7 @@ function template(){
         allCommands+="${key} "
     done
     
-    cd "$( dirname ${(%):-%x} )"
+    cd path
 
     getos(){
         case "$(uname -s)" in
@@ -71,15 +71,15 @@ function template(){
         ;;
         
         "repo")
-            echo "Opening current Git Repository in github.com" 
-
+            echo "Opening current Git Repository in github.com"
+            
             remote=$(git config --get remote.origin.url)
             if [[ $remote != *".git"* ]]; then
                 echo " No Git Found"
             else
-                remote=${remote#*git@github.com:}   # remove prefix ending in "git@github.com:"
-                remote=${remote%.git*}   # remove suffix starting with ".git"
-                $open "https://github.com/$remote"
+                remote=${remote//:/\/} 
+                remote=${remote//git@/https:\/\/}
+                $openCommand $remote
             fi
         ;;
         

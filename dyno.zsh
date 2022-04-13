@@ -1,6 +1,6 @@
-version=$( cat $( dirname ${(%):-%x} )/version.json |jq -r ".version" )
-version="v${version}"
 dynoFolder="$(dirname ${(%):-%x})"
+version=$( cat ${dynoFolder}/version.json |jq -r ".version" )
+version="v${version}"
 sourceFolder="${dynoFolder}/commands"
 
 ColorOff='\033[0m'
@@ -72,10 +72,19 @@ function dyno(){
     
     sourceAll(){
         if [[ -z "$(ls -A $sourceFolder)" ]]; then
+        else
             for file in "$sourceFolder"/*.zsh; do
-                echo "sourcing "${file##*/}""
                 source "$file"
             done
+        fi
+    }
+
+    listCustomCommands(){
+        if [[ -z "$(ls -A $sourceFolder)" ]]; then
+            else
+                for file in "$sourceFolder"/*.zsh; do
+                    echo "${${file##*/}%.*}"
+                done
         fi
     }
 
@@ -116,10 +125,14 @@ function dyno(){
                 if [[ $OS == "mac" ]]; then
                     sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.zsh"
                     sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.bash"
+                    sed -i '' "s|path|${sourceFolder}|g" "${sourceFolder}/${name}.zsh"
+                    sed -i '' "s|path|${sourceFolder}|g" "${sourceFolder}/${name}.bash"
 
                 else
                     sed -i "s/template/$name/g" "${sourceFolder}/${name}.zsh"
                     sed -i "s/template/$name/g" "${sourceFolder}/${name}.bash"
+                    sed -i "s|path/${sourceFolder}|g" "${sourceFolder}/${name}.zsh"
+                    sed -i "s|path/${sourceFolder}|g" "${sourceFolder}/${name}.bash"
                 fi
                    
                 source "${sourceFolder}/${name}.zsh"
@@ -134,7 +147,7 @@ function dyno(){
         
         
         "location")
-            cd "$( dirname ${(%):-%x} )"
+            cd "$dynoFolder"
         ;;
         
         "source")
@@ -142,11 +155,7 @@ function dyno(){
         ;;
         
         "commands")
-            if [[ -z "$(ls -A $sourceFolder)" ]]; then
-                for file in "$sourceFolder"/*.zsh; do
-                    echo "${file##*/}"
-                done
-            fi
+           listCustomCommands
         ;;
         
         "inject-all")
@@ -215,19 +224,19 @@ function dyno(){
         "update")
             echo "current version: $version"
             echo "Downloading ..."
-            if test -f "$( dirname ${(%):-%x} )/main.zip"; then # delete previous copies
-                rm "$( dirname ${(%):-%x} )/main.zip"
+            if test -f "${dynoFolder}/main.zip"; then # delete previous copies
+                rm "${dynoFolder}/main.zip"
             fi
 
             DOWNLOAD_URL=$(curl -s https://api.github.com/repos/ashindiano/dyno/releases/latest \
                     | grep zipball_url \
                     | cut -d '"' -f 4)
 
-            curl -L -o "$( dirname ${(%):-%x} )/main.zip" "$DOWNLOAD_URL" 
+            curl -L -o "${dynoFolder}/main.zip" "$DOWNLOAD_URL" 
             
-            if test -f "$( dirname ${(%):-%x} )/main.zip"; then
+            if test -f "${dynoFolder}/main.zip"; then
                 echo "Extracting and Installing ..."
-                tar -xf "$( dirname ${(%):-%x} )/main.zip" -C "$( dirname ${(%):-%x} )"  --strip 1
+                tar -xf "${dynoFolder}/main.zip" -C "${dynoFolder}"  --strip 1
                 source "${(%):-%x}"
                 echo "updated to version: $version"
             else
@@ -261,7 +270,7 @@ function dyno(){
             echo ""
             echo "Project commands by DYNO"
             echo "========================"
-            allInstalledProjects
+            listCustomCommands
         ;;
         
     esac
