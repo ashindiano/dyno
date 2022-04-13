@@ -155,13 +155,11 @@ function dyno(){
         ;;
         
         "commands")
-            if [[ -z "$(ls -A $sourceFolder)" ]]; then
-
-            else
-                for file in "$sourceFolder"/*.bash; do
-                    echo "${file##*/}"
-                done
-            fi
+           listCustomCommands
+        ;;
+        
+        "isUpdateAvailable")
+            isUpdateAvailable
         ;;
         
         "inject-all")

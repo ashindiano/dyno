@@ -159,6 +159,10 @@ function dyno(){
            listCustomCommands
         ;;
         
+        "isUpdateAvailable")
+            isUpdateAvailable
+        ;;
+
         "inject-all")
             dir="${dynoFolder}"
             
