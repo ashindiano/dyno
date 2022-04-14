@@ -1,5 +1,5 @@
 dynoFolder="$(dirname ${(%):-%x})"
-version=$( cat ${dynoFolder}/version.json |jq -r ".version" )
+version=$(grep -o '"version": "[^"]*' ${dynoFolder}/version.json | grep -o '[^"]*$' )
 version="v${version}"
 sourceFolder="${dynoFolder}/commands"
 
@@ -88,7 +88,7 @@ function dyno(){
     }
 
     remoteVersion(){
-        curl -sL https://api.github.com/repos/ashindiano/dyno/releases/latest |jq -r ".tag_name"
+        curl -sL https://api.github.com/repos/ashindiano/dyno/releases/latest | grep -o '"tag_name": "[^"]*' | grep -o '[^"]*$' 
     }
     
     isUpdateAvailable(){
