@@ -117,7 +117,7 @@ function dyno(){
             if test -d "$fullPath"; then
                 
                 name=$2             
-                if [[ -n "$name" ]]; then
+                if [[ -z "$name" ]]; then
                     echo -n "Enter the NAME (single word) of the project: "
                     read name
                 fi      
