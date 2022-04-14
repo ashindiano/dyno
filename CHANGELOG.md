@@ -1,3 +1,12 @@
+## [2.3.3](https://github.com/ashindiano/dyno/compare/v2.3.2...v2.3.3) (2022-04-14)
+
+
+### Bug Fixes
+
+* **release:** Moved from jq to grep to reduce dependencies ([8ebb914](https://github.com/ashindiano/dyno/commit/8ebb914ba4a294af2301284224e7db17009959fc))
+
+
+
 ## [2.3.2](https://github.com/ashindiano/dyno/compare/v2.3.1...v2.3.2) (2022-04-14)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **release:** Uninstall made easy ([ea06efa](https://github.com/ashindiano/dyno/commit/ea06efafcb931d1211d124ecd3370c961ff93ad9))
-
-
-
-## [2.1.8](https://github.com/ashindiano/dyno/compare/v2.1.7...v2.1.8) (2022-04-13)
-
-
-### Bug Fixes
-
-* **release:** Rewamping location of all custom scripts ([b1d6c27](https://github.com/ashindiano/dyno/commit/b1d6c274061f04eba6d980d215dd164d78e6a353))
 
 
 
