@@ -1,3 +1,12 @@
+# [2.3.0](https://github.com/ashindiano/dyno/compare/v2.2.0...v2.3.0) (2022-04-14)
+
+
+### Features
+
+* **release:** Command name can be given directly when dyno new called ([84a7bfe](https://github.com/ashindiano/dyno/commit/84a7bfe5e97f5fe9355369b7c5000dd252d548ca))
+
+
+
 # [2.2.0](https://github.com/ashindiano/dyno/compare/v2.1.8...v2.2.0) (2022-04-14)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **release:** One Location fixes ([e3490e7](https://github.com/ashindiano/dyno/commit/e3490e7e8044bc503a7d890db2c5a5749898f9c9))
-
-
-
-## [2.1.5](https://github.com/ashindiano/dyno/compare/v2.1.4...v2.1.5) (2022-04-13)
-
-
-### Bug Fixes
-
-* **release:** One Location fixes ([787cb98](https://github.com/ashindiano/dyno/commit/787cb988a26007b9db4c0f49b488c9b7f7078c92))
 
 
 
