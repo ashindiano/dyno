@@ -86,10 +86,10 @@ function template(){
         ;;
         
         "rename")
-            echo "You are about to rename the command $FUNCNAME ? (y/n) : " 
+            echo -n "You are about to rename the command $FUNCNAME ? (y/n) : " 
             read answer
             if [[ "$answer" == "y" ]]; then
-                echo "Please enter the new command: "
+                echo -n "Please enter the new command: "
                 read newCommandName
                 if ! [[ -x "$(command -v $newCommandName)" ]]; then
                     sed -i -e "s/$FUNCNAME()/$newCommandName()/g" "${(%):-%x}" # replacing the function name

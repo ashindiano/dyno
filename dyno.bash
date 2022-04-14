@@ -32,6 +32,7 @@ function dyno(){
         "refresh::Scans your entire omputer and updates commands of all DYNO Projects "
         "update::Updated DYNO to its latest version"
         "inject-all::Injects a piece of code under a sub command in all dyno Projects: Do only if you know what you are doing"
+        "--uninstall::Uninstall DYNO"
     )
     
     #The following code helps in auto completion
@@ -270,6 +271,41 @@ function dyno(){
             echo "Project commands by DYNO"
             echo "========================"
             listCustomCommands
+        ;;
+
+        "--uninstall")
+            echo -n "Are you sure ? Do you want to uninstall dyno ? (Y/n) : "
+            read decision
+            if [[ "$decision" == "Y" ]]; then
+                echo -n "Do you want to EXPORT all your commands before we uninstall dyno ? (y/n) : "
+                read answer
+                if [[ "$answer" == "y" ]]; then
+                    location="~/Desktop"
+                    echo -n "Where do you want the export file ? (Default Folder: ~/Desktop) :"
+                    read newLocation
+                    [ -n "$newLocation" ] && location=$newLocation
+                    fullPath=$(realpath -m $location | sed 's/\~\///g')
+                    echo "folder chosen for the Project : $fullPath "
+                    echo "SOURCE folder chosen for the Project : $sourceFolder "
+                    echo "Creating export file..."
+                    tar -C $dynoFolder -cf "${fullPath}/dyno_backup.tar.gz" commands
+                    echo "Export complete, please find the exported file at ${fullPath}/dyno_backup.tar.gz"
+                    rm -rf $dynoFolder
+                    case $OS in
+                        mac)
+                            sed -i '' '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
+                            sed -i '' '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
+                            ;;
+                        *)
+                            sed -i '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
+                            sed -i '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
+                            ;;
+
+                    esac
+                    echo "Uninstall Complete!! See you soon..."
+                fi
+            fi
+
         ;;
         
     esac
