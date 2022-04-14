@@ -1,3 +1,12 @@
+## [2.1.8](https://github.com/ashindiano/dyno/compare/v2.1.7...v2.1.8) (2022-04-13)
+
+
+### Bug Fixes
+
+* **release:** Rewamping location of all custom scripts ([b1d6c27](https://github.com/ashindiano/dyno/commit/b1d6c274061f04eba6d980d215dd164d78e6a353))
+
+
+
 ## [2.1.7](https://github.com/ashindiano/dyno/compare/v2.1.6...v2.1.7) (2022-04-13)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **release:** Rewamping location of all custom scripts ([fc71d54](https://github.com/ashindiano/dyno/commit/fc71d544f9714e8b2e6670de25fcb32d43547604))
-
-
-
-## [2.1.3](https://github.com/ashindiano/dyno/compare/v2.1.2...v2.1.3) (2022-04-10)
-
-
-### Bug Fixes
-
-* **release:** Applied fixes in removing the downloaded files ([6d236c7](https://github.com/ashindiano/dyno/commit/6d236c70dee5128f64cafe2a389dcc13f4db1d19))
 
 
 
