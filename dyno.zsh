@@ -72,8 +72,7 @@ function dyno(){
     }
     
     sourceAll(){
-        if [[ -z "$(ls -A $sourceFolder)" ]]; then
-        else
+        if [[ ! -z "$(ls -A $sourceFolder)" ]]; then
             for file in "$sourceFolder"/*.zsh; do
                 source "$file"
             done
@@ -81,8 +80,7 @@ function dyno(){
     }
 
     listCustomCommands(){
-        if [[ -z "$(ls -A $sourceFolder)" ]]; then
-            else
+        if [[ ! -z "$(ls -A $sourceFolder)" ]]; then
                 for file in "$sourceFolder"/*.zsh; do
                     echo "${${file##*/}%.*}"
                 done
@@ -113,9 +111,11 @@ function dyno(){
             [ -n "$prjFolder" ] && folder=$prjFolder
             fullPath=$(realpath -m $folder | sed 's/\~\///g')
             echo "folder chosen for the Project : $fullPath "
+            
             if test -d "$fullPath"; then
-                name=$2
-                if [[ -z $name]]; then
+               
+                name=$2             
+                if [[ -n "$name" ]]; then
                     echo -n "Enter the NAME (single word) of the project: "
                     read name
                 fi

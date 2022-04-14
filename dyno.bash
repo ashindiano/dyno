@@ -84,8 +84,7 @@ function dyno(){
     }
 
     listCustomCommands(){
-        if [[ -z "$(ls -A $sourceFolder)" ]]; then
-            else
+        if [[ ! -z "$(ls -A $sourceFolder)" ]]; then
                 for file in "$sourceFolder"/*.zsh; do
                     echo "${${file##*/}%.*}"
                 done
@@ -117,11 +116,11 @@ function dyno(){
             echo $fullPath
             if test -d "$fullPath"; then
                 
-                name=$2
-                if [[ -z $name]]; then
-                    read -e -p "Enter the NAME (single word) of the project: " name
+                name=$2             
+                if [[ -n "$name" ]]; then
+                    echo -n "Enter the NAME (single word) of the project: "
                     read name
-                fi       
+                fi      
 
                 cd "$fullPath"
 
