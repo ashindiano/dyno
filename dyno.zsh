@@ -114,9 +114,11 @@ function dyno(){
             fullPath=$(realpath -m $folder | sed 's/\~\///g')
             echo "folder chosen for the Project : $fullPath "
             if test -d "$fullPath"; then
-                
-                echo -n "Enter the NAME (single word) of the project: "
-                read name
+                name=$2
+                if [[ -z $name]]; then
+                    echo -n "Enter the NAME (single word) of the project: "
+                    read name
+                fi
   
                 cd "$fullPath"
 
@@ -296,22 +298,22 @@ function dyno(){
                     echo "Creating export file..."
                     tar -C $dynoFolder -cf "${fullPath}/dyno_backup.tar.gz" commands
                     echo "Export complete, please find the exported file at ${fullPath}/dyno_backup.tar.gz"
-                    rm -rf $dynoFolder
-                    case $OS in
-                        mac)
-                            sed -i '' '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
-                            sed -i '' '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
-                            ;;
-                        *)
-                            sed -i '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
-                            sed -i '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
-                            ;;
-
-                    esac
-                    echo "Uninstall Complete!! See you soon..."
                 fi
-            fi
+                rm -rf $dynoFolder
+                case $OS in
+                    mac)
+                        sed -i '' '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
+                        sed -i '' '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
+                        ;;
+                    *)
+                        sed -i '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
+                        sed -i '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
+                        ;;
 
+                esac
+                echo "Uninstall Complete!! See you soon..."
+                
+            fi
         ;;
         
     esac
