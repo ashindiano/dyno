@@ -1,3 +1,12 @@
+## [2.4.1](https://github.com/ashindiano/dyno/compare/v2.4.0...v2.4.1) (2022-04-20)
+
+
+### Bug Fixes
+
+* **release:** Fixes implented in yarn run and npm run ([1db3927](https://github.com/ashindiano/dyno/commit/1db3927a9b94ced50da912feb060dab10dd09c68))
+
+
+
 # [2.4.0](https://github.com/ashindiano/dyno/compare/v2.3.4...v2.4.0) (2022-04-20)
 
 
@@ -32,15 +41,6 @@
 ### Bug Fixes
 
 * **release:** fixes in dyno new commands ([b6e5056](https://github.com/ashindiano/dyno/commit/b6e505680acf2e3346f0a6dc5da7f2388f78813d))
-
-
-
-## [2.3.1](https://github.com/ashindiano/dyno/compare/v2.3.0...v2.3.1) (2022-04-14)
-
-
-### Bug Fixes
-
-* **release:** fixes in dyno new commands ([ea4b3f9](https://github.com/ashindiano/dyno/commit/ea4b3f9c759206ffaa3a5c3f7892136f86da088b))
 
 
 
