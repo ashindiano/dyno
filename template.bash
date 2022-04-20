@@ -41,6 +41,16 @@ function template(){
     if [[ $# -eq 0 ]] || [[ "$1" != "indexCommands" ]]; then
         cd $prjFolder
     fi
+
+    if test -f "${prjFolder}/package.json"; then
+        packageJsonCommands=$(jq '.scripts' "$prjFolder/package.json"  | sed 's/{/ /g' |  sed 's/}/ /g' | sed 's/\":/::/g' | sed 's/\"//g' | sed 's/ //g' | sed 's/,//g' )
+        
+        while read -r line
+        do
+            key="${index%%::*}"
+            allCommands+="${key} "          
+        done <<< $packageJsonCommands
+    fi
     
     case $1 in
         
@@ -108,6 +118,12 @@ function template(){
                 value="${index##*::}"
                 echo ${key} - ${value}
             done
+            while read -r line
+            do
+                key="${line%%::*}"
+                value="${line##*::}"
+                echo ${key} - ${value}
+            done <<< $packageJsonCommands
         ;;
         
     esac
