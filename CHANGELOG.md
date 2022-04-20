@@ -1,3 +1,12 @@
+## [2.3.4](https://github.com/ashindiano/dyno/compare/v2.3.3...v2.3.4) (2022-04-20)
+
+
+### Bug Fixes
+
+* **release:** Fix in navigating to the Project folder ([734465f](https://github.com/ashindiano/dyno/commit/734465ff214b6771bfa7d357498ff4b2cd404d09))
+
+
+
 ## [2.3.3](https://github.com/ashindiano/dyno/compare/v2.3.2...v2.3.3) (2022-04-14)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **release:** Command name can be given directly when dyno new called ([84a7bfe](https://github.com/ashindiano/dyno/commit/84a7bfe5e97f5fe9355369b7c5000dd252d548ca))
-
-
-
-# [2.2.0](https://github.com/ashindiano/dyno/compare/v2.1.8...v2.2.0) (2022-04-14)
-
-
-### Features
-
-* **release:** Uninstall made easy ([ea06efa](https://github.com/ashindiano/dyno/commit/ea06efafcb931d1211d124ecd3370c961ff93ad9))
 
 
 
