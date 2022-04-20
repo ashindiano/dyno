@@ -42,6 +42,7 @@ function template(){
         cd $prjFolder
     fi
 
+    packageJsonCommands=""
     if test -f "${prjFolder}/package.json"; then
         packageJsonCommands=$(jq '.scripts' "$prjFolder/package.json"  | sed 's/{/ /g' |  sed 's/}/ /g' | sed 's/\":/::/g' | sed 's/\"//g' | sed 's/ //g' | sed 's/,//g' )
         
@@ -52,16 +53,17 @@ function template(){
         done <<< $packageJsonCommands
     fi
 
-    if [[ "$1" == *"$packageJsonCommands"* ]]; then
-
+    if [[ ! $# -eq 0 && "$packageJsonCommands" == *"$1::"* ]]; then
         if test -f "${prjFolder}/yarn.lock"; then
+            echo "yarn run  $1"
             yarn run $1
         else
+            echo "npm run  $1"
             npm run $1
         fi
 
     else
-     
+
         case $1 in
             
             "open")
