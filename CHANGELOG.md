@@ -1,3 +1,13 @@
+# [2.4.0](https://github.com/ashindiano/dyno/compare/v2.3.4...v2.4.0) (2022-04-20)
+
+
+### Features
+
+* **release:** Package.json scripts are listed ([2246e84](https://github.com/ashindiano/dyno/commit/2246e8400257c846c69c09def262bf3cbed78e91))
+* **release:** yarn run or npm run implemented ([ba9863f](https://github.com/ashindiano/dyno/commit/ba9863f2aa93d8bd55da8b00cb1045464cb91eb1))
+
+
+
 ## [2.3.4](https://github.com/ashindiano/dyno/compare/v2.3.3...v2.3.4) (2022-04-20)
 
 
@@ -31,15 +41,6 @@
 ### Bug Fixes
 
 * **release:** fixes in dyno new commands ([ea4b3f9](https://github.com/ashindiano/dyno/commit/ea4b3f9c759206ffaa3a5c3f7892136f86da088b))
-
-
-
-# [2.3.0](https://github.com/ashindiano/dyno/compare/v2.2.0...v2.3.0) (2022-04-14)
-
-
-### Features
-
-* **release:** Command name can be given directly when dyno new called ([84a7bfe](https://github.com/ashindiano/dyno/commit/84a7bfe5e97f5fe9355369b7c5000dd252d548ca))
 
 
 
