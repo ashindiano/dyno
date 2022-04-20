@@ -1,4 +1,5 @@
 function template(){
+    prjFolder=path
     declare -a commands
     commands=(
         "open::Opens current folder"
@@ -37,8 +38,8 @@ function template(){
     
     getos
 
-    if [[ $# -eq 0 ]] && [[ "$1" != "indexCommands" ]]; then
-        cd path
+    if [[ $# -eq 0 ]] || [[ "$1" != "indexCommands" ]]; then
+        cd $prjFolder
     fi
     
     case $1 in
