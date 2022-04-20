@@ -51,82 +51,93 @@ function template(){
             allCommands+="${key} "          
         done <<< $packageJsonCommands
     fi
+
+    if [[ "$1" == *"$packageJsonCommands"* ]]; then
+
+        if test -f "${prjFolder}/yarn.lock"; then
+            yarn run $1
+        else
+            npm run $1
+        fi
+
+    else
     
-    case $1 in
-        
-        "open")
-            echo "Opening Current Folder"
-            if [ $OS == "linux" ]; then 
-                nautilus .
-            elif [ $OS == "mac" ]; then
-                open .
-            elif [ $OS == "windows" ]; then
-                start .
-            fi
-        ;;
-
-        "indexCommands")
-            complete -W "${allCommands}" template
-        ;;
-
-        "script")
-            echo "Opening $BASH_SOURCE"
-            code "$BASH_SOURCE"
-        ;;
-        
-        "code")
-            code .
-         ;;
-         
-        "source")
-            echo "Sourcing $BASH_SOURCE"
-            source "$BASH_SOURCE"
-        ;;
-        
-        "repo")
-            echo "Opening current Git Repository in github.com"
+        case $1 in
             
-            remote=$(git config --get remote.origin.url)
-            if [[ $remote != *".git"* ]]; then
-                echo " No Git Found"
-            else
-                remote=${remote//:/\/} 
-                remote=${remote//git@/https:\/\/}
-                $openCommand $remote
-            fi
-        ;;
-        
-        "rename")
-            read -e -p "You are about to rename the command $FUNCNAME ? (y/n) : " answer
-            if [[ "$answer" == "y" ]]; then
-                echo "Please enter the new command: "
-                read newCommandName
-                if ! [ -x "$(command -v $newCommandName)" ]; then
-                    sed -i -e "s/$FUNCNAME()/$newCommandName()/g" "${BASH_SOURCE[0]}" # replacing the function name
-                    sed -i -e '$s'"/$FUNCNAME/$newCommandName/g" "${BASH_SOURCE[0]}" # replacing the command in last line
-                    source "${BASH_SOURCE[0]}"
-                    echo "Rename successful!!! $newCommandName  is effective now"        
-                else
-                    echo "Cannot use $newCommandName because this command already exists"
+            "open")
+                echo "Opening Current Folder"
+                if [ $OS == "linux" ]; then 
+                    nautilus .
+                elif [ $OS == "mac" ]; then
+                    open .
+                elif [ $OS == "windows" ]; then
+                    start .
                 fi
-            fi
-        ;;
-        
-        "help"|"h"|"--help"|"-h")
-            for index in "${commands[@]}" ; do
-                key="${index%%::*}"
-                value="${index##*::}"
-                echo ${key} - ${value}
-            done
-            while read -r line
-            do
-                key="${line%%::*}"
-                value="${line##*::}"
-                echo ${key} - ${value}
-            done <<< $packageJsonCommands
-        ;;
-        
-    esac
+            ;;
+
+            "indexCommands")
+                complete -W "${allCommands}" template
+            ;;
+
+            "script")
+                echo "Opening $BASH_SOURCE"
+                code "$BASH_SOURCE"
+            ;;
+            
+            "code")
+                code .
+            ;;
+            
+            "source")
+                echo "Sourcing $BASH_SOURCE"
+                source "$BASH_SOURCE"
+            ;;
+            
+            "repo")
+                echo "Opening current Git Repository in github.com"
+                
+                remote=$(git config --get remote.origin.url)
+                if [[ $remote != *".git"* ]]; then
+                    echo " No Git Found"
+                else
+                    remote=${remote//:/\/} 
+                    remote=${remote//git@/https:\/\/}
+                    $openCommand $remote
+                fi
+            ;;
+            
+            "rename")
+                read -e -p "You are about to rename the command $FUNCNAME ? (y/n) : " answer
+                if [[ "$answer" == "y" ]]; then
+                    echo "Please enter the new command: "
+                    read newCommandName
+                    if ! [ -x "$(command -v $newCommandName)" ]; then
+                        sed -i -e "s/$FUNCNAME()/$newCommandName()/g" "${BASH_SOURCE[0]}" # replacing the function name
+                        sed -i -e '$s'"/$FUNCNAME/$newCommandName/g" "${BASH_SOURCE[0]}" # replacing the command in last line
+                        source "${BASH_SOURCE[0]}"
+                        echo "Rename successful!!! $newCommandName  is effective now"        
+                    else
+                        echo "Cannot use $newCommandName because this command already exists"
+                    fi
+                fi
+            ;;
+            
+            "help"|"h"|"--help"|"-h")
+                for index in "${commands[@]}" ; do
+                    key="${index%%::*}"
+                    value="${index##*::}"
+                    echo ${key} - ${value}
+                done
+                while read -r line
+                do
+                    key="${line%%::*}"
+                    value="${line##*::}"
+                    echo ${key} - ${value}
+                done <<< $packageJsonCommands
+            ;;
+            
+        esac
+    fi
 }
 
 template indexCommands
