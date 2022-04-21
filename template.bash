@@ -48,7 +48,7 @@ function template(){
         
         while read -r line
         do
-            key="${index%%::*}"
+            key="${line%%::*}"
             allCommands+="${key} "          
         done <<< $packageJsonCommands
     fi
