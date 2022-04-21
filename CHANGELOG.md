@@ -1,3 +1,12 @@
+## [2.4.2](https://github.com/ashindiano/dyno/compare/v2.4.1...v2.4.2) (2022-04-21)
+
+
+### Bug Fixes
+
+* **release:** Implemented fix in autocomplete ([b2f9cb5](https://github.com/ashindiano/dyno/commit/b2f9cb5005bbc4f8416017d7f30444fb779285e9))
+
+
+
 ## [2.4.1](https://github.com/ashindiano/dyno/compare/v2.4.0...v2.4.1) (2022-04-20)
 
 
@@ -32,15 +41,6 @@
 ### Bug Fixes
 
 * **release:** Moved from jq to grep to reduce dependencies ([8ebb914](https://github.com/ashindiano/dyno/commit/8ebb914ba4a294af2301284224e7db17009959fc))
-
-
-
-## [2.3.2](https://github.com/ashindiano/dyno/compare/v2.3.1...v2.3.2) (2022-04-14)
-
-
-### Bug Fixes
-
-* **release:** fixes in dyno new commands ([b6e5056](https://github.com/ashindiano/dyno/commit/b6e505680acf2e3346f0a6dc5da7f2388f78813d))
 
 
 
