@@ -1,3 +1,12 @@
+## [2.4.3](https://github.com/ashindiano/dyno/compare/v2.4.2...v2.4.3) (2022-06-02)
+
+
+### Bug Fixes
+
+* **release:** locating proper file implemented in bash ([e1dc318](https://github.com/ashindiano/dyno/commit/e1dc318c82aff6c658996c0f9b40d9d19da8619d))
+
+
+
 ## [2.4.2](https://github.com/ashindiano/dyno/compare/v2.4.1...v2.4.2) (2022-04-21)
 
 
@@ -32,15 +41,6 @@
 ### Bug Fixes
 
 * **release:** Fix in navigating to the Project folder ([734465f](https://github.com/ashindiano/dyno/commit/734465ff214b6771bfa7d357498ff4b2cd404d09))
-
-
-
-## [2.3.3](https://github.com/ashindiano/dyno/compare/v2.3.2...v2.3.3) (2022-04-14)
-
-
-### Bug Fixes
-
-* **release:** Moved from jq to grep to reduce dependencies ([8ebb914](https://github.com/ashindiano/dyno/commit/8ebb914ba4a294af2301284224e7db17009959fc))
 
 
 
