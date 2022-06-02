@@ -75,9 +75,8 @@ function dyno(){
     }
 
     sourceAll(){
-        if [[ -z "$(ls -A $sourceFolder)" ]]; then
-        else
-            for file in "$sourceFolder"/*.zsh; do
+        if [[ ! -z "$(ls -A $sourceFolder)" ]]; then
+            for file in "$sourceFolder"/*.bash; do
                 source "$file"
             done
         fi
@@ -85,7 +84,7 @@ function dyno(){
 
     listCustomCommands(){
         if [[ ! -z "$(ls -A $sourceFolder)" ]]; then
-                for file in "$sourceFolder"/*.zsh; do
+                for file in "$sourceFolder"/*.bash; do
                     echo "${${file##*/}%.*}"
                 done
         fi
