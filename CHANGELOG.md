@@ -1,3 +1,12 @@
+## [2.4.5](https://github.com/ashindiano/dyno/compare/v2.4.4...v2.4.5) (2022-06-04)
+
+
+### Bug Fixes
+
+* **release:** unzip bug fixed in mac ([340687e](https://github.com/ashindiano/dyno/commit/340687e2d8059b18f1a833662a0bbc289459a729))
+
+
+
 ## [2.4.4](https://github.com/ashindiano/dyno/compare/v2.4.3...v2.4.4) (2022-06-04)
 
 
@@ -31,16 +40,6 @@
 ### Bug Fixes
 
 * **release:** Fixes implented in yarn run and npm run ([1db3927](https://github.com/ashindiano/dyno/commit/1db3927a9b94ced50da912feb060dab10dd09c68))
-
-
-
-# [2.4.0](https://github.com/ashindiano/dyno/compare/v2.3.4...v2.4.0) (2022-04-20)
-
-
-### Features
-
-* **release:** Package.json scripts are listed ([2246e84](https://github.com/ashindiano/dyno/commit/2246e8400257c846c69c09def262bf3cbed78e91))
-* **release:** yarn run or npm run implemented ([ba9863f](https://github.com/ashindiano/dyno/commit/ba9863f2aa93d8bd55da8b00cb1045464cb91eb1))
 
 
 
