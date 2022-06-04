@@ -1,3 +1,12 @@
+## [2.4.4](https://github.com/ashindiano/dyno/compare/v2.4.3...v2.4.4) (2022-06-04)
+
+
+### Bug Fixes
+
+* **release:** Fixed unzipping issue while dyno update ([597febe](https://github.com/ashindiano/dyno/commit/597febec3985a2ca69bafed0e71ec194ef7f31cc))
+
+
+
 ## [2.4.3](https://github.com/ashindiano/dyno/compare/v2.4.2...v2.4.3) (2022-06-02)
 
 
@@ -32,15 +41,6 @@
 
 * **release:** Package.json scripts are listed ([2246e84](https://github.com/ashindiano/dyno/commit/2246e8400257c846c69c09def262bf3cbed78e91))
 * **release:** yarn run or npm run implemented ([ba9863f](https://github.com/ashindiano/dyno/commit/ba9863f2aa93d8bd55da8b00cb1045464cb91eb1))
-
-
-
-## [2.3.4](https://github.com/ashindiano/dyno/compare/v2.3.3...v2.3.4) (2022-04-20)
-
-
-### Bug Fixes
-
-* **release:** Fix in navigating to the Project folder ([734465f](https://github.com/ashindiano/dyno/commit/734465ff214b6771bfa7d357498ff4b2cd404d09))
 
 
 
