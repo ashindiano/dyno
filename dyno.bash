@@ -226,19 +226,19 @@ function dyno(){
         "update")
             echo "current version: $version"
             echo "Downloading ..."
-            if test -f "${dynoFolder}/main.zip"; then # delete previous copies
-                rm "${dynoFolder}/main.zip"
+            if test -f "${dynoFolder}/main.tar.gz"; then # delete previous copies
+                rm "${dynoFolder}/main.tar.gz"
             fi
 
             DOWNLOAD_URL=$(curl -s https://api.github.com/repos/ashindiano/dyno/releases/latest \
-                    | grep zipball_url \
+                    | grep tarball_url \
                     | cut -d '"' -f 4)
 
-            curl -L -o "${dynoFolder}/main.zip" "$DOWNLOAD_URL" 
+            curl -L -o "${dynoFolder}/main.tar.gz" "$DOWNLOAD_URL" 
             
-            if test -f "${dynoFolder}/main.zip"; then
+            if test -f "${dynoFolder}/main.tar.gz"; then
                 echo "Extracting and Installing ..."
-                tar -xf "${dynoFolder}/main.zip" -C "${dynoFolder}"  --strip 1
+                tar -xf "${dynoFolder}/main.tar.gz" -C "${dynoFolder}"  --strip 1
                 source "${BASH_SOURCE}"
                 echo "updated to version: $version"
             else
