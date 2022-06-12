@@ -1,5 +1,17 @@
-# To Install
+# Installation
 
+Please make sure to install the following dependencies first
+
+#### mac
+
+    brew install coreutils jq
+    
+#### linux    
+    
+    sudo apt-get install coreutils jq
+
+
+#### Then run the following to install dyno
 ```bash
 sh install.sh
 ```
