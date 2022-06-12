@@ -19,12 +19,7 @@ sh install.sh
 # To Uninstall
 
 ```bash
-sh install.sh -uninstall
-```
-  or
-        
-```
-sh install.sh -u
+    dyno --uninstall
 ```
 
 Version 2.0 supports zsh and bash Terminals
