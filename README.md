@@ -29,15 +29,33 @@ sh install.sh
 dyno --uninstall
 ```
 
+## Getting Started
+
+Please replace <b>"YOURCUSTOMCOMMAND"</b> with your actual custom command
+
+cd to your project folder and Type
+
+```bash 
+dyno new
+```
+or
+```bash 
+dyno new YOURCUSTOMCOMMAND
+``` 
+replace <b>YOURCUSTOMCOMMAND</b> with the command you want to use. Example: ``` dyno new myproject```
+
+
+#### To list all custom commands created by 
+```bash 
+dyno commands
+``` 
 
 ## Support for third-party applications
-
-Please replace <b>"mycommand"</b> with the custom command you have created in all the example mentioned below
 
 - ### VsCode (Your Project can be opened easily in vscode by using the following command)
 
 ```bash
-mycommand code
+YOURCUSTOMCOMMAND code
 ```
 <sub>
 Note: Please make sure vs code is installed and accessible via shell
@@ -48,11 +66,11 @@ Note: Please make sure vs code is installed and accessible via shell
 ```bash
 dyno repo
 ```
- (or)
+or
 
 if a folder is associated your custom command
 ```bash
-mycommand repo
+YOURCUSTOMCOMMAND repo
 ```
 
 - ### NODE JS (commands under Scripts section in Package.json are available as sub commands)
@@ -61,7 +79,7 @@ Dyno automatically identifies the package manager as <b>npm</b> or <b>yarn</b> o
 
 To list all sub commands available in the project
 ```bash
-mycommand help
+YOURCUSTOMCOMMAND help
 ```
 
 ## License
