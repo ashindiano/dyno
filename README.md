@@ -1,4 +1,10 @@
-# Installation
+# Dyno - A Shell Workspace
+
+Dyno helps your custom shell commands. All the commands created by dyno are tightly associated to a Folder/Directory hence project development becomes much easier.
+
+![dyno](https://user-images.githubusercontent.com/7322170/179398912-f1ee5000-7e1e-4ce8-808f-d66a928fd399.gif)
+
+## Installation
 
 Please make sure to install the following dependencies first
 
@@ -16,7 +22,7 @@ Please make sure to install the following dependencies first
 sh install.sh
 ```
     
-# To Uninstall
+## To Uninstall
 
 ```bash
     dyno --uninstall
@@ -24,5 +30,5 @@ sh install.sh
 
 Version 2.0 supports zsh and bash Terminals
   all scripts are stored in one location
-# License
+## License
  [MIT](https://choosealicense.com/licenses/mit/)
