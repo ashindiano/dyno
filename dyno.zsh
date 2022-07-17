@@ -111,37 +111,43 @@ function dyno(){
             [ -n "$prjFolder" ] && folder=$prjFolder
             fullPath=$(realpath -m $folder | sed 's/\~\///g')
             echo "folder chosen for the Project : $fullPath "
-            
             if test -d "$fullPath"; then
                
-                name=$2        
-                if [[ -z "$name" ]]; then
-                    echo -n "Enter the NAME (single word) of the project: "
-                    read name
+                name=$2
+
+                if [[ $(type $name 2> /dev/null) ]]; then 
+                    
+                    echo "Command seems to exist already in the system. Please try a new command"
+
+                else     
+                    if [[ -z "$name" ]]; then
+                        echo -n "Enter the NAME (single word) of the project: "
+                        read name
+                    fi
+    
+                    cd "$fullPath"
+
+                    cp "${dynoFolder}/template.zsh"  "${sourceFolder}/${name}.zsh"
+                    cp "${dynoFolder}/template.bash"  "${sourceFolder}/${name}.bash"
+
+                    if [[ $OS == "mac" ]]; then
+                        sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.zsh"
+                        sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.bash"
+                        sed -i '' "s|path|${fullPath}|g" "${sourceFolder}/${name}.zsh"
+                        sed -i '' "s|path|${fullPath}|g" "${sourceFolder}/${name}.bash"
+
+                    else
+                        sed -i "s/template/$name/g" "${sourceFolder}/${name}.zsh"
+                        sed -i "s/template/$name/g" "${sourceFolder}/${name}.bash"
+                        sed -i "s|path|${fullPath}|g" "${sourceFolder}/${name}.zsh"
+                        sed -i "s|path|${fullPath}|g" "${sourceFolder}/${name}.bash"
+                    fi
+                    
+                    
+                    source "${sourceFolder}/${name}.zsh"
+                    echo "Success: Project $name created "
+                    echo "You can start using ' $name ' command"
                 fi
-  
-                cd "$fullPath"
-
-                cp "${dynoFolder}/template.zsh"  "${sourceFolder}/${name}.zsh"
-                cp "${dynoFolder}/template.bash"  "${sourceFolder}/${name}.bash"
-
-                if [[ $OS == "mac" ]]; then
-                    sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.zsh"
-                    sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.bash"
-                    sed -i '' "s|path|${fullPath}|g" "${sourceFolder}/${name}.zsh"
-                    sed -i '' "s|path|${fullPath}|g" "${sourceFolder}/${name}.bash"
-
-                else
-                    sed -i "s/template/$name/g" "${sourceFolder}/${name}.zsh"
-                    sed -i "s/template/$name/g" "${sourceFolder}/${name}.bash"
-                    sed -i "s|path|${fullPath}|g" "${sourceFolder}/${name}.zsh"
-                    sed -i "s|path|${fullPath}|g" "${sourceFolder}/${name}.bash"
-                fi
-                   
-                   
-                source "${sourceFolder}/${name}.zsh"
-                echo "Success: Project $name created "
-                echo "You can start using ' $name ' command"
                 
             else
                 echo "Directory does not exist."
@@ -268,12 +274,15 @@ function dyno(){
         "remove")
             if [[ -z "$2" ]]; then
                 echo "Not sure what to remove"
+            elif [[ ! $(listCustomCommands) =~ "$2" ]]; then 
+                echo "$2 : Command not found"
             else 
 
                 if [[ -f "${sourceFolder}/$2.zsh"  ||  -f "${sourceFolder}/$2.bash" ]]; then
                     rm "${sourceFolder}/$2.zsh"
                     rm "${sourceFolder}/$2.bash"
                     echo "Successfully removed command $2"
+                    source "${BASH_SOURCE}"
                 fi
             fi
 
