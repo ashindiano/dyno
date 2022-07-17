@@ -21,15 +21,13 @@ function dyno(){
         "open::Opens current folder"
         "source::Source the Current file in Shell"
         "commands::List All commands created by DYNO"
-        "location::Navigate to the source location of Dyno"
         "repo::Opens the Github.com link of the current folder's git repo"
         "new::Add a New Script to folder"
         "remove::Removes a Project command created by dyno"
         "help::List all the commands the available"
         "reset::Reset the script to the factory defaults"
-        "refresh::Scans your entire omputer and updates commands of all DYNO Projects "
         "update::Updated DYNO to its latest version"
-        "inject-all::Injects a piece of code under a sub command in all dyno Projects: Do only if you know what you are doing"
+        "location::Navigate to the source location of Dyno"
         "--uninstall::Uninstall DYNO"
     )
     
