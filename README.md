@@ -50,6 +50,12 @@ replace <b>YOURCUSTOMCOMMAND</b> with the command you want to use. Example: ``` 
 dyno commands
 ``` 
 
+## Default Shell Shortcuts that comes with DYNO
+
+- ```e``` -> will exit the current terminal
+- ```bye``` -> will initiate system shutdown
+
+
 ## Support for third-party applications
 
 - ### VsCode (Your Project can be opened easily in vscode by using the following command)
