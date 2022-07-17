@@ -1,3 +1,12 @@
+## [2.4.6](https://github.com/ashindiano/dyno/compare/v2.4.5...v2.4.6) (2022-07-17)
+
+
+### Bug Fixes
+
+* **release:** Fixed path issues for sed in linux ([9c146fd](https://github.com/ashindiano/dyno/commit/9c146fdf5782a3e6503011e437cadaf3059a8a0b))
+
+
+
 ## [2.4.5](https://github.com/ashindiano/dyno/compare/v2.4.4...v2.4.5) (2022-06-04)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **release:** Implemented fix in autocomplete ([b2f9cb5](https://github.com/ashindiano/dyno/commit/b2f9cb5005bbc4f8416017d7f30444fb779285e9))
-
-
-
-## [2.4.1](https://github.com/ashindiano/dyno/compare/v2.4.0...v2.4.1) (2022-04-20)
-
-
-### Bug Fixes
-
-* **release:** Fixes implented in yarn run and npm run ([1db3927](https://github.com/ashindiano/dyno/commit/1db3927a9b94ced50da912feb060dab10dd09c68))
 
 
 
