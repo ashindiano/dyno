@@ -1,3 +1,12 @@
+## [2.4.9](https://github.com/ashindiano/dyno/compare/v2.4.8...v2.4.9) (2022-07-17)
+
+
+### Bug Fixes
+
+* **release:** New and Remove bug fixes implemented ([ce27a5a](https://github.com/ashindiano/dyno/commit/ce27a5a3420c3f2225c7c55d7baba74efb014d57))
+
+
+
 ## [2.4.8](https://github.com/ashindiano/dyno/compare/v2.4.7...v2.4.8) (2022-07-17)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **release:** unzip bug fixed in mac ([340687e](https://github.com/ashindiano/dyno/commit/340687e2d8059b18f1a833662a0bbc289459a729))
-
-
-
-## [2.4.4](https://github.com/ashindiano/dyno/compare/v2.4.3...v2.4.4) (2022-06-04)
-
-
-### Bug Fixes
-
-* **release:** Fixed unzipping issue while dyno update ([597febe](https://github.com/ashindiano/dyno/commit/597febec3985a2ca69bafed0e71ec194ef7f31cc))
 
 
 
