@@ -2,6 +2,14 @@
 
 Dyno helps your custom shell commands. All the commands created by dyno are tightly associated to a Folder/Directory hence project development becomes much easier.
 
+##### supported shell
+    - zsh
+    - bash
+##### supported OS
+    - mac
+    - linux
+    - gitbash
+
 ![dyno](https://user-images.githubusercontent.com/7322170/179398912-f1ee5000-7e1e-4ce8-808f-d66a928fd399.gif)
 
 ## Installation
