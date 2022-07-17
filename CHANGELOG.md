@@ -1,3 +1,12 @@
+## [2.4.7](https://github.com/ashindiano/dyno/compare/v2.4.6...v2.4.7) (2022-07-17)
+
+
+### Bug Fixes
+
+* **release:** Added remove command in the help list ([3918860](https://github.com/ashindiano/dyno/commit/3918860a8f5e25b4c3c98d5bd24d1bc72b534ce8))
+
+
+
 ## [2.4.6](https://github.com/ashindiano/dyno/compare/v2.4.5...v2.4.6) (2022-07-17)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **release:** locating proper file implemented in bash ([e1dc318](https://github.com/ashindiano/dyno/commit/e1dc318c82aff6c658996c0f9b40d9d19da8619d))
-
-
-
-## [2.4.2](https://github.com/ashindiano/dyno/compare/v2.4.1...v2.4.2) (2022-04-21)
-
-
-### Bug Fixes
-
-* **release:** Implemented fix in autocomplete ([b2f9cb5](https://github.com/ashindiano/dyno/commit/b2f9cb5005bbc4f8416017d7f30444fb779285e9))
 
 
 
