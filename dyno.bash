@@ -85,7 +85,8 @@ function dyno(){
     listCustomCommands(){
         if [[ ! -z "$(ls -A $sourceFolder)" ]]; then
                 for file in "$sourceFolder"/*.bash; do
-                    echo "${${file##*/}%.*}"
+                    tmp=${file##*/}
+                    echo "${tmp%%.*}"
                 done
         fi
     }
@@ -163,6 +164,20 @@ function dyno(){
         
         "isUpdateAvailable")
             isUpdateAvailable
+        ;;
+
+        "remove")
+            if [[ -z "$2" ]]; then
+                echo "Not sure what to remove"
+            else 
+
+                if [[ -f "${sourceFolder}/$2.zsh"  ||  -f "${sourceFolder}/$2.bash" ]]; then
+                    rm "${sourceFolder}/$2.zsh"
+                    rm "${sourceFolder}/$2.bash"
+                    echo "Successfully removed command $2"
+                fi
+            fi
+
         ;;
         
         "inject-all")
