@@ -1,3 +1,12 @@
+## [2.4.8](https://github.com/ashindiano/dyno/compare/v2.4.7...v2.4.8) (2022-07-17)
+
+
+### Bug Fixes
+
+* **release:** help updated ([779d70e](https://github.com/ashindiano/dyno/commit/779d70e3962075cce957fb1c32a8c67c51bce317))
+
+
+
 ## [2.4.7](https://github.com/ashindiano/dyno/compare/v2.4.6...v2.4.7) (2022-07-17)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **release:** Fixed unzipping issue while dyno update ([597febe](https://github.com/ashindiano/dyno/commit/597febec3985a2ca69bafed0e71ec194ef7f31cc))
-
-
-
-## [2.4.3](https://github.com/ashindiano/dyno/compare/v2.4.2...v2.4.3) (2022-06-02)
-
-
-### Bug Fixes
-
-* **release:** locating proper file implemented in bash ([e1dc318](https://github.com/ashindiano/dyno/commit/e1dc318c82aff6c658996c0f9b40d9d19da8619d))
 
 
 
