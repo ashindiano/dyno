@@ -45,7 +45,7 @@ dyno new YOURCUSTOMCOMMAND
 replace <b>YOURCUSTOMCOMMAND</b> with the command you want to use. Example: ``` dyno new myproject```
 
 
-#### To list all custom commands created by 
+#### To list all custom commands created by Dyno
 ```bash 
 dyno commands
 ``` 
