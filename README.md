@@ -9,13 +9,14 @@ Dyno helps your custom shell commands. All the commands created by dyno are tigh
 Please make sure to install the following dependencies first
 
 #### mac
+```bash
+brew install coreutils jq
+```  
 
-    brew install coreutils jq
-    
 #### linux    
-    
-    sudo apt-get install coreutils jq
-
+```bash   
+sudo apt-get install coreutils jq
+```
 
 #### Then run the following to install dyno
 ```bash
@@ -25,10 +26,43 @@ sh install.sh
 ## To Uninstall
 
 ```bash
-    dyno --uninstall
+dyno --uninstall
 ```
 
-Version 2.0 supports zsh and bash Terminals
-  all scripts are stored in one location
+
+## Support for third-party applications
+
+Please replace <b>"mycommand"</b> with the custom command you have created in all the example mentioned below
+
+- ### VsCode (Your Project can be opened easily in vscode by using the following command)
+
+```bash
+mycommand code
+```
+<sub>
+Note: Please make sure vs code is installed and accessible via shell
+</sub>
+
+
+- ### GIT (you can use the following commands in a git initialized project)
+```bash
+dyno repo
+```
+ (or)
+
+if a folder is associated your custom command
+```bash
+mycommand repo
+```
+
+- ### NODE JS (commands under Scripts section in Package.json are available as sub commands)
+
+Dyno automatically identifies the package manager as <b>npm</b> or <b>yarn</b> or <b>pnpm</b> based on package.json and lock files available
+
+To list all sub commands available in the project
+```bash
+mycommand help
+```
+
 ## License
  [MIT](https://choosealicense.com/licenses/mit/)
