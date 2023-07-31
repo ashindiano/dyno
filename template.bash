@@ -20,7 +20,7 @@ function template() {
         key="${index%%::*}"
         allCommands+="${key} "
     done
-    if [[ $prjFolder != "none" ]]; then
+    if [[ $prjFolder != "NOPATH" ]]; then
         for index in "${folderCommands[@]}"; do
             key="${index%%::*}"
             allCommands+="${key} "
@@ -48,7 +48,7 @@ function template() {
 
     getos
 
-    if [[ $prjFolder != "none" ]]; then
+    if [[ $prjFolder != "NOPATH" ]]; then
         if [[ $# -eq 0 ]] || [[ "$1" != "indexCommands" ]]; then
             cd $prjFolder
         fi
@@ -141,7 +141,7 @@ function template() {
             value="${index##*::}"
             echo ${key} - ${value}
         done
-        if [[ $prjFolder != "none" ]]; then
+        if [[ $prjFolder != "NOPATH" ]]; then
             for index in "${folderCommands[@]}"; do
                 key="${index%%::*}"
                 value="${index##*::}"
