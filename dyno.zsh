@@ -104,54 +104,66 @@ function dyno(){
     
     case $1 in
         "new")
-            folder='.'
-            echo -n "Enter the Folder path of your Project (For current folder just hit enter key )  : "
-            read  prjFolder
-            [ -n "$prjFolder" ] && folder=$prjFolder
-            fullPath=$(realpath -m $folder | sed 's/\~\///g')
-            echo "folder chosen for the Project : $fullPath "
-            if test -d "$fullPath"; then
-               
-                name=$2
+            name=$2
+            isSuccess=false
+            if [[ $(type $name 2> /dev/null) ]]; then 
+                
+                echo "Command seems to exist already in the system. Please try a new command"
 
-                if [[ $(type $name 2> /dev/null) ]]; then 
-                    
-                    echo "Command seems to exist already in the system. Please try a new command"
+            else     
+                if [[ -z "$name" ]]; then
+                    echo -n "Enter the NAME (single word) of the project: "
+                    read name
+                fi
 
-                else     
-                    if [[ -z "$name" ]]; then
-                        echo -n "Enter the NAME (single word) of the project: "
-                        read name
-                    fi
-    
-                    cd "$fullPath"
+                cp "${dynoFolder}/template.zsh"  "${sourceFolder}/${name}.zsh"
+                cp "${dynoFolder}/template.bash"  "${sourceFolder}/${name}.bash"
 
-                    cp "${dynoFolder}/template.zsh"  "${sourceFolder}/${name}.zsh"
-                    cp "${dynoFolder}/template.bash"  "${sourceFolder}/${name}.bash"
-
-                    if [[ $OS == "mac" ]]; then
-                        sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.zsh"
-                        sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.bash"
-                        sed -i '' "s|path|${fullPath}|g" "${sourceFolder}/${name}.zsh"
-                        sed -i '' "s|path|${fullPath}|g" "${sourceFolder}/${name}.bash"
-
-                    else
-                        sed -i "s/template/$name/g" "${sourceFolder}/${name}.zsh"
-                        sed -i "s/template/$name/g" "${sourceFolder}/${name}.bash"
-                        sed -i "s|path|${fullPath}|g" "${sourceFolder}/${name}.zsh"
-                        sed -i "s|path|${fullPath}|g" "${sourceFolder}/${name}.bash"
-                    fi
-                    
-                    
-                    source "${sourceFolder}/${name}.zsh"
-                    echo "Success: Project $name created "
-                    echo "You can start using ' $name ' command"
+                if [[ $OS == "mac" ]]; then
+                    sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.zsh"
+                    sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.bash"
+                    sed -i '' "s|path|NOPATH|g" "${sourceFolder}/${name}.zsh"
+                    sed -i '' "s|path|NOPATH|g" "${sourceFolder}/${name}.bash"
+                else
+                    sed -i "s/template/$name/g" "${sourceFolder}/${name}.zsh"
+                    sed -i "s/template/$name/g" "${sourceFolder}/${name}.bash"
+                    sed -i "s|path|NOPATH|g" "${sourceFolder}/${name}.zsh"
+                    sed -i "s|path|NOPATH|g" "${sourceFolder}/${name}.bash"
                 fi
                 
-            else
-                echo "Directory does not exist."
+                isSuccess=true
+               
             fi
-            
+
+            echo -n "Is your command ${name} associated to a folder ? (y/n) : "
+            read  isFolderAssociated
+            if [[ "$isFolderAssociated" == "y" ]]; then
+                folder='.'
+                echo -n "Enter the Folder path of your Project (For current folder just hit enter key )  : "
+                read  prjFolder
+                [ -n "$prjFolder" ] && folder=$prjFolder
+                fullPath=$(realpath -m $folder | sed 's/\~\///g')
+                echo "folder chosen for the Project : $fullPath "
+                if test -d "$fullPath"; then
+
+                    if [[ $OS == "mac" ]]; then
+                        sed -i '' "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.zsh"
+                        sed -i '' "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.bash"
+                    else
+                        sed -i "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.zsh"
+                        sed -i "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.bash"
+                    fi
+                    cd "$fullPath"
+                else
+                    echo "Directory does not exist."
+                fi
+            fi
+
+            if [[ "$isSuccess" = true ]]; then
+                source "${sourceFolder}/${name}.zsh"
+                echo "Success: Project $name created "
+                echo "You can start using ' $name ' command"
+            fi
         ;;
         
         
