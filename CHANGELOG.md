@@ -1,3 +1,12 @@
+# [2.5.0](https://github.com/ashindiano/dyno/compare/v2.4.9...v2.5.0) (2023-07-31)
+
+
+### Features
+
+* **release:** Triggering manual release ([4cb4456](https://github.com/ashindiano/dyno/commit/4cb44563ce1c8bd2a9c1c5c5c4e395dcf9c53191))
+
+
+
 ## [2.4.9](https://github.com/ashindiano/dyno/compare/v2.4.8...v2.4.9) (2022-07-17)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **release:** Fixed path issues for sed in linux ([9c146fd](https://github.com/ashindiano/dyno/commit/9c146fdf5782a3e6503011e437cadaf3059a8a0b))
-
-
-
-## [2.4.5](https://github.com/ashindiano/dyno/compare/v2.4.4...v2.4.5) (2022-06-04)
-
-
-### Bug Fixes
-
-* **release:** unzip bug fixed in mac ([340687e](https://github.com/ashindiano/dyno/commit/340687e2d8059b18f1a833662a0bbc289459a729))
 
 
 
