@@ -122,7 +122,7 @@ function dyno(){
                 if [[ $OS == "mac" ]]; then
                     sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.zsh"
                     sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.bash"
-                    sed -i '' "s|path|NOPATH|g" "${sourceFolder}/${name}.zsh"  #making path value as NOPATH
+                    sed -i '' "s|path|NOPATH|g" "${sourceFolder}/${name}.zsh"  # making path value as NOPATH
                     sed -i '' "s|path|NOPATH|g" "${sourceFolder}/${name}.bash"
                 else
                     sed -i "s/template/$name/g" "${sourceFolder}/${name}.zsh"
@@ -147,7 +147,7 @@ function dyno(){
                 if test -d "$fullPath"; then
 
                     if [[ $OS == "mac" ]]; then
-                        sed -i '' "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.zsh" #replacing path value from NOPATH to actual value
+                        sed -i '' "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.zsh" # replacing path value from NOPATH to actual value
                         sed -i '' "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.bash"
                     else
                         sed -i "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.zsh"
