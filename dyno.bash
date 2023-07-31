@@ -182,14 +182,11 @@ function dyno() {
             echo "Not sure what to remove"
         elif [[ ! $(listCustomCommands) =~ "$2" ]]; then
             echo "$2 : Command not found"
-        else
-
-            if [[ -f "${sourceFolder}/$2.zsh" || -f "${sourceFolder}/$2.bash" ]]; then
-                rm "${sourceFolder}/$2.zsh"
-                rm "${sourceFolder}/$2.bash"
-                echo "Successfully removed command $2"
-                source "${BASH_SOURCE}"
-            fi
+        elif [[ -f "${sourceFolder}/$2.zsh" || -f "${sourceFolder}/$2.bash" ]]; then
+            rm "${sourceFolder}/$2.zsh"
+            rm "${sourceFolder}/$2.bash"
+            unset -f "$2"
+            echo "Successfully removed command $2"
         fi
 
         ;;
