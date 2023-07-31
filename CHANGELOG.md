@@ -1,3 +1,12 @@
+## [2.5.2](https://github.com/ashindiano/dyno/compare/v2.5.1...v2.5.2) (2023-07-31)
+
+
+### Bug Fixes
+
+* **release:** Issue fix on command removal ([e6d25dd](https://github.com/ashindiano/dyno/commit/e6d25dd66ab8280fa61fac42e3c8325cf3f2fd8d))
+
+
+
 ## [2.5.1](https://github.com/ashindiano/dyno/compare/v2.5.0...v2.5.1) (2023-07-31)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **release:** help updated ([779d70e](https://github.com/ashindiano/dyno/commit/779d70e3962075cce957fb1c32a8c67c51bce317))
-
-
-
-## [2.4.7](https://github.com/ashindiano/dyno/compare/v2.4.6...v2.4.7) (2022-07-17)
-
-
-### Bug Fixes
-
-* **release:** Added remove command in the help list ([3918860](https://github.com/ashindiano/dyno/commit/3918860a8f5e25b4c3c98d5bd24d1bc72b534ce8))
 
 
 
