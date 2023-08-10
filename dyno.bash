@@ -142,11 +142,11 @@ function dyno() {
             echo $fullPath
             if test -d "$fullPath"; then
                 if [[ $OS == "mac" ]]; then
-                    sed -i '' "s|path|${fullPath}|g" "${sourceFolder}/${name}.zsh"
-                    sed -i '' "s|path|${fullPath}|g" "${sourceFolder}/${name}.bash"
+                    sed -i '' "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.zsh"
+                    sed -i '' "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.bash"
                 else
-                    sed -i "s|path|${fullPath}|g" "${sourceFolder}/${name}.zsh"
-                    sed -i "s|path|${fullPath}|g" "${sourceFolder}/${name}.bash"
+                    sed -i "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.zsh"
+                    sed -i "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.bash"
                 fi
                 cd "$fullpath"
             else
