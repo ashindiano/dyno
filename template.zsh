@@ -1,5 +1,5 @@
 function template(){
-    prjFolder=path
+    prjFolder="NOPATH"
     declare -a commands
     genericCommands=(
         "script::Open the 'template' Script file"
