@@ -1,3 +1,12 @@
+## [2.5.3](https://github.com/ashindiano/dyno/compare/v2.5.2...v2.5.3) (2023-08-11)
+
+
+### Bug Fixes
+
+* **realease:** Readme updated ([8ef3c0e](https://github.com/ashindiano/dyno/commit/8ef3c0e3cff92654685910ab9c4ba2b593e9f7cf))
+
+
+
 ## [2.5.2](https://github.com/ashindiano/dyno/compare/v2.5.1...v2.5.2) (2023-07-31)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **release:** New and Remove bug fixes implemented ([ce27a5a](https://github.com/ashindiano/dyno/commit/ce27a5a3420c3f2225c7c55d7baba74efb014d57))
-
-
-
-## [2.4.8](https://github.com/ashindiano/dyno/compare/v2.4.7...v2.4.8) (2022-07-17)
-
-
-### Bug Fixes
-
-* **release:** help updated ([779d70e](https://github.com/ashindiano/dyno/commit/779d70e3962075cce957fb1c32a8c67c51bce317))
 
 
 
