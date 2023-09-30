@@ -142,14 +142,14 @@ function dyno(){
                 echo "folder chosen for the Project : $fullPath "
                 if test -d "$fullPath"; then
 
-                    if [[ $OS == "mac" ]]; then
-                        sed -i '' "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.zsh" # replacing path value from NOPATH to actual value
-                        sed -i '' "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.bash"
-                    else
-                        sed -i "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.zsh"
-                        sed -i "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.bash"
-                    fi
-                    cd "$fullPath"
+			if [[ $OS == "mac" ]]; then
+                        	sed -i '' "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.zsh" # replacing path value from NOPATH to actual value
+         	 		sed -i '' "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.bash"
+                	 else
+                        	sed -i "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.zsh"
+                        	sed -i "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.bash"
+                    	fi                    
+		    cd "$fullPath"
                 else
                     echo "Directory does not exist."
                 fi

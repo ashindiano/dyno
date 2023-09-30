@@ -141,14 +141,14 @@ function dyno() {
             fullPath=$(realpath -m $folder | sed 's/\~\///g')
             echo $fullPath
             if test -d "$fullPath"; then
-                if [[ $OS == "mac" ]]; then
-                    sed -i '' "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.zsh"
-                    sed -i '' "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.bash"
+		if [[ $OS == "mac" ]]; then
+                    sed -i '' "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.zsh" # replacing path value from NOPATH to actual value
+                    sed -i '' "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.bash"
                 else
-                    sed -i "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.zsh"
-                    sed -i "s|NOPATH|${fullPath}|g" "${sourceFolder}/${name}.bash"
-                fi
-                cd "$fullpath"
+                    sed -i "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.zsh"
+                    sed -i "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.bash"
+                fi                
+		cd "$fullpath"
             else
                 echo "Directory does not exist."
             fi
