@@ -1,3 +1,12 @@
+## [2.5.5](https://github.com/ashindiano/dyno/compare/v2.5.4...v2.5.5) (2023-09-30)
+
+
+### Bug Fixes
+
+* **release:** fixed issue when dyno new commandname was issued ([2287715](https://github.com/ashindiano/dyno/commit/22877159c114a10cf31132e4276693be9c4da799))
+
+
+
 ## [2.5.4](https://github.com/ashindiano/dyno/compare/v2.5.3...v2.5.4) (2023-09-30)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **release:** project path issue fixed ([14c25c3](https://github.com/ashindiano/dyno/commit/14c25c315bba1545717ab5d46cd228a8e0a63987))
-
-
-
-# [2.5.0](https://github.com/ashindiano/dyno/compare/v2.4.9...v2.5.0) (2023-07-31)
-
-
-### Features
-
-* **release:** Triggering manual release ([4cb4456](https://github.com/ashindiano/dyno/commit/4cb44563ce1c8bd2a9c1c5c5c4e395dcf9c53191))
 
 
 
