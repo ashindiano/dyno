@@ -103,13 +103,14 @@ function dyno(){
     }
     
     case $1 in
+
         "new")
-            name=$2
+            name=$2       
             isSuccess=false
-            if [[ $(type $name 2> /dev/null) ]]; then 
+            if type "$name" > /dev/null 2>&1; then 
                 
                 echo "Command seems to exist already in the system. Please try a new command"
-
+                return
             else     
                 if [[ -z "$name" ]]; then
                     echo -n "Enter the NAME (single word) of the project: "
@@ -142,14 +143,14 @@ function dyno(){
                 echo "folder chosen for the Project : $fullPath "
                 if test -d "$fullPath"; then
 
-			if [[ $OS == "mac" ]]; then
-                        	sed -i '' "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.zsh" # replacing path value from NOPATH to actual value
-         	 		sed -i '' "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.bash"
-                	 else
-                        	sed -i "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.zsh"
-                        	sed -i "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.bash"
-                    	fi                    
-		    cd "$fullPath"
+                    if [[ $OS == "mac" ]]; then
+                        sed -i '' "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.zsh" # replacing path value from NOPATH to actual value
+                        sed -i '' "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.bash"
+                    else
+                        sed -i "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.zsh"
+                        sed -i "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.bash"
+                    fi                    
+                    cd "$fullPath"
                 else
                     echo "Directory does not exist."
                 fi
@@ -282,8 +283,8 @@ function dyno(){
             if [[ -z "$2" ]]; then
                 echo "Not sure what to remove"
             elif [[ ! $(listCustomCommands) =~ "$2" ]]; then 
-                echo "$2 : Command not found"
-            elif [[ -f "${sourceFolder}/$2.zsh"]]  ||  -f "${sourceFolder}/$2.bash" ]]; then
+                echo "$2 : Command not found"            
+            elif [[ -f "${sourceFolder}/$2.zsh" || -f "${sourceFolder}/$2.bash" ]]; then
                 rm "${sourceFolder}/$2.zsh"
                 rm "${sourceFolder}/$2.bash"
                 unset -f "$2"
@@ -361,3 +362,4 @@ fi
 alias e=exit
 
 dyno source
+
