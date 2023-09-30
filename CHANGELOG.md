@@ -1,3 +1,12 @@
+## [2.5.4](https://github.com/ashindiano/dyno/compare/v2.5.3...v2.5.4) (2023-09-30)
+
+
+### Bug Fixes
+
+* **release:** fixed the path setting error ([da00d27](https://github.com/ashindiano/dyno/commit/da00d27d4c38232d5783ee9c41dd3fe75d0cdf9e))
+
+
+
 ## [2.5.3](https://github.com/ashindiano/dyno/compare/v2.5.2...v2.5.3) (2023-08-11)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **release:** Triggering manual release ([4cb4456](https://github.com/ashindiano/dyno/commit/4cb44563ce1c8bd2a9c1c5c5c4e395dcf9c53191))
-
-
-
-## [2.4.9](https://github.com/ashindiano/dyno/compare/v2.4.8...v2.4.9) (2022-07-17)
-
-
-### Bug Fixes
-
-* **release:** New and Remove bug fixes implemented ([ce27a5a](https://github.com/ashindiano/dyno/commit/ce27a5a3420c3f2225c7c55d7baba74efb014d57))
 
 
 
