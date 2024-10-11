@@ -1,31 +1,33 @@
 function template(){
-    prjFolder="NOPATH"
-    declare -a commands
-    genericCommands=(
+    local prjFolder="NOPATH"
+    local -a commands
+    local -a genericCommands=(
         "script::Open the 'template' Script file"
         "source::Source the Current file in Shell"
         "help::List all the commands the available"
         "rename::Renames the current command"
     )
 
-    folderCommands=(
+    local -a folderCommands=(
         "open::Opens current folder"
         "code::Opens the folder in VS Code editor"
         "repo::Opens the respective git origin repo in the browser"
     )
     
     #The following code helps in auto completion
-    allCommands=""
+    local allCommands=""
     for index in "${genericCommands[@]}" ; do
-        key="${index%%::*}"
+        local key="${index%%::*}"
         allCommands+="${key} "
     done
     if [[ $prjFolder != "NOPATH" ]]; then
         for index in "${folderCommands[@]}" ; do
-            key="${index%%::*}"
+            local key="${index%%::*}"
             allCommands+="${key} "
         done
     fi
+    local openCommand
+    local OS
     getos(){
         case "$(uname -s)" in
         Darwin)
@@ -49,29 +51,29 @@ function template(){
 
     if [[ $prjFolder != "NOPATH" ]]; then
         if [[ $# -eq 0 ]] || [[ "$1" != "indexCommands" ]]; then
-            cd $prjFolder
+            cd "$prjFolder"
         fi
    
 
-        packageJsonCommands=""
+        local packageJsonCommands=""
         if test -f "${prjFolder}/package.json"; then
             packageJsonCommands=$(jq '.scripts' "$prjFolder/package.json"  | sed 's/{/ /g' |  sed 's/}/ /g' | sed 's/\":/::/g' | sed 's/\"//g' | sed 's/ //g' | sed 's/,//g' )
             
             while read -r line
             do
-                key="${line%%::*}"
+                local key="${line%%::*}"
                 allCommands+="${key} "          
-            done <<< $packageJsonCommands
+            done <<< "$packageJsonCommands"
         fi
     
 
         if [[ ! $# -eq 0 && "$packageJsonCommands" == *"$1::"* ]]; then
             if test -f "${prjFolder}/yarn.lock"; then
                 echo "yarn run  $1"
-                yarn run $1
+                yarn run "$1"
             else
                 echo "npm run  $1"
-                npm run $1
+                npm run "$1"
             fi
         fi
     fi
@@ -110,13 +112,14 @@ function template(){
         "repo")
             echo "Opening current Git Repository in github.com"
             
+            local remote
             remote=$(git config --get remote.origin.url)
             if [[ $remote != *".git"* ]]; then
                 echo " No Git Found"
             else
                 remote=${remote//:/\/} 
                 remote=${remote//git@/https:\/\/}
-                $openCommand $remote
+                $openCommand "$remote"
             fi
         ;;
         
@@ -139,22 +142,22 @@ function template(){
         
         "help"|"h"|"--help"|"-h")
             for index in "${genericCommands[@]}" ; do
-                key="${index%%::*}"
-                value="${index##*::}"
+                local key="${index%%::*}"
+                local value="${index##*::}"
                 echo ${key} - ${value}
             done
             if [[ $prjFolder != "NOPATH" ]]; then
                 for index in "${folderCommands[@]}" ; do
-                    key="${index%%::*}"
-                    value="${index##*::}"
+                    local key="${index%%::*}"
+                    local value="${index##*::}"
                     echo ${key} - ${value}
                 done
                 while read -r line
                 do
-                    key="${line%%::*}"
-                    value="${line##*::}"
+                    local key="${line%%::*}"
+                    local value="${line##*::}"
                     echo ${key} - ${value}
-                done <<< $packageJsonCommands
+                done <<< "$packageJsonCommands"
             fi
         ;;
         
