@@ -1,19 +1,19 @@
-dynoFolder="$(dirname ${(%):-%x})"
-version=$(grep -o '"version": "[^"]*' ${dynoFolder}/version.json | grep -o '[^"]*$' )
-version="v${version}"
-sourceFolder="${dynoFolder}/commands"
+local dynoFolder="$(dirname ${(%):-%x})"
+local version=$(grep -o '"version": "[^"]*' ${dynoFolder}/version.json | grep -o '[^"]*$' )
+local version="v${version}" 
+local sourceFolder="${dynoFolder}/commands"
 
-ColorOff='\033[0m'
-Black='\033[0;30m'        # Black
-Red='\033[0;31m'          # Red
-Green='\033[0;32m'        # Green
-Yellow='\033[0;33m'       # Yellow
-Blue='\033[0;34m'         # Blue
-Purple='\033[0;35m'       # Purple
-Cyan='\033[0;36m'         # Cyan
-White='\033[0;37m'        # White
+local ColorOff='\033[0m'
+local Black='\033[0;30m'        # Black
+local Red='\033[0;31m'          # Red
+local Green='\033[0;32m'        # Green
+local Yellow='\033[0;33m'       # Yellow
+local Blue='\033[0;34m'         # Blue
+local Purple='\033[0;35m'       # Purple
+local Cyan='\033[0;36m'         # Cyan
+local White='\033[0;37m'        # White
 
-function dyno(){
+function dyno() {
     
     declare -a commands
     
@@ -24,37 +24,36 @@ function dyno(){
         "repo::Opens the Github.com link of the current folder's git repo"
         "new::Add a New Script to folder"
         "remove::Removes a Project command created by dyno"
-        "help::List all the commands the available"
+        "help::List all the commands available"
         "reset::Reset the script to the factory defaults"
-        "update::Updated DYNO to its latest version"
+        "update::Update DYNO to its latest version"
         "location::Navigate to the source location of Dyno"
         "--uninstall::Uninstall DYNO"
+        "check-update::Check for updates"
     )
     
     #The following code helps in auto completion
-    allCommands=""
+    local allCommands=""
     for index in "${commands[@]}" ; do
         key="${index%%::*}"
         allCommands+="${key} "
     done
-    
+
     complete -W "${allCommands}" dyno
 
-    OS="linux"
-    openCommand="open"
+    local OS="linux"
+    local openCommand="open"
 
-    getos(){
+    getos() {
         case "$(uname -s)" in
         Darwin)
             openCommand="open"
             OS="mac"
             ;;
-
         Linux)
             openCommand="open"
             OS="linux"
             ;;
-
         CYGWIN*|MINGW32*|MSYS*|MINGW*)
             openCommand="start"
             OS="windows"
@@ -64,51 +63,51 @@ function dyno(){
     
     getos
 
-    subString(){
+    subString() {
         local myresult="${1#*$2}" # removing prefix
         myresult="${myresult%$3*}" # removing suffix
         echo "$myresult"
     }
     
-    sourceAll(){
-        if [[ ! -z "$(ls -A $sourceFolder)" ]]; then
+    sourceAll() {
+        if [[ -n "$(ls -A "$sourceFolder")" ]]; then
             for file in "$sourceFolder"/*.zsh; do
                 source "$file"
             done
         fi
     }
 
-    listCustomCommands(){
-        if [[ ! -z "$(ls -A $sourceFolder)" ]]; then
-                for file in "$sourceFolder"/*.zsh; do
-                    echo "${${file##*/}%.*}"
-                done
+    listCustomCommands() {
+        if [[ -n "$(ls -A "$sourceFolder")" ]]; then
+            for file in "$sourceFolder"/*.zsh; do
+                echo "${${file##*/}%.*}"
+            done
         fi
     }
 
-    remoteVersion(){
+    remoteVersion() {
         curl -sL https://api.github.com/repos/ashindiano/dyno/releases/latest | grep -o '"tag_name": "[^"]*' | grep -o '[^"]*$' 
     }
-    
-    isUpdateAvailable(){
+    isUpdateAvailable() {
+        local remoteVs
         remoteVs=$(remoteVersion)
-        if [[  ! -z "$remoteVs"  && $version != $remoteVs ]]; then
+        if [[ -n "$remoteVs" && $version != "$remoteVs" ]]; then
             echo ""
-            echo -e "${Red}!!! Alert !!!$ColorOff"
-            echo -e "Update found for ${Yellow}Dyno ${ColorOff}version: $Yellow$remoteVs$ColorOff"
-            echo -e "Your current version: $Red$version$ColorOff"
-            echo -e "To Update:$Green dyno update  $ColorOff"
+            echo -e "${Red}!!! Update Available !!!$ColorOff"
+            echo -e "A new version of ${Yellow}Dyno${ColorOff} is available: $Yellow$remoteVs$ColorOff"
+            echo -e "Your current version is: $Red$version$ColorOff"
+            echo -e "To update, run: $Green dyno update $ColorOff"
             echo ""
+        else
+            echo -e "${Green}You are using the latest version of Dyno: $Yellow$version$ColorOff"
         fi
     }
-    
-    case $1 in
 
+    case $1 in
         "new")
-            name=$2       
-            isSuccess=false
+            local name="$2"       
+            local isSuccess=false
             if type "$name" > /dev/null 2>&1; then 
-                
                 echo "Command seems to exist already in the system. Please try a new command"
                 return
             else     
@@ -117,8 +116,8 @@ function dyno(){
                     read name
                 fi
 
-                cp "${dynoFolder}/template.zsh"  "${sourceFolder}/${name}.zsh"
-                cp "${dynoFolder}/template.bash"  "${sourceFolder}/${name}.bash"
+                cp "${dynoFolder}/template.zsh" "${sourceFolder}/${name}.zsh"
+                cp "${dynoFolder}/template.bash" "${sourceFolder}/${name}.bash"
 
                 if [[ $OS == "mac" ]]; then
                     sed -i '' "s/template/$name/g" "${sourceFolder}/${name}.zsh"
@@ -129,22 +128,21 @@ function dyno(){
                 fi
                 
                 isSuccess=true
-               
             fi
 
-            echo -n "Is your command ${name} associated to a folder ? (y/n) : "
-            read  isFolderAssociated
+            echo -n "Is your command ${name} associated to a folder? (y/n): "
+            read isFolderAssociated
             if [[ "$isFolderAssociated" == "y" ]]; then
-                folder='.'
-                echo -n "Enter the Folder path of your Project (For current folder just hit enter key )  : "
-                read  prjFolder
+                local folder='.'
+                echo -n "Enter the Folder path of your Project (For current folder just hit enter key): "
+                read prjFolder
                 [ -n "$prjFolder" ] && folder=$prjFolder
-                fullPath=$(realpath -m $folder | sed 's/\~\///g')
-                echo "folder chosen for the Project : $fullPath "
+                local fullPath
+                fullPath=$(realpath -m "$folder" | sed 's/\~\///g')
+                echo "Folder chosen for the Project: $fullPath"
                 if test -d "$fullPath"; then
-
                     if [[ $OS == "mac" ]]; then
-                        sed -i '' "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.zsh" # replacing path value from NOPATH to actual value
+                        sed -i '' "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.zsh"
                         sed -i '' "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.bash"
                     else
                         sed -i "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.zsh"
@@ -156,100 +154,98 @@ function dyno(){
                 fi
             fi
 
-            if [[ "$isSuccess" = true ]]; then
+            if [[ "$isSuccess" == true ]]; then
                 source "${sourceFolder}/${name}.zsh"
-                echo "Success: Project $name created "
-                echo "You can start using ' $name ' command"
+                echo "Success: Project $name created"
+                echo "You can start using '$name' command"
             fi
         ;;
-        
         
         "location")
             cd "$dynoFolder"
         ;;
         
         "source")
-           sourceAll
+            sourceAll
         ;;
         
         "commands")
-           listCustomCommands
+            listCustomCommands
         ;;
         
-        "isUpdateAvailable")
+        "check-update")
             isUpdateAvailable
         ;;
 
         "inject-all")
-            dir="${dynoFolder}"
-            
-            tempFile1="${dir}/.tmp1"
-            tempFile2="${dir}/.tmp2"
+            local dir="${dynoFolder}"
+            local tempFile1="${dir}/.tmp1"
+            local tempFile2="${dir}/.tmp2"
 
             echo -n "Enter the sub Command you want in all Dyno Projects: "
             read subCommand 
 
-            echo -n "Enter help description for '$subCommand' : "
+            echo -n "Enter help description for '$subCommand': "
             read helpDescription
 
             echo "Enter the File whose content you want to inject to all projects: "
             read FILE 
-            fullPath=$(realpath -m $FILE | sed 's/\~\///g')
+            local fullPath
+            fullPath=$(realpath -m "$FILE" | sed 's/\~\///g')
             
-            #generating dummy file with a switch case for the sub command
+            # Generating dummy file with a switch case for the sub command
             echo "\"$subCommand\")" >> "$tempFile1"
-            sed 's_^_     _' $fullPath >> $tempFile1
-            echo ";;" >> $tempFile1
+            sed 's_^_     _' "$fullPath" >> "$tempFile1"
+            echo ";;" >> "$tempFile1"
             
-            echo "You are about to modify all Dyno projects. Are you sure you want to continue? (y/n) : "
+            echo "You are about to modify all Dyno projects. Are you sure you want to continue? (y/n): "
             read answer 
             
             if [[ "$answer" == "y" ]]; then
-                # iteratively injecting to all dyno projects
-                # if test -f "$fullPath"; then
                 echo "Running iterative injections to each Project"
+                local x
                 x=$(locate .dynoScript)
-                IFS=$'\n' y=($x)
-                for file in "${y[@]}" ; do
-                    
-                    local functionname=$(subString "$sourcedFile" "source \"")
+                IFS=$'\n' read -r -d '' -a y <<< "$x"
+                for file in "${y[@]}"; do
+                    local functionname
+                    functionname=$(subString "$sourcedFile" "source \"")
                     functionname=${functionname%%\"*}
-                    functionname=$(cat $functionname)
+                    functionname=$(cat "$functionname")
                     functionname=${functionname%%()\{*}
                     functionname="${functionname#*function }"
                     
                     echo "Injecting '$subCommand' command in project: $functionname"
-                    awk '/"help"\|/{while(getline line<"'"$tempFile1"'"){print "        "line}}1' $file > $tempFile2 && mv -f $tempFile2 $file
+                    awk '/"help"\|/{while(getline line<"'"$tempFile1"'"){print "        "line}}1' "$file" > "$tempFile2" && mv -f "$tempFile2" "$file"
                     
+                    local reg
                     reg="/commands=/{print;print \"        \\\"$subCommand::$helpDescription\\\"\";next}1"
-                    awk "$reg" $file > $tempFile2 && mv -f $tempFile2 $file
-                    
+                    awk "$reg" "$file" > "$tempFile2" && mv -f "$tempFile2" "$file"
                 done
-                # fi
             fi
-            rm -f $tempFile1 $tempFile2
+            rm -f "$tempFile1" "$tempFile2"
         ;;
         
         "replace-all")
-            
             echo "Running iterative injections to each Project"
+            local x
             x=$(locate .dynoScript)
-            IFS=$'\n' y=($x)
-            for file in "${y[@]}" ; do
-                echo "replacing on  $file"
+            IFS=$'\n' read -r -d '' -a y <<< "$x"
+            for file in "${y[@]}"; do
+                echo "Replacing on $file"
                 ######## Replace Command ########
-                #  sed -i ''  "s/cd[^.]*\/code/cd \"$\( dirname \"$\{BASH_SOURCE[0]\}\" \)\/code/g" "$file"
+                # sed -i '' "s/cd[^.]*\/code/cd \"$\( dirname \"$\{BASH_SOURCE[0]\}\" \)\/code/g" "$file"
             done
             
         ;;
         
         "update")
-            echo "current version: $version"
+            echo "Current version: $version"
             echo "Downloading ..."
             if test -f "${dynoFolder}/main.tar.gz"; then # delete previous copies
                 rm "${dynoFolder}/main.tar.gz"
             fi
 
+            local DOWNLOAD_URL
             DOWNLOAD_URL=$(curl -s https://api.github.com/repos/ashindiano/dyno/releases/latest \
                     | grep tarball_url \
                     | cut -d '"' -f 4)
@@ -258,9 +254,9 @@ function dyno(){
             
             if test -f "${dynoFolder}/main.tar.gz"; then
                 echo "Extracting and Installing ..."
-                tar -xf "${dynoFolder}/main.tar.gz" -C "${dynoFolder}"  --strip 1
+                tar -xf "${dynoFolder}/main.tar.gz" -C "${dynoFolder}" --strip 1
                 source "${(%):-%x}"
-                echo "updated to version: $version"
+                echo "Updated to version: $version"
             else
                 echo "Download Failed !!!"
             fi
@@ -269,13 +265,14 @@ function dyno(){
         "repo")
             echo "Opening current Git Repository in github.com"
             
+            local remote
             remote=$(git config --get remote.origin.url)
             if [[ $remote != *".git"* ]]; then
-                echo " No Git Found"
+                echo "No Git Found"
             else
                 remote=${remote//:/\/} 
                 remote=${remote//git@/https:\/\/}
-                $openCommand $remote
+                $openCommand "$remote"
             fi
         ;;
 
@@ -283,25 +280,24 @@ function dyno(){
             if [[ -z "$2" ]]; then
                 echo "Not sure what to remove"
             elif [[ ! $(listCustomCommands) =~ "$2" ]]; then 
-                echo "$2 : Command not found"            
+                echo "$2: Command not found"            
             elif [[ -f "${sourceFolder}/$2.zsh" || -f "${sourceFolder}/$2.bash" ]]; then
                 rm "${sourceFolder}/$2.zsh"
                 rm "${sourceFolder}/$2.bash"
                 unset -f "$2"
                 echo "Successfully removed command $2"
             fi
-
         ;;
         
         "--version"|"-v")
-            echo ${version}
+            echo "$version"
         ;;
         
         "help"|"h"|"--help"|"-h")
-            for index in "${commands[@]}" ; do
+            for index in "${commands[@]}"; do
                 key="${index%%::*}"
                 value="${index##*::}"
-                echo ${key} - ${value}
+                echo "${key} - ${value}"
             done
             echo ""
             echo "Project commands by DYNO"
@@ -310,24 +306,25 @@ function dyno(){
         ;;
 
         "--uninstall")
-            echo -n "Are you sure ? Do you want to uninstall dyno ? (Y/n) : "
+            echo -n "Are you sure? Do you want to uninstall dyno? (Y/n): "
             read decision
             if [[ "$decision" == "Y" ]]; then
-                echo -n "Do you want to EXPORT all your commands before we uninstall dyno ? (y/n) : "
+                echo -n "Do you want to EXPORT all your commands before we uninstall dyno? (y/n): "
                 read answer
                 if [[ "$answer" == "y" ]]; then
-                    location="~/Desktop"
-                    echo -n "Where do you want the export file ? (Default Folder: ~/Desktop) :"
+                    local location="~/Desktop"
+                    echo -n "Where do you want the export file? (Default Folder: ~/Desktop): "
                     read newLocation
                     [ -n "$newLocation" ] && location=$newLocation
-                    fullPath=$(realpath -m $location | sed 's/\~\///g')
-                    echo "folder chosen for the Project : $fullPath "
-                    echo "SOURCE folder chosen for the Project : $sourceFolder "
+                    local fullPath
+                    fullPath=$(realpath -m "$location" | sed 's/\~\///g')
+                    echo "Folder chosen for the Project: $fullPath"
+                    echo "SOURCE folder chosen for the Project: $sourceFolder"
                     echo "Creating export file..."
-                    tar -C $dynoFolder -cf "${fullPath}/dyno_backup.tar.gz" commands
+                    tar -C "$dynoFolder" -cf "${fullPath}/dyno_backup.tar.gz" commands
                     echo "Export complete, please find the exported file at ${fullPath}/dyno_backup.tar.gz"
                 fi
-                rm -rf $dynoFolder
+                rm -rf "$dynoFolder"
                 case $OS in
                     mac)
                         sed -i '' '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
@@ -337,17 +334,25 @@ function dyno(){
                         sed -i '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
                         sed -i '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
                         ;;
-
                 esac
                 echo "Uninstall Complete!! See you soon..."
-                
             fi
         ;;
         
+        *)  # Default case
+            echo "Usage: dyno [command] [options]"
+            echo "Available commands:"
+            for index in "${commands[@]}"; do
+                key="${index%%::*}"
+                value="${index##*::}"
+                echo "  ${key} - ${value}"
+            done
+            echo "For more information, use 'dyno help' or 'dyno --help'."
+        ;;
     esac
 }
 
-dyno isUpdateAvailable #Run atleast once to list all autocomplete values
+dyno check-update # Run at least once to list all autocomplete values
 
 if [[ $OS == "windows" ]]; then
     alias bye="shutdown -s -f -t 00"
@@ -362,4 +367,3 @@ fi
 alias e=exit
 
 dyno source
-
