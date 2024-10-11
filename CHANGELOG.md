@@ -1,3 +1,12 @@
+## [2.5.6](https://github.com/ashindiano/dyno/compare/v2.5.5...v2.5.6) (2024-10-11)
+
+
+### Bug Fixes
+
+* variable fixes ([a9c1e86](https://github.com/ashindiano/dyno/commit/a9c1e86e072c1c5e99e755cb4c4c4a4fa6ddee3d))
+
+
+
 ## [2.5.5](https://github.com/ashindiano/dyno/compare/v2.5.4...v2.5.5) (2023-09-30)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **release:** Issue fix on command removal ([e6d25dd](https://github.com/ashindiano/dyno/commit/e6d25dd66ab8280fa61fac42e3c8325cf3f2fd8d))
-
-
-
-## [2.5.1](https://github.com/ashindiano/dyno/compare/v2.5.0...v2.5.1) (2023-07-31)
-
-
-### Bug Fixes
-
-* **release:** project path issue fixed ([14c25c3](https://github.com/ashindiano/dyno/commit/14c25c315bba1545717ab5d46cd228a8e0a63987))
 
 
 
