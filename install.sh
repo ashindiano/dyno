@@ -19,7 +19,7 @@ if [ "$1" = "-uninstall" ] || [ "$1" = "-u" ]; then
             ;;
     esac
 else
-    # Check and install dependencies if not already installed
+    # Check and install dependencies that are not already installed
     install_dependencies() {
         local dependencies
         dependencies="curl tar jq coreutils"  # Define as a space-separated string
@@ -41,6 +41,7 @@ else
 
         for dep in $dependencies; do
             if ! command -v "$dep" &> /dev/null; then
+                echo -e "${Green}Installing $dep...${ColorOff}"
                 case $package_manager in
                     brew)
                         brew install "$dep"
@@ -67,6 +68,8 @@ else
                         apk add "$dep"
                         ;;
                 esac
+            else
+                echo -e "${Green}$dep is already installed. Skipping installation.${ColorOff}"
             fi
         done
     }
@@ -83,26 +86,33 @@ else
         darwin*)
             sed -i '' '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
             sed -i '' '/autoload -U compinit && compinit/d' ~/.zprofile
-            sed -i '' '/autoload -U bashcompinit && bashcompinit/d' ~/.bash_profile
+            sed -i '' '/autoload -U bashcompinit && bashcompinit/d' ~/.zprofile
             sed -i '' '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
             ;;
         *)
             sed -i '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
             sed -i '/autoload -U compinit && compinit/d' ~/.zprofile
-            sed -i '/autoload -U bashcompinit && bashcompinit/d' ~/.bash_profile
+            sed -i '/autoload -U bashcompinit && bashcompinit/d' ~/.zprofile
             sed -i '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
             ;;
     esac
 
     echo "source ~/.dyno/dyno.bash" >> ~/.bash_profile
-    if ! command -v compinit &> /dev/null; then
-        echo "autoload -U compinit && compinit" >> ~/.zprofile
-    fi
-    if ! command -v bashcompinit &> /dev/null; then
-        echo "autoload -U bashcompinit && bashcompinit" >> ~/.bash_profile
-    fi
+    echo "autoload -U compinit && compinit" >> ~/.zprofile
+    echo "autoload -U bashcompinit && bashcompinit" >> ~/.zprofile
     echo "source ~/.dyno/dyno.zsh" >> ~/.zprofile
     
-    echo -e "${Green}!!!!!!!!!!!!!!!!!!!!!! Installation Complete !!!!!!!!!!!!!!!!!!!!!!!${ColorOff}"
-    echo -e "${Green}             Restart Terminal for DYNO to take effect  ${ColorOff}"
+    # Check if dyno is successfully installed
+    if command -v dyno &> /dev/null; then
+        echo -e "${Green}!!!!!!!!!!!!!!!!!!!!!! Installation Complete !!!!!!!!!!!!!!!!!!!!!!!${ColorOff}"
+        echo -e "${Green}             Restart Terminal for DYNO to take effect  ${ColorOff}"
+    else
+        echo -e "${Red}Installation complete but DYNO command not found.${ColorOff} This could be because your shell is not a login shell. To fix this, ensure you are using a login shell or manually add the following lines to your shell's configuration file:"
+        echo -e "${Yellow}For zsh users, add the following lines to your .zshrc file:${ColorOff}"
+        echo "autoload -U compinit && compinit"
+        echo "autoload -U bashcompinit && bashcompinit"
+        echo "source ~/.dyno/dyno.zsh"
+        echo -e "${Yellow}For bash users, add the following line to your .bashrc file:${ColorOff}"
+        echo "source ~/.dyno/dyno.bash"
+    fi
 fi
