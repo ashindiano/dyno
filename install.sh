@@ -83,20 +83,24 @@ else
         darwin*)
             sed -i '' '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
             sed -i '' '/autoload -U compinit && compinit/d' ~/.zprofile
-            sed -i '' '/autoload -U bashcompinit && bashcompinit/d' ~/.zprofile
+            sed -i '' '/autoload -U bashcompinit && bashcompinit/d' ~/.bash_profile
             sed -i '' '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
             ;;
         *)
             sed -i '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
             sed -i '/autoload -U compinit && compinit/d' ~/.zprofile
-            sed -i '/autoload -U bashcompinit && bashcompinit/d' ~/.zprofile
+            sed -i '/autoload -U bashcompinit && bashcompinit/d' ~/.bash_profile
             sed -i '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
             ;;
     esac
 
     echo "source ~/.dyno/dyno.bash" >> ~/.bash_profile
-    echo "autoload -U compinit && compinit" >> ~/.zprofile
-    echo "autoload -U bashcompinit && bashcompinit" >> ~/.zprofile
+    if ! command -v compinit &> /dev/null; then
+        echo "autoload -U compinit && compinit" >> ~/.zprofile
+    fi
+    if ! command -v bashcompinit &> /dev/null; then
+        echo "autoload -U bashcompinit && bashcompinit" >> ~/.bash_profile
+    fi
     echo "source ~/.dyno/dyno.zsh" >> ~/.zprofile
     
     echo -e "${Green}!!!!!!!!!!!!!!!!!!!!!! Installation Complete !!!!!!!!!!!!!!!!!!!!!!!${ColorOff}"
