@@ -110,11 +110,11 @@ function dyno() {
             local name="$2"       
             local isSuccess=false
             if type "$name" > /dev/null 2>&1; then 
-                echo "Command seems to exist already in the system. Please try a new command"
+                echo -e "${Red}Command seems to exist already in the system. Please try a new command${ColorOff}"
                 return
             else     
                 if [[ -z "$name" ]]; then
-                    echo -n "Enter the NAME (single word) of the project: "
+                    echo -n -e "${Cyan}Enter the NAME (single word) of the project: ${ColorOff}"
                     read name
                 fi
 
@@ -132,16 +132,16 @@ function dyno() {
                 isSuccess=true
             fi
 
-            echo -n "Is your command ${name} associated to a folder? (y/n): "
+            echo -n -e "${Cyan}Is your command ${name} associated to a folder? (y/n): ${ColorOff}"
             read isFolderAssociated
             if [[ "$isFolderAssociated" == "y" ]]; then
                 local folder='.'
-                echo -n "Enter the Folder path of your Project (For current folder just hit enter key): "
+                echo -n -e "${Cyan}Enter the Folder path of your Project (For current folder just hit enter key): ${ColorOff}"
                 read prjFolder
                 [ -n "$prjFolder" ] && folder=$prjFolder
                 local fullPath
                 fullPath=$(realpath -q "$folder" | sed 's/\~\///g')
-                echo "Folder chosen for the Project: $fullPath"
+                echo -e "${Green}Folder chosen for the Project: $fullPath${ColorOff}"
                 if test -d "$fullPath"; then
                     if [[ $OS == "mac" ]]; then
                         sed -i '' "s|prjFolder=\"NOPATH\"|prjFolder=\"${fullPath}\"|g" "${sourceFolder}/${name}.zsh"
@@ -152,14 +152,14 @@ function dyno() {
                     fi                    
                     cd "$fullPath"
                 else
-                    echo "Directory does not exist."
+                    echo -e "${Red}Directory does not exist.${ColorOff}"
                 fi
             fi
 
             if [[ "$isSuccess" == true ]]; then
                 source "${sourceFolder}/${name}.zsh"
-                echo "Success: Project $name created"
-                echo "You can start using '$name' command"
+                echo -e "${Green}Success: Project $name created${ColorOff}"
+                echo -e "${Green}You can start using '$name' command${ColorOff}"
             fi
         ;;
         
@@ -184,13 +184,13 @@ function dyno() {
             local tempFile1="${dir}/.tmp1"
             local tempFile2="${dir}/.tmp2"
 
-            echo -n "Enter the sub Command you want in all Dyno Projects: "
+            echo -n -e "${Cyan}Enter the sub Command you want in all Dyno Projects: ${ColorOff}"
             read subCommand 
 
-            echo -n "Enter help description for '$subCommand': "
+            echo -n -e "${Cyan}Enter help description for '$subCommand': ${ColorOff}"
             read helpDescription
 
-            echo "Enter the File whose content you want to inject to all projects: "
+            echo -n -e "${Cyan}Enter the File whose content you want to inject to all projects: ${ColorOff}"
             read FILE 
             local fullPath
             fullPath=$(realpath -q "$FILE" | sed 's/\~\///g')
@@ -200,11 +200,11 @@ function dyno() {
             sed 's_^_     _' "$fullPath" >> "$tempFile1"
             echo ";;" >> "$tempFile1"
             
-            echo "You are about to modify all Dyno projects. Are you sure you want to continue? (y/n): "
+            echo -n -e "${Cyan}You are about to modify all Dyno projects. Are you sure you want to continue? (y/n): ${ColorOff}"
             read answer 
             
             if [[ "$answer" == "y" ]]; then
-                echo "Running iterative injections to each Project"
+                echo -e "${Green}Running iterative injections to each Project${ColorOff}"
                 local x
                 x=$(locate .dynoScript)
                 IFS=$'\n' read -r -d '' -a y <<< "$x"
@@ -216,7 +216,7 @@ function dyno() {
                     functionname=${functionname%%()\{*}
                     functionname="${functionname#*function }"
                     
-                    echo "Injecting '$subCommand' command in project: $functionname"
+                    echo -e "${Green}Injecting '$subCommand' command in project: $functionname${ColorOff}"
                     awk '/"help"\|/{while(getline line<"'"$tempFile1"'"){print "        "line}}1' "$file" > "$tempFile2" && mv -f "$tempFile2" "$file"
                     
                     local reg
@@ -228,12 +228,12 @@ function dyno() {
         ;;
         
         "replace-all")
-            echo "Running iterative injections to each Project"
+            echo -e "${Green}Running iterative injections to each Project${ColorOff}"
             local x
             x=$(locate .dynoScript)
             IFS=$'\n' read -r -d '' -a y <<< "$x"
             for file in "${y[@]}"; do
-                echo "Replacing on $file"
+                echo -e "${Green}Replacing on $file${ColorOff}"
                 ######## Replace Command ########
                 # sed -i '' "s/cd[^.]*\/code/cd \"$\( dirname \"$\{BASH_SOURCE[0]\}\" \)\/code/g" "$file"
             done
@@ -241,8 +241,8 @@ function dyno() {
         ;;
         
         "update")
-            echo "Current version: $version"
-            echo "Downloading ..."
+            echo -e "${Cyan}Current version: $version${ColorOff}"
+            echo -e "${Cyan}Downloading ...${ColorOff}"
             if test -f "${dynoFolder}/main.tar.gz"; then # delete previous copies
                 rm "${dynoFolder}/main.tar.gz"
             fi
@@ -255,22 +255,22 @@ function dyno() {
             curl -L -o "${dynoFolder}/main.tar.gz" "$DOWNLOAD_URL" 
             
             if test -f "${dynoFolder}/main.tar.gz"; then
-                echo "Extracting and Installing ..."
+                echo -e "${Cyan}Extracting and Installing ...${ColorOff}"
                 tar -xf "${dynoFolder}/main.tar.gz" -C "${dynoFolder}" --strip 1
                 source "${(%):-%x}"
-                echo "Updated to version: $version"
+                echo -e "${Green}Updated to version: $version${ColorOff}"
             else
-                echo "Download Failed !!!"
+                echo -e "${Red}Download Failed !!!${ColorOff}"
             fi
         ;;
         
         "repo")
-            echo "Opening current Git Repository in github.com"
+            echo -e "${Cyan}Opening current Git Repository in github.com${ColorOff}"
             
             local remote
             remote=$(git config --get remote.origin.url)
             if [[ $remote != *".git"* ]]; then
-                echo "No Git Found"
+                echo -e "${Red}No Git Found${ColorOff}"
             else
                 remote=${remote//:/\/} 
                 remote=${remote//git@/https:\/\/}
@@ -280,14 +280,14 @@ function dyno() {
 
         "remove")
             if [[ -z "$2" ]]; then
-                echo "Not sure what to remove"
+                echo -e "${Red}Not sure what to remove${ColorOff}"
             elif [[ ! $(listCustomCommands) =~ "$2" ]]; then 
-                echo "$2: Command not found"            
+                echo -e "${Red}$2: Command not found${ColorOff}"            
             elif [[ -f "${sourceFolder}/$2.zsh" || -f "${sourceFolder}/$2.bash" ]]; then
                 rm "${sourceFolder}/$2.zsh"
                 rm "${sourceFolder}/$2.bash"
                 unset -f "$2"
-                echo "Successfully removed command $2"
+                echo -e "${Green}Successfully removed command $2${ColorOff}"
             fi
         ;;
         
@@ -299,32 +299,32 @@ function dyno() {
             for index in "${commands[@]}"; do
                 key="${index%%::*}"
                 value="${index##*::}"
-                echo "${key} - ${value}"
+                echo -e "${Cyan}${key} - ${value}${ColorOff}"
             done
             echo ""
-            echo "Project commands by DYNO"
-            echo "========================"
+            echo -e "${Cyan}Project commands by DYNO${ColorOff}"
+            echo -e "${Cyan}========================${ColorOff}"
             listCustomCommands
         ;;
 
         "--uninstall")
-            echo -n "Are you sure? Do you want to uninstall dyno? (Y/n): "
+            echo -n -e "${Cyan}Are you sure? Do you want to uninstall dyno? (Y/n): ${ColorOff}"
             read decision
             if [[ "$decision" == "Y" ]]; then
-                echo -n "Do you want to EXPORT all your commands before we uninstall dyno? (y/n): "
+                echo -n -e "${Cyan}Do you want to EXPORT all your commands before we uninstall dyno? (y/n): ${ColorOff}"
                 read answer
                 if [[ "$answer" == "y" ]]; then
                     local location="~/Desktop"
-                    echo -n "Where do you want the export file? (Default Folder: ~/Desktop): "
+                    echo -n -e "${Cyan}Where do you want the export file? (Default Folder: ~/Desktop): ${ColorOff}"
                     read newLocation
                     [ -n "$newLocation" ] && location=$newLocation
                     local fullPath
                     fullPath=$(realpath -q "$location" | sed 's/\~\///g')
-                    echo "Folder chosen for the Project: $fullPath"
-                    echo "SOURCE folder chosen for the Project: $sourceFolder"
-                    echo "Creating export file..."
+                    echo -e "${Green}Folder chosen for the Project: $fullPath${ColorOff}"
+                    echo -e "${Green}SOURCE folder chosen for the Project: $sourceFolder${ColorOff}"
+                    echo -e "${Cyan}Creating export file...${ColorOff}"
                     tar -C "$dynoFolder" -cf "${fullPath}/dyno_backup.tar.gz" commands
-                    echo "Export complete, please find the exported file at ${fullPath}/dyno_backup.tar.gz"
+                    echo -e "${Green}Export complete, please find the exported file at ${fullPath}/dyno_backup.tar.gz${ColorOff}"
                 fi
                 rm -rf "$dynoFolder"
                 case $OS in
@@ -337,19 +337,19 @@ function dyno() {
                         sed -i '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
                         ;;
                 esac
-                echo "Uninstall Complete!! See you soon..."
+                echo -e "${Green}Uninstall Complete!! See you soon...${ColorOff}"
             fi
         ;;
         
         *)  # Default case
-            echo "Usage: dyno [command] [options]"
-            echo "Available commands:"
+            echo -e "${Red}Usage: dyno [command] [options]${ColorOff}"
+            echo -e "${Red}Available commands:${ColorOff}"
             for index in "${commands[@]}"; do
                 key="${index%%::*}"
                 value="${index##*::}"
-                echo "  ${key} - ${value}"
+                echo -e "  ${Cyan}${key} - ${value}${ColorOff}"
             done
-            echo "For more information, use 'dyno help' or 'dyno --help'."
+            echo -e "${Cyan}For more information, use 'dyno help' or 'dyno --help'.${ColorOff}"
         ;;
     esac
 }

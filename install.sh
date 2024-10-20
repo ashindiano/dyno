@@ -1,17 +1,21 @@
+Green='\033[0;32m'
+Red='\033[0;31m'
+ColorOff='\033[0m'
+
 if [ "$1" = "-uninstall" ] || [ "$1" = "-u" ]; then
-    echo "Removing DYNO installation..."
+    echo -e "${Red}Removing DYNO installation...${ColorOff}"
     rm -rf ~/.dyno
-    echo "Cleaning up shell configuration files..."
+    echo -e "${Green}Cleaning up shell configuration files...${ColorOff}"
     case $(uname | tr '[:upper:]' '[:lower:]') in
         darwin*)
             sed -i '' '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
             sed -i '' '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
-            echo "Removed DYNO entries from .bash_profile and .zprofile."
+            echo -e "${Green}Removed DYNO entries from .bash_profile and .zprofile.${ColorOff}"
             ;;
         *)
             sed -i '/source ~\/.dyno\/dyno.bash/d' ~/.bash_profile
             sed -i '/source ~\/.dyno\/dyno.zsh/d' ~/.zprofile
-            echo "Removed DYNO entries from .bash_profile and .zprofile."
+            echo -e "${Green}Removed DYNO entries from .bash_profile and .zprofile.${ColorOff}"
             ;;
     esac
 else
@@ -31,7 +35,7 @@ else
         elif command -v apk &> /dev/null; then
             package_manager="apk"
         else
-            echo "No supported package manager found. Please install dependencies manually."
+            echo -e "${Red}No supported package manager found. Please install dependencies manually.${ColorOff}"
             return
         fi
 
@@ -43,21 +47,21 @@ else
                         ;;
                     apt)
                         if [ $EUID -ne 0 ]; then
-                            echo "You need to run this script as root or use sudo."
+                            echo -e "${Red}You need to run this script as root or use sudo.${ColorOff}"
                             exit 1
                         fi
                         apt-get install -y "$dep"
                         ;;
                     yum)
                         if [ $EUID -ne 0 ]; then
-                            echo "You need to run this script as root or use sudo."
+                            echo -e "${Red}You need to run this script as root or use sudo.${ColorOff}"
                             exit 1
                         fi
                         yum install -y "$dep"
                         ;;
                     apk)
                         if [ $EUID -ne 0 ]; then
-                            echo "You need to run this script as root or use sudo."
+                            echo -e "${Red}You need to run this script as root or use sudo.${ColorOff}"
                             exit 1
                         fi
                         apk add "$dep"
@@ -95,6 +99,6 @@ else
     echo "autoload -U bashcompinit && bashcompinit" >> ~/.zprofile
     echo "source ~/.dyno/dyno.zsh" >> ~/.zprofile
     
-    echo "!!!!!!!!!!!!!!!!!!!!!! Installation Complete !!!!!!!!!!!!!!!!!!!!!!!"
-    echo "             Restart Terminal for DYNO to take effect  "
+    echo -e "${Green}!!!!!!!!!!!!!!!!!!!!!! Installation Complete !!!!!!!!!!!!!!!!!!!!!!!${ColorOff}"
+    echo -e "${Green}             Restart Terminal for DYNO to take effect  ${ColorOff}"
 fi
