@@ -1,109 +1,84 @@
-# Dyno - A Shell Workspace
+# Dyno - Your Custom Shell-Command Manager
 
-Dyno helps you customize your shell commands. The commands created by dyno can be associated to a Folder/Directory to make project development becomes much easier. You can also create commands without folder associations too
+Dyno is an innovative shell command manager that empowers you to tailor your command-line experience. It allows you to create and customize commands that can be linked to specific directories, making your project development more efficient and organized. You can also create independent commands that function without any folder associations, providing you with ultimate flexibility.
 
-##### supported shell
+##### Compatible Shells
 
     - zsh
     - bash
+    - 
+To ensure that Dyno works seamlessly, it relies on your `.bash_profile` or `.zprofile` files to include the necessary source commands. This setup allows your shell to recognize and execute the Dyno commands whenever you start a new terminal session. By adding the line `source ~/.dyno/dyno.bash` to your `.bash_profile` or `source ~/.dyno/dyno.zsh` to your `.zprofile`, you enable the shell to load Dyno's functionalities automatically, ensuring that your custom commands are always available.
 
-##### supported OS
+##### Supported Operating Systems
 
-    - mac
-    - linux
-    - gitbash
+    - macOS
+    - Linux
+    - Git Bash
 
 ![dyno](https://user-images.githubusercontent.com/7322170/179398912-f1ee5000-7e1e-4ce8-808f-d66a928fd399.gif)
 
 ## Installation
 
-Please make sure to install the following dependencies first
+To begin using Dyno, follow these steps:
 
-#### mac
+#### For macOS, Linux, and Git Bash on Windows
+1. Clone the Dyno repository:
+   ```bash
+   git clone https://github.com/ashindiano/dyno.git
+   ```
 
-```bash
-brew install coreutils jq
-```
+2. Navigate to the Dyno directory:
+   ```bash
+   cd dyno
+   ```
 
-#### linux
+3. Run the installation script:
+   ```bash
+   sh install.sh
+   ```
 
-```bash
-sudo apt-get install coreutils jq
-```
+Make sure to restart your terminal after installation for the changes to take effect.
 
-#### Then run the following to install dyno
+**Manual Dependency Installation:** If the `install.sh` script failed to install all dependencies, follow these steps:
 
-```bash
-sh install.sh
-```
+1. **For macOS users:** If Homebrew is not installed, install it first:
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+   Then, install the required dependencies using Homebrew:
+   ```bash
+   brew install curl tar jq coreutils
+   ```
+2. **For Linux users:** Use your distribution's package manager to install the required dependencies. For example, on Ubuntu or Debian:
+   ```bash
+   sudo apt update && sudo apt install curl tar jq coreutils
+   ```
+   On Fedora, CentOS, or RHEL:
+   ```bash
+   sudo dnf install curl tar jq coreutils
+   ```
+   On openSUSE:
+   ```bash
+   sudo zypper install curl tar jq coreutils
+   ```
 
-## To Uninstall
 
-```bash
-dyno --uninstall
-```
 
-## Getting Started
+**Important:** To ensure that the changes made in your `.zprofile` or `.bash_profile` are recognized by your shell, it is essential to use a login shell. A login shell is typically initiated when you first log into your system or when you open a new terminal window.
 
-Please replace <b>"YOURCUSTOMCOMMAND"</b> with your actual custom command
+ If you are operating in a non-login shell (which may occur in certain terminal emulators or when using terminal multiplexers), the configurations in these files may not be loaded automatically. To ensure the necessary environment settings are applied, you need to manually add the following lines to your shell's configuration file:
 
-cd to your project folder and Type
+For zsh users, add the following line to your `.zshrc` file:
+   ```bash
+    echo "autoload -U compinit && compinit" >> ~/.zshrc
+    echo "autoload -U bashcompinit && bashcompinit" >> ~/.zshrc
+    echo "source ~/.dyno/dyno.zsh" >> ~/.zshrc
+   ```
 
-```bash
-dyno new
-```
+For bash users, add the following line to your `.bashrc` file:
+   ```bash
+   echo "source ~/.dyno/dyno.bash" >> ~/.bashrc
+   ```
 
-or
+   When uninstalling DYNO, ensure to remove these lines from your shell configuration files.
 
-```bash
-dyno new YOURCUSTOMCOMMAND
-```
-
-replace <b>YOURCUSTOMCOMMAND</b> with the command you want to use. Example: ` dyno new myproject`
-
-#### To list all custom commands created by Dyno
-
-```bash
-dyno commands
-```
-
-## Default Shell Shortcuts that comes with DYNO
-
-- `e` -> will exit the current terminal
-- `bye` -> will initiate system shutdown
-
-## Support for third-party applications
-
-- ### VsCode (Your Project can be opened easily in vscode by using the following command)
-
-```bash
-YOURCUSTOMCOMMAND code
-```
-
-<sub>
-Note: Please make sure vs code is installed and accessible via shell
-</sub>
-
-- ### GIT (you can use the following commands in a git initialized project)
-
-```bash
-dyno repo
-```
-
-or
-
-if a folder is associated your custom command
-
-```bash
-YOURCUSTOMCOMMAND repo
-```
-
-- ### NODE JS (commands under Scripts section in Package.json are available as sub commands)
-
-Dyno automatically identifies the package manager as <b>npm</b> or <b>yarn</b> or <b>pnpm</b> based on package.json and lock files available
-
-To list all sub commands available in the project
-
-```bash
-YOURCUSTOMCOMMAND help
-```
