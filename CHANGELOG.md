@@ -1,3 +1,12 @@
+## [2.6.7](https://github.com/ashindiano/dyno/compare/v2.6.6...v2.6.7) (2024-10-20)
+
+
+### Bug Fixes
+
+* update check disabled if no internet ([be1dd8e](https://github.com/ashindiano/dyno/commit/be1dd8eb14e52a1c277e2d1adf5a7e9a14f8c392))
+
+
+
 ## [2.6.6](https://github.com/ashindiano/dyno/compare/v2.6.5...v2.6.6) (2024-10-20)
 
 
@@ -32,15 +41,6 @@
 ### Bug Fixes
 
 * checks added on 'open' and 'code' ([ccb3b5e](https://github.com/ashindiano/dyno/commit/ccb3b5ec486521c415243c1daec23bd59317dff8))
-
-
-
-## [2.6.2](https://github.com/ashindiano/dyno/compare/v2.6.1...v2.6.2) (2024-10-20)
-
-
-### Bug Fixes
-
-* color fixes ([20c67d3](https://github.com/ashindiano/dyno/commit/20c67d351ef8e944d79d2df05083217e9807d02f))
 
 
 
