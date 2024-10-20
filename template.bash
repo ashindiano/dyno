@@ -1,3 +1,13 @@
+local ColorOff='\033[0m'
+local Black='\033[0;30m'        # Black
+local Red='\033[0;31m'          # Red
+local Green='\033[0;32m'        # Green
+local Yellow='\033[0;33m'       # Yellow
+local Blue='\033[0;34m'         # Blue
+local Purple='\033[0;35m'       # Purple
+local Cyan='\033[0;36m'         # Cyan
+local White='\033[0;37m'        # White
+
 function template() {
     local prjFolder="path"
     local -a commands
@@ -65,10 +75,10 @@ function template() {
 
         if [[ ! $# -eq 0 && "$packageJsonCommands" == *"$1::"* ]]; then
             if [[ -f "${prjFolder}/yarn.lock" ]]; then
-                echo "yarn run  $1"
+                echo -e "${Green}yarn run  $1${ColorOff}"
                 yarn run "$1"
             else
-                echo "npm run  $1"
+                echo -e "${Green}npm run  $1${ColorOff}"
                 npm run "$1"
             fi
         fi
@@ -76,7 +86,7 @@ function template() {
 
     case $1 in
     "open")
-        echo "Opening Current Folder"
+        echo -e "${Green}Opening Current Folder${ColorOff}"
         case $OS in
             linux) nautilus . ;;
             mac) open . ;;
@@ -87,22 +97,22 @@ function template() {
         complete -W "${allCommands}" template
         ;;
     "script")
-        echo "Opening $BASH_SOURCE"
+        echo -e "${Green}Opening $BASH_SOURCE${ColorOff}"
         code "$BASH_SOURCE"
         ;;
     "code")
         code .
         ;;
     "source")
-        echo "Sourcing $BASH_SOURCE"
+        echo -e "${Green}Sourcing $BASH_SOURCE${ColorOff}"
         source "$BASH_SOURCE"
         ;;
     "repo")
-        echo "Opening current Git Repository in github.com"
+        echo -e "${Green}Opening current Git Repository in github.com${ColorOff}"
         local remote
         remote=$(git config --get remote.origin.url)
         if [[ $remote != *".git"* ]]; then
-            echo "No Git Found"
+            echo -e "${Red}No Git Found${ColorOff}"
         else
             remote=${remote//:/\/}
             remote=${remote//git@/https:\/\/}
@@ -112,15 +122,15 @@ function template() {
     "rename")
         read -e -p "You are about to rename the command $FUNCNAME? (y/n): " answer
         if [[ "$answer" == "y" ]]; then
-            echo "Please enter the new command: "
+            echo -e "${Yellow}Please enter the new command: ${ColorOff}"
             read newCommandName
             if ! command -v "$newCommandName" &> /dev/null; then
                 sed -i -e "s/$FUNCNAME()/$newCommandName()/g" "${BASH_SOURCE[0]}" # replacing the function name
                 sed -i -e "\$s/$FUNCNAME/$newCommandName/g" "${BASH_SOURCE[0]}"  # replacing the command in last line
                 source "${BASH_SOURCE[0]}"
-                echo "Rename successful!!! $newCommandName is effective now"
+                echo -e "${Green}Rename successful!!! $newCommandName is effective now${ColorOff}"
             else
-                echo "Cannot use $newCommandName because this command already exists"
+                echo -e "${Red}Cannot use $newCommandName because this command already exists${ColorOff}"
             fi
         fi
         ;;
@@ -128,18 +138,18 @@ function template() {
         for index in "${genericCommands[@]}"; do
             local key="${index%%::*}"
             local value="${index##*::}"
-            echo "${key} - ${value}"
+            echo -e "${Cyan}${key}${ColorOff} - ${value}"
         done
         if [[ $prjFolder != "NOPATH" ]]; then
             for index in "${folderCommands[@]}"; do
                 local key="${index%%::*}"
                 local value="${index##*::}"
-                echo "${key} - ${value}"
+                echo -e "${Cyan}${key}${ColorOff} - ${value}"
             done
             while read -r line; do
                 local key="${line%%::*}"
                 local value="${line##*::}"
-                echo "${key} - ${value}"
+                echo -e "${Cyan}${key}${ColorOff} - ${value}"
             done <<< "$packageJsonCommands"
         fi
         ;;

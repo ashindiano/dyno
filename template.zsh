@@ -1,3 +1,13 @@
+local ColorOff='\033[0m'
+local Black='\033[0;30m'        # Black
+local Red='\033[0;31m'          # Red
+local Green='\033[0;32m'        # Green
+local Yellow='\033[0;33m'       # Yellow
+local Blue='\033[0;34m'         # Blue
+local Purple='\033[0;35m'       # Purple
+local Cyan='\033[0;36m'         # Cyan
+local White='\033[0;37m'        # White
+
 function template(){
     local prjFolder="NOPATH"
     local -a commands
@@ -69,10 +79,10 @@ function template(){
 
         if [[ ! $# -eq 0 && "$packageJsonCommands" == *"$1::"* ]]; then
             if test -f "${prjFolder}/yarn.lock"; then
-                echo "yarn run  $1"
+                echo -e "${Green}yarn run  $1${ColorOff}"
                 yarn run "$1"
             else
-                echo "npm run  $1"
+                echo -e "${Green}npm run  $1${ColorOff}"
                 npm run "$1"
             fi
         fi
@@ -81,7 +91,7 @@ function template(){
     case $1 in
         
         "open")
-            echo "Opening Current Folder"
+            echo -e "${Green}Opening Current Folder${ColorOff}"
             if [[ $OS == "linux" ]]; then 
                 nautilus .
             elif [[ $OS == "mac" ]]; then
@@ -96,7 +106,7 @@ function template(){
         ;;
 
         "script")
-            echo "Opening ${(%):-%x}"
+            echo -e "${Green}Opening ${(%):-%x}${ColorOff}"
             code "${(%):-%x}"
         ;;
         
@@ -105,17 +115,17 @@ function template(){
         ;;
         
         "source")
-            echo "Sourcing ${(%):-%x}"
+            echo -e "${Green}Sourcing ${(%):-%x}${ColorOff}"
             source "${(%):-%x}"
         ;;
         
         "repo")
-            echo "Opening current Git Repository in github.com"
+            echo -e "${Green}Opening current Git Repository in github.com${ColorOff}"
             
             local remote
             remote=$(git config --get remote.origin.url)
             if [[ $remote != *".git"* ]]; then
-                echo " No Git Found"
+                echo -e "${Red} No Git Found${ColorOff}"
             else
                 remote=${remote//:/\/} 
                 remote=${remote//git@/https:\/\/}
@@ -124,18 +134,18 @@ function template(){
         ;;
         
         "rename")
-            echo -n "You are about to rename the command $FUNCNAME ? (y/n) : " 
+            echo -n -e "${Yellow}You are about to rename the command $FUNCNAME ? (y/n) : ${ColorOff}" 
             read answer
             if [[ "$answer" == "y" ]]; then
-                echo -n "Please enter the new command: "
+                echo -n -e "${Yellow}Please enter the new command: ${ColorOff}"
                 read newCommandName
                 if ! [[ -x "$(command -v $newCommandName)" ]]; then
                     sed -i -e "s/$FUNCNAME()/$newCommandName()/g" "${(%):-%x}" # replacing the function name
                     sed -i -e '$s'"/$FUNCNAME/$newCommandName/g" "${(%):-%x}" # replacing the command in last line
                     source "${(%):-%x}"
-                    echo "Rename successful!!! $newCommandName  is effective now"        
+                    echo -e "${Green}Rename successful!!! $newCommandName  is effective now${ColorOff}"        
                 else
-                    echo "Cannot use $newCommandName because this command already exists"
+                    echo -e "${Red}Cannot use $newCommandName because this command already exists${ColorOff}"
                 fi
             fi
         ;;
@@ -144,19 +154,19 @@ function template(){
             for index in "${genericCommands[@]}" ; do
                 local key="${index%%::*}"
                 local value="${index##*::}"
-                echo ${key} - ${value}
+                echo -e "${Cyan}${key}${ColorOff} - ${value}"
             done
             if [[ $prjFolder != "NOPATH" ]]; then
                 for index in "${folderCommands[@]}" ; do
                     local key="${index%%::*}"
                     local value="${index##*::}"
-                    echo ${key} - ${value}
+                    echo -e "${Cyan}${key}${ColorOff} - ${value}"
                 done
                 while read -r line
                 do
                     local key="${line%%::*}"
                     local value="${line##*::}"
-                    echo ${key} - ${value}
+                    echo -e "${Cyan}${key}${ColorOff} - ${value}"
                 done <<< "$packageJsonCommands"
             fi
         ;;
