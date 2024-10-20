@@ -6,7 +6,7 @@ Dyno is an innovative shell command manager that empowers you to tailor your com
 
     - zsh
     - bash
-    - 
+  
 To ensure that Dyno works seamlessly, it relies on your `.bash_profile` or `.zprofile` files to include the necessary source commands. This setup allows your shell to recognize and execute the Dyno commands whenever you start a new terminal session. By adding the line `source ~/.dyno/dyno.bash` to your `.bash_profile` or `source ~/.dyno/dyno.zsh` to your `.zprofile`, you enable the shell to load Dyno's functionalities automatically, ensuring that your custom commands are always available.
 
 ##### Supported Operating Systems
@@ -39,7 +39,9 @@ To begin using Dyno, follow these steps:
 
 Make sure to restart your terminal after installation for the changes to take effect.
 
-**Manual Dependency Installation:** If the `install.sh` script failed to install all dependencies, follow these steps:
+**Manual Dependency Installation:** 
+
+If the `install.sh` script failed to install all dependencies, follow these steps:
 
 1. **For macOS users:** If Homebrew is not installed, install it first:
    ```bash
