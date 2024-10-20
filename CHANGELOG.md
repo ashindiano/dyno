@@ -1,3 +1,13 @@
+## [2.6.1](https://github.com/ashindiano/dyno/compare/v2.6.0...v2.6.1) (2024-10-20)
+
+
+### Bug Fixes
+
+* color fixes ([6736eae](https://github.com/ashindiano/dyno/commit/6736eae714d77017067ffed2b86370a3f16ce6c8))
+* color fixes ([008e498](https://github.com/ashindiano/dyno/commit/008e4987a8e1c100646595d96d07bf36c342d22d))
+
+
+
 # [2.6.0](https://github.com/ashindiano/dyno/compare/v2.5.7...v2.6.0) (2024-10-20)
 
 
@@ -31,15 +41,6 @@
 ### Bug Fixes
 
 * **release:** fixed issue when dyno new commandname was issued ([2287715](https://github.com/ashindiano/dyno/commit/22877159c114a10cf31132e4276693be9c4da799))
-
-
-
-## [2.5.4](https://github.com/ashindiano/dyno/compare/v2.5.3...v2.5.4) (2023-09-30)
-
-
-### Bug Fixes
-
-* **release:** fixed the path setting error ([da00d27](https://github.com/ashindiano/dyno/commit/da00d27d4c38232d5783ee9c41dd3fe75d0cdf9e))
 
 
 
