@@ -80,7 +80,7 @@ function dyno() {
     listCustomCommands() {
         if [[ -n "$(ls -A "$sourceFolder")" ]]; then
             for file in "$sourceFolder"/*.zsh; do
-                echo "${${file##*/}%.*}"
+                echo -e "${Green}${${file##*/}%.*}${ColorOff}"
             done
         fi
     }
@@ -297,11 +297,11 @@ function dyno() {
             for index in "${commands[@]}"; do
                 key="${index%%::*}"
                 value="${index##*::}"
-                echo -e "${Green}${key} - ${value}$ColorOff"
+                echo -e "${Green}${key}${ColorOff} - ${value}"
             done
             echo ""
-            echo -e "${Green}Project commands by DYNO$ColorOff"
-            echo -e "${Green}========================$ColorOff"
+            echo -e "${Cyan}Project commands by DYNO$ColorOff"
+            echo -e "${Cyan}========================$ColorOff"
             listCustomCommands
         ;;
 

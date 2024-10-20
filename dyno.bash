@@ -306,6 +306,7 @@ function dyno() {
             echo -e "${Cyan}========================${ColorOff}"
             listCustomCommands
         ;;
+        
 
         "--uninstall")
             echo -n -e "${Cyan}Are you sure? Do you want to uninstall dyno? (Y/n): ${ColorOff}"
