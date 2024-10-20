@@ -85,74 +85,103 @@ function template() {
     fi
 
     case $1 in
-    "open")
-        echo -e "${Green}Opening Current Folder${ColorOff}"
-        case $OS in
-            linux) nautilus . ;;
-            mac) open . ;;
-            windows) start . ;;
-        esac
-        ;;
-    "indexCommands")
-        complete -W "${allCommands}" template
-        ;;
-    "script")
-        echo -e "${Green}Opening $BASH_SOURCE${ColorOff}"
-        code "$BASH_SOURCE"
-        ;;
-    "code")
-        code .
-        ;;
-    "source")
-        echo -e "${Green}Sourcing $BASH_SOURCE${ColorOff}"
-        source "$BASH_SOURCE"
-        ;;
-    "repo")
-        echo -e "${Green}Opening current Git Repository in github.com${ColorOff}"
-        local remote
-        remote=$(git config --get remote.origin.url)
-        if [[ $remote != *".git"* ]]; then
-            echo -e "${Red}No Git Found${ColorOff}"
-        else
-            remote=${remote//:/\/}
-            remote=${remote//git@/https:\/\/}
-            $openCommand "$remote"
-        fi
-        ;;
-    "rename")
-        read -e -p "You are about to rename the command $FUNCNAME? (y/n): " answer
-        if [[ "$answer" == "y" ]]; then
-            echo -e "${Yellow}Please enter the new command: ${ColorOff}"
-            read newCommandName
-            if ! command -v "$newCommandName" &> /dev/null; then
-                sed -i -e "s/$FUNCNAME()/$newCommandName()/g" "${BASH_SOURCE[0]}" # replacing the function name
-                sed -i -e "\$s/$FUNCNAME/$newCommandName/g" "${BASH_SOURCE[0]}"  # replacing the command in last line
-                source "${BASH_SOURCE[0]}"
-                echo -e "${Green}Rename successful!!! $newCommandName is effective now${ColorOff}"
+
+        "open")
+            echo -e "${Green}Opening Current Folder${ColorOff}"
+            if command -v nautilus &> /dev/null; then
+                nautilus .
+            elif command -v xdg-open &> /dev/null; then
+                xdg-open .
+            elif command -v open &> /dev/null; then
+                open .
+            elif command -v start &> /dev/null; then
+                start .
             else
-                echo -e "${Red}Cannot use $newCommandName because this command already exists${ColorOff}"
+                echo -e "${Red}No suitable command found to open the current folder.${ColorOff}"
             fi
-        fi
         ;;
-    "help" | "h" | "--help" | "-h")
-        for index in "${genericCommands[@]}"; do
-            local key="${index%%::*}"
-            local value="${index##*::}"
-            echo -e "${Cyan}${key}${ColorOff} - ${value}"
-        done
-        if [[ $prjFolder != "NOPATH" ]]; then
-            for index in "${folderCommands[@]}"; do
+
+        "indexCommands")
+            complete -W "${allCommands}" template
+            ;;
+
+        "script")
+            echo -e "${Green}Opening $BASH_SOURCE${ColorOff}"
+            code "$BASH_SOURCE"
+            ;;
+
+        "code")
+                if command -v code &> /dev/null; then
+                    code .
+                elif [[ "$OS" == "mac" ]]; then
+                    open -a "TextEdit" .
+                elif [[ "$OS" == "linux" ]]; then
+                    if command -v gedit &> /dev/null; then
+                        gedit .
+                    elif command -v nano &> /dev/null; then
+                        nano .
+                    elif command -v vim &> /dev/null; then
+                        vim .
+                    else
+                        echo -e "${Red}No suitable editor found.${ColorOff}"
+                    fi
+                elif [[ "$OS" == "windows" ]]; then
+                    notepad .
+                else
+                    echo -e "${Red}No suitable editor found.${ColorOff}"
+                fi
+            ;;
+
+        "source")
+            echo -e "${Green}Sourcing $BASH_SOURCE${ColorOff}"
+            source "$BASH_SOURCE"
+            ;;
+        "repo")
+            echo -e "${Green}Opening current Git Repository in github.com${ColorOff}"
+            local remote
+            remote=$(git config --get remote.origin.url)
+            if [[ $remote != *".git"* ]]; then
+                echo -e "${Red}No Git Found${ColorOff}"
+            else
+                remote=${remote//:/\/}
+                remote=${remote//git@/https:\/\/}
+                $openCommand "$remote"
+            fi
+            ;;
+        "rename")
+            read -e -p "You are about to rename the command $FUNCNAME? (y/n): " answer
+            if [[ "$answer" == "y" ]]; then
+                echo -e "${Yellow}Please enter the new command: ${ColorOff}"
+                read newCommandName
+                if ! command -v "$newCommandName" &> /dev/null; then
+                    sed -i -e "s/$FUNCNAME()/$newCommandName()/g" "${BASH_SOURCE[0]}" # replacing the function name
+                    sed -i -e "\$s/$FUNCNAME/$newCommandName/g" "${BASH_SOURCE[0]}"  # replacing the command in last line
+                    source "${BASH_SOURCE[0]}"
+                    echo -e "${Green}Rename successful!!! $newCommandName is effective now${ColorOff}"
+                else
+                    echo -e "${Red}Cannot use $newCommandName because this command already exists${ColorOff}"
+                fi
+            fi
+            ;;
+        "help" | "h" | "--help" | "-h")
+            for index in "${genericCommands[@]}"; do
                 local key="${index%%::*}"
                 local value="${index##*::}"
                 echo -e "${Cyan}${key}${ColorOff} - ${value}"
             done
-            while read -r line; do
-                local key="${line%%::*}"
-                local value="${line##*::}"
-                echo -e "${Cyan}${key}${ColorOff} - ${value}"
-            done <<< "$packageJsonCommands"
-        fi
-        ;;
+            if [[ $prjFolder != "NOPATH" ]]; then
+                for index in "${folderCommands[@]}"; do
+                    local key="${index%%::*}"
+                    local value="${index##*::}"
+                    echo -e "${Cyan}${key}${ColorOff} - ${value}"
+                done
+                while read -r line; do
+                    local key="${line%%::*}"
+                    local value="${line##*::}"
+                    echo -e "${Cyan}${key}${ColorOff} - ${value}"
+                done <<< "$packageJsonCommands"
+            fi
+            ;;
     esac
 }
 
