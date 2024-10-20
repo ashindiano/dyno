@@ -92,12 +92,16 @@ function template(){
         
         "open")
             echo -e "${Green}Opening Current Folder${ColorOff}"
-            if [[ $OS == "linux" ]]; then 
+            if command -v nautilus &> /dev/null; then
                 nautilus .
-            elif [[ $OS == "mac" ]]; then
+            elif command -v xdg-open &> /dev/null; then
+                xdg-open .
+            elif command -v open &> /dev/null; then
                 open .
-            elif [[ $OS == "windows" ]]; then
+            elif command -v start &> /dev/null; then
                 start .
+            else
+                echo -e "${Red}No suitable command found to open the current folder.${ColorOff}"
             fi
         ;;
 
@@ -111,7 +115,25 @@ function template(){
         ;;
         
         "code")
-            code .
+            if command -v code &> /dev/null; then
+                code .
+            elif [[ "$OS" == "mac" ]]; then
+                open -a "TextEdit" .
+            elif [[ "$OS" == "linux" ]]; then
+                if command -v gedit &> /dev/null; then
+                    gedit .
+                elif command -v nano &> /dev/null; then
+                    nano .
+                elif command -v vim &> /dev/null; then
+                    vim .
+                else
+                    echo -e "${Red}No suitable editor found.${ColorOff}"
+                fi
+            elif [[ "$OS" == "windows" ]]; then
+                notepad .
+            else
+                echo -e "${Red}No suitable editor found.${ColorOff}"
+            fi
         ;;
         
         "source")
