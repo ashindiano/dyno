@@ -88,18 +88,23 @@ function dyno() {
     remoteVersion() {
         curl -sL https://api.github.com/repos/ashindiano/dyno/releases/latest | grep -o '"tag_name": "[^"]*' | grep -o '[^"]*$' 
     }
+    
     isUpdateAvailable() {
-        local remoteVs
-        remoteVs=$(remoteVersion)
-        if [[ -n "$remoteVs" && $version != "$remoteVs" ]]; then
-            echo ""
-            echo -e "${Red}!!! Update Available !!!$ColorOff"
-            echo -e "A new version of ${Yellow}Dyno${ColorOff} is available: $Yellow$remoteVs$ColorOff"
-            echo -e "Your current version is: $Red$version$ColorOff"
-            echo -e "To update, run: $Green dyno update $ColorOff"
-            echo ""
+        if ping -q -c 1 -W 1 google.com >/dev/null; then
+            local remoteVs
+            remoteVs=$(remoteVersion)
+            if [[ -n "$remoteVs" && $version != "$remoteVs" ]]; then
+                echo ""
+                echo -e "${Red}!!! Update Available !!!$ColorOff"
+                echo -e "A new version of ${Yellow}Dyno${ColorOff} is available: $Yellow$remoteVs$ColorOff"
+                echo -e "Your current version is: $Red$version$ColorOff"
+                echo -e "To update, run: $Green dyno update $ColorOff"
+                echo ""
+            else
+                echo -e "${Green}You are using the latest version of Dyno: $Yellow$version$ColorOff"
+            fi
         else
-            echo -e "${Green}You are using the latest version of Dyno: $Yellow$version$ColorOff"
+            echo -e "${Red}No internet connection. Unable to check for updates.$ColorOff"
         fi
     }
 
