@@ -1,3 +1,13 @@
+## [2.6.5](https://github.com/ashindiano/dyno/compare/v2.6.4...v2.6.5) (2024-10-20)
+
+
+### Bug Fixes
+
+* Installation complete, readme updated ([18af7b2](https://github.com/ashindiano/dyno/commit/18af7b28e654b251d16a42cf42fcdb2221f8b4e2))
+* Minor readme fixes ([1702520](https://github.com/ashindiano/dyno/commit/1702520a78c494a8c42e497f7144a73f606d4349))
+
+
+
 ## [2.6.4](https://github.com/ashindiano/dyno/compare/v2.6.3...v2.6.4) (2024-10-20)
 
 
@@ -32,15 +42,6 @@
 
 * color fixes ([6736eae](https://github.com/ashindiano/dyno/commit/6736eae714d77017067ffed2b86370a3f16ce6c8))
 * color fixes ([008e498](https://github.com/ashindiano/dyno/commit/008e4987a8e1c100646595d96d07bf36c342d22d))
-
-
-
-# [2.6.0](https://github.com/ashindiano/dyno/compare/v2.5.7...v2.6.0) (2024-10-20)
-
-
-### Features
-
-* colors added ([f29ee14](https://github.com/ashindiano/dyno/commit/f29ee14f21c1d05c676b71379d650729509c9024))
 
 
 
