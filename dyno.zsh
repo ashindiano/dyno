@@ -1,19 +1,19 @@
-local dynoFolder="$(dirname ${(%):-%x})"
-local version=$(grep -o '"version": "[^"]*' ${dynoFolder}/version.json | grep -o '[^"]*$' )
-local version="v${version}" 
-local sourceFolder="${dynoFolder}/commands"
-
-local ColorOff='\033[0m'
-local Black='\033[0;30m'        # Black
-local Red='\033[0;31m'          # Red
-local Green='\033[0;32m'        # Green
-local Yellow='\033[0;33m'       # Yellow
-local Blue='\033[0;34m'         # Blue
-local Purple='\033[0;35m'       # Purple
-local Cyan='\033[0;36m'         # Cyan
-local White='\033[0;37m'        # White
-
 function dyno() {
+
+    local dynoFolder="$(dirname ${(%):-%x})"
+    local version=$(grep -o '"version": "[^"]*' ${dynoFolder}/version.json | grep -o '[^"]*$' )
+    local version="v${version}" 
+    local sourceFolder="${dynoFolder}/commands"
+
+    local ColorOff='\033[0m'
+    local Black='\033[0;30m'        # Black
+    local Red='\033[0;31m'          # Red
+    local Green='\033[0;32m'        # Green
+    local Yellow='\033[0;33m'       # Yellow
+    local Blue='\033[0;34m'         # Blue
+    local Purple='\033[0;35m'       # Purple
+    local Cyan='\033[0;36m'         # Cyan
+    local White='\033[0;37m'        # White
     
     declare -a commands
     
