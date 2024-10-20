@@ -1,3 +1,12 @@
+## [2.6.3](https://github.com/ashindiano/dyno/compare/v2.6.2...v2.6.3) (2024-10-20)
+
+
+### Bug Fixes
+
+* checks added on 'open' and 'code' ([ccb3b5e](https://github.com/ashindiano/dyno/commit/ccb3b5ec486521c415243c1daec23bd59317dff8))
+
+
+
 ## [2.6.2](https://github.com/ashindiano/dyno/compare/v2.6.1...v2.6.2) (2024-10-20)
 
 
@@ -32,15 +41,6 @@
 ### Bug Fixes
 
 * realpath command updated ([29e56f2](https://github.com/ashindiano/dyno/commit/29e56f22195bb2839689aaeada8db41a938da547))
-
-
-
-## [2.5.6](https://github.com/ashindiano/dyno/compare/v2.5.5...v2.5.6) (2024-10-11)
-
-
-### Bug Fixes
-
-* variable fixes ([a9c1e86](https://github.com/ashindiano/dyno/commit/a9c1e86e072c1c5e99e755cb4c4c4a4fa6ddee3d))
 
 
 
