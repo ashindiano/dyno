@@ -140,7 +140,7 @@ function dyno() {
                 read prjFolder
                 [ -n "$prjFolder" ] && folder=$prjFolder
                 local fullPath
-                fullPath=$(realpath -m "$folder" | sed 's/\~\///g')
+                fullPath=$(realpath -q "$folder" | sed 's/\~\///g')
                 echo "Folder chosen for the Project: $fullPath"
                 if test -d "$fullPath"; then
                     if [[ $OS == "mac" ]]; then
@@ -193,7 +193,7 @@ function dyno() {
             echo "Enter the File whose content you want to inject to all projects: "
             read FILE 
             local fullPath
-            fullPath=$(realpath -m "$FILE" | sed 's/\~\///g')
+            fullPath=$(realpath -q "$FILE" | sed 's/\~\///g')
             
             # Generating dummy file with a switch case for the sub command
             echo "\"$subCommand\")" >> "$tempFile1"
@@ -319,7 +319,7 @@ function dyno() {
                     read newLocation
                     [ -n "$newLocation" ] && location=$newLocation
                     local fullPath
-                    fullPath=$(realpath -m "$location" | sed 's/\~\///g')
+                    fullPath=$(realpath -q "$location" | sed 's/\~\///g')
                     echo "Folder chosen for the Project: $fullPath"
                     echo "SOURCE folder chosen for the Project: $sourceFolder"
                     echo "Creating export file..."
