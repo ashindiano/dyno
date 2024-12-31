@@ -1,4 +1,5 @@
-name: Releases 
+name: Releases
+
 on:
   push:
     branches:
@@ -10,21 +11,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: conventional Changelog Action
+
+      # Generate the changelog
+      - name: Generate Changelog
         id: changelog
         uses: TriPSs/conventional-changelog-action@v3.7.1
         with:
           version-file: './version.json'
 
-      - name: create release
-        uses: actions/create-release@v1
+      # Create a new release
+      - name: Create Release
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.WORKFLOW_PAT }}
+          GITHUB_TOKEN: ${{ secrets.WORKFLOW_PAT }} # Use secrets.WORKFLOW_PAT if needed; otherwise, replace with secrets.GITHUB_TOKEN
         with:
           tag_name: ${{ steps.changelog.outputs.tag }}
           release_name: ${{ steps.changelog.outputs.tag }}
