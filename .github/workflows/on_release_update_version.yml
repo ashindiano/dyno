@@ -11,13 +11,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.WORKFLOW_PAT }}
-          
+       
       - name: conventional Changelog Action
         id: changelog
         uses: TriPSs/conventional-changelog-action@v3.7.1
         with:
+          github-token: ${{ secrets.WORKFLOW_PAT }}
           version-file: './version.json'
 
       - name: create release
