@@ -1,3 +1,18 @@
+case "$(uname -s)" in
+    Darwin)
+        openCommand="open"
+        local OS="mac"
+        ;;
+    Linux)
+        openCommand="open"
+        local OS="linux"
+        ;;
+    CYGWIN*|MINGW32*|MSYS*|MINGW*)
+        openCommand="start"
+        local OS="windows"
+        ;;
+    esac
+
 function dyno() {
 
     local dynoFolder="$(dirname ${(%):-%x})"
@@ -43,25 +58,6 @@ function dyno() {
 
     local OS="linux"
     local openCommand="open"
-
-    getos() {
-        case "$(uname -s)" in
-        Darwin)
-            openCommand="open"
-            OS="mac"
-            ;;
-        Linux)
-            openCommand="open"
-            OS="linux"
-            ;;
-        CYGWIN*|MINGW32*|MSYS*|MINGW*)
-            openCommand="start"
-            OS="windows"
-            ;;
-        esac
-    }
-    
-    getos
 
     subString() {
         local myresult="${1#*$2}" # removing prefix
