@@ -1,3 +1,17 @@
+## [2.6.8](https://github.com/ashindiano/dyno/compare/v2.6.7...v2.6.8) (2024-12-31)
+
+
+### Bug Fixes
+
+* alias commands fixed ([f74d455](https://github.com/ashindiano/dyno/commit/f74d455ab8f941ea806734677319335aaf5a6ab9))
+* alias commands fixed ([7056ef6](https://github.com/ashindiano/dyno/commit/7056ef6b50a4eef535bbf0abdc5e18a63ddf552f))
+* Update on_release_update_version.yml ([fd5a929](https://github.com/ashindiano/dyno/commit/fd5a9297ad58bc8e643d116a8df8f221ccb41d0e))
+* Update on_release_update_version.yml ([56f82b4](https://github.com/ashindiano/dyno/commit/56f82b42fcec012e1265331012381d352a0ebae8))
+* Update on_release_update_version.yml ([b69a63a](https://github.com/ashindiano/dyno/commit/b69a63a5634d23224eff615b882e425a48a469b0))
+* Update on_release_update_version.yml ([15cca2f](https://github.com/ashindiano/dyno/commit/15cca2ffaff793dd5c9f0a352acd446f634bf736))
+
+
+
 ## [2.6.7](https://github.com/ashindiano/dyno/compare/v2.6.6...v2.6.7) (2024-10-20)
 
 
@@ -32,15 +46,6 @@
 ### Bug Fixes
 
 * additional checks before sourcing ([85df5fa](https://github.com/ashindiano/dyno/commit/85df5fa879824294fe1fbed4f1eebb8f6809a788))
-
-
-
-## [2.6.3](https://github.com/ashindiano/dyno/compare/v2.6.2...v2.6.3) (2024-10-20)
-
-
-### Bug Fixes
-
-* checks added on 'open' and 'code' ([ccb3b5e](https://github.com/ashindiano/dyno/commit/ccb3b5ec486521c415243c1daec23bd59317dff8))
 
 
 
