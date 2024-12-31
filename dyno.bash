@@ -1,19 +1,5 @@
 #!/bin/bash
 
-case "$(uname -s)" in
-    Darwin)
-        openCommand="open"
-        OS="mac"
-        ;;
-    Linux)
-        openCommand="open"
-        OS="linux"
-        ;;
-    CYGWIN*|MINGW32*|MSYS*|MINGW*)
-        openCommand="start"
-        OS="windows"
-    ;;
-
 function dyno() {
     
     local dynoFolder="$(dirname ${(%):-%x})"
@@ -59,6 +45,38 @@ function dyno() {
 
     local OS="linux"
     local openCommand="open"
+
+    getos() {
+        case "$(uname -s)" in
+        Darwin)
+            openCommand="open"
+            OS="mac"
+            ;;
+        Linux)
+            openCommand="open"
+            OS="linux"
+            ;;
+        CYGWIN*|MINGW32*|MSYS*|MINGW*)
+            openCommand="start"
+            OS="windows"
+            ;;
+        esac
+    }
+
+    getos
+
+    if [[ $OS == "windows" ]]; then
+        alias bye="shutdown -s -f -t 00"
+        alias reboo="shutdown -r -f -t 00"
+    elif [[ $OS == "mac" ]]; then
+        alias bye="osascript -e 'tell app \"System Events\" to shut down'"
+    else
+        alias bye="systemctl poweroff -i"
+        alias reboo="systemctl reboot -i"
+    fi
+
+alias e=exit
+
 
     subString() {
         local myresult="${1#*$2}"  # removing prefix
@@ -356,17 +374,3 @@ function dyno() {
 }
 
 dyno check-update # Run at least once to list all autocomplete values
-
-if [[ $OS == "windows" ]]; then
-    alias bye="shutdown -s -f -t 00"
-    alias reboo="shutdown -r -f -t 00"
-elif [[ $OS == "mac" ]]; then
-    alias bye="osascript -e 'tell app \"System Events\" to shut down'"
-else
-    alias bye="systemctl poweroff -i"
-    alias reboo="systemctl reboot -i"
-fi
-
-alias e=exit
-
-dyno source
