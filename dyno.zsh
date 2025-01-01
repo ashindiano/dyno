@@ -112,8 +112,6 @@ function dyno() {
                 echo -e "Your current version is: $Red$version$ColorOff"
                 echo -e "To update, run: $Green dyno update $ColorOff"
                 echo ""
-            else
-                echo -e "${Green}You are using the latest version of Dyno: $Yellow$version$ColorOff"
             fi
         else
             echo -e "${Red}No internet connection. Unable to check for updates.$ColorOff"
@@ -184,6 +182,7 @@ function dyno() {
         
         "source")
             sourceAll
+            isUpdateAvailable
         ;;
         
         "commands")
@@ -369,4 +368,4 @@ function dyno() {
     esac
 }
 
-dyno check-update # Run at least once to list all autocomplete values
+dyno source

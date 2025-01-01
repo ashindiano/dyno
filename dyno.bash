@@ -86,7 +86,7 @@ alias e=exit
 
     sourceAll() {
         if [[ -n "$(ls -A "$sourceFolder")" ]]; then
-            for file in "$sourceFolder"/*.zsh; do
+            for file in "$sourceFolder"/*.bash; do
                 source "$file"
             done
         fi
@@ -94,7 +94,7 @@ alias e=exit
 
     listCustomCommands() {
         if [[ -n "$(ls -A "$sourceFolder")" ]]; then
-            for file in "$sourceFolder"/*.zsh; do
+            for file in "$sourceFolder"/*.bash; do
                 echo -e "${Green}${${file##*/}%.*}${ColorOff}"
             done
         fi
@@ -187,6 +187,7 @@ alias e=exit
         
         "source")
             sourceAll
+            isUpdateAvailable
         ;;
         
         "commands")
@@ -373,4 +374,4 @@ alias e=exit
     esac
 }
 
-dyno check-update # Run at least once to list all autocomplete values
+dyno source
