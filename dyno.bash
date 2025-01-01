@@ -20,18 +20,18 @@ function dyno() {
     declare -a commands
     
     commands=(
-        "open::Opens current folder"
         "source::Source the Current file in Shell"
         "commands::List All commands created by DYNO"
-        "repo::Opens the Github.com link of the current folder's git repo"
         "new::Add a New Script to folder"
         "remove::Removes a Project command created by dyno"
-        "help::List all the commands available"
-        "reset::Reset the script to the factory defaults"
-        "update::Update DYNO to its latest version"
         "location::Navigate to the source location of Dyno"
-        "--uninstall::Uninstall DYNO"
+        "repo::Opens the Github.com link of the current folder's git repo"
+        "open::Opens current folder"
+        "update::Update DYNO to its latest version"
         "check-update::Check for updates"
+        "reset::Reset the script to the factory defaults"
+        "help::List all the commands available"
+        "--uninstall::Uninstall DYNO"
     )
     
     # The following code helps in auto completion
