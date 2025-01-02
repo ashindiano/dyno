@@ -275,9 +275,10 @@ alias e=exit
             
             if test -f "${dynoFolder}/main.tar.gz"; then
                 echo -e "${Cyan}Extracting and Installing ...${ColorOff}"
-                tar -xf "${dynoFolder}/main.tar.gz" -C "${dynoFolder}" --strip 1
+                tar -xf "${dynoFolder}/main.tar.gz" -C "${dynoFolder}" --strip 1                
+                local newVersion=$(grep -o '"version": "[^"]*' ${dynoFolder}/version.json | grep -o '[^"]*$')
+                echo -e "${Green}Updated to version: v$newVersion$ColorOff"
                 source "${(%):-%x}"
-                echo -e "${Green}Updated to version: $version${ColorOff}"
             else
                 echo -e "${Red}Download Failed !!!${ColorOff}"
             fi
