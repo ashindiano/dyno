@@ -1,3 +1,12 @@
+## [2.6.12](https://github.com/ashindiano/dyno/compare/v2.6.10...v2.6.12) (2025-01-02)
+
+
+### Bug Fixes
+
+* version bump test ([8762f5b](https://github.com/ashindiano/dyno/commit/8762f5b3ab291a711cb7313bc65172a6220f7f16))
+
+
+
 ## [2.6.10](https://github.com/ashindiano/dyno/compare/v2.6.9...v2.6.10) (2025-01-02)
 
 
@@ -37,15 +46,6 @@
 ### Bug Fixes
 
 * update check disabled if no internet ([be1dd8e](https://github.com/ashindiano/dyno/commit/be1dd8eb14e52a1c277e2d1adf5a7e9a14f8c392))
-
-
-
-## [2.6.6](https://github.com/ashindiano/dyno/compare/v2.6.5...v2.6.6) (2024-10-20)
-
-
-### Bug Fixes
-
-* minor fixes on local variable leak ([05e5b2e](https://github.com/ashindiano/dyno/commit/05e5b2eab20b803c8fd87e1f17f380ec6f96e88a))
 
 
 
