@@ -1,3 +1,13 @@
+## [2.6.9](https://github.com/ashindiano/dyno/compare/v2.6.8...v2.6.9) (2025-01-01)
+
+
+### Bug Fixes
+
+* bash fixes and too many initial calls fixed ([0fa0b7b](https://github.com/ashindiano/dyno/commit/0fa0b7ba861da5b9f1ba856652cac2cd8081bb00))
+* bash fixes and too many initial calls fixed ([f1d5be6](https://github.com/ashindiano/dyno/commit/f1d5be69af34c1dd991eab76b447eefd51cea6e8))
+
+
+
 ## [2.6.8](https://github.com/ashindiano/dyno/compare/v2.6.7...v2.6.8) (2024-12-31)
 
 
@@ -37,15 +47,6 @@
 
 * Installation complete, readme updated ([18af7b2](https://github.com/ashindiano/dyno/commit/18af7b28e654b251d16a42cf42fcdb2221f8b4e2))
 * Minor readme fixes ([1702520](https://github.com/ashindiano/dyno/commit/1702520a78c494a8c42e497f7144a73f606d4349))
-
-
-
-## [2.6.4](https://github.com/ashindiano/dyno/compare/v2.6.3...v2.6.4) (2024-10-20)
-
-
-### Bug Fixes
-
-* additional checks before sourcing ([85df5fa](https://github.com/ashindiano/dyno/commit/85df5fa879824294fe1fbed4f1eebb8f6809a788))
 
 
 
