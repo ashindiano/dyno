@@ -17,12 +17,20 @@ function template(){
         "source::Source the Current file in Shell"
         "help::List all the commands the available"
         "rename::Renames the current command"
+        # To add a new sub command, append a line in the format:
+        # "<command_name>::<description_of_command>"
+        # For example, to add a command 'search', you would add:
+        # "search::Search the web using a search engine"
     )
 
     local -a folderCommands=(
         "open::Opens current folder"
         "code::Opens the folder in VS Code editor"
         "repo::Opens the respective git origin repo in the browser"
+        # To add a new sub command, append a line in the format:
+        # "<command_name>::<description_of_command>"
+        # For example, to add a command 'search', you would add:
+        # "search::Search the web using a search engine"
     )
     
     #The following code helps in auto completion
@@ -194,6 +202,22 @@ function template(){
             fi
         ;;
         
+        # Add your custom scripts here
+        # Example of adding a custom command:
+        # "search::Search the web using a search engine"
+        # To implement this command, you would add a case like:
+
+        # "search")
+        #     echo -n -e "${Yellow}Enter your search query: ${ColorOff}"
+        #     read query
+        #     if [[ -n "$query" ]]; then
+        #         local searchUrl="https://www.google.com/search?q=${query// /+}"
+        #         $openCommand "$searchUrl"
+        #         echo -e "${Green}Searching for: $query${ColorOff}"
+        #     else
+        #         echo -e "${Red}No search query entered.${ColorOff}"
+        #     fi
+        # ;;
     esac
     
 }

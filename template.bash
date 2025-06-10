@@ -16,12 +16,20 @@ function template() {
         "source::Source the Current file in Shell"
         "help::List all the available commands"
         "rename::Renames the current command"
+        # To add a new sub command, append a line in the format:
+        # "<command_name>::<description_of_command>"
+        # For example, to add a command 'search', you would add:
+        # "search::Search the web using a search engine"   
     )
 
     local -a folderCommands=(
         "open::Opens current folder"
         "code::Opens the folder in VS Code editor"
         "repo::Opens the respective git origin repo in the browser"
+        # To add a new sub command, append a line in the format:
+        # "<command_name>::<description_of_command>"
+        # For example, to add a command 'search', you would add:
+        # "search::Search the web using a search engine"   
     )
 
     # The following code helps in auto completion
@@ -103,12 +111,12 @@ function template() {
 
         "indexCommands")
             complete -W "${allCommands}" template
-            ;;
+        ;;
 
         "script")
             echo -e "${Green}Opening $BASH_SOURCE${ColorOff}"
             code "$BASH_SOURCE"
-            ;;
+        ;;
 
         "code")
                 if command -v code &> /dev/null; then
@@ -130,12 +138,13 @@ function template() {
                 else
                     echo -e "${Red}No suitable editor found.${ColorOff}"
                 fi
-            ;;
+        ;;
 
         "source")
             echo -e "${Green}Sourcing $BASH_SOURCE${ColorOff}"
             source "$BASH_SOURCE"
-            ;;
+        ;;
+
         "repo")
             echo -e "${Green}Opening current Git Repository in github.com${ColorOff}"
             local remote
@@ -147,7 +156,8 @@ function template() {
                 remote=${remote//git@/https:\/\/}
                 $openCommand "$remote"
             fi
-            ;;
+        ;;
+
         "rename")
             read -e -p "You are about to rename the command $FUNCNAME? (y/n): " answer
             if [[ "$answer" == "y" ]]; then
@@ -162,7 +172,8 @@ function template() {
                     echo -e "${Red}Cannot use $newCommandName because this command already exists${ColorOff}"
                 fi
             fi
-            ;;
+        ;;
+
         "help" | "h" | "--help" | "-h")
             for index in "${genericCommands[@]}"; do
                 local key="${index%%::*}"
@@ -181,7 +192,25 @@ function template() {
                     echo -e "${Cyan}${key}${ColorOff} - ${value}"
                 done <<< "$packageJsonCommands"
             fi
-            ;;
+        ;;
+
+        # Add your custom scripts here
+        # Example of adding a custom command:
+        # "search::Search the web using a search engine"
+        # To implement this command, you would add a case like:
+        
+        # "search")
+        #     echo -n -e "${Yellow}Enter your search query: ${ColorOff}"
+        #     read query
+        #     if [[ -n "$query" ]]; then
+        #         local searchUrl="https://www.google.com/search?q=${query// /+}"
+        #         $openCommand "$searchUrl"
+        #         echo -e "${Green}Searching for: $query${ColorOff}"
+        #     else
+        #         echo -e "${Red}No search query entered.${ColorOff}"
+        #     fi
+        # ;;
+        
     esac
 }
 

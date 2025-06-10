@@ -29,7 +29,6 @@ function dyno() {
         "open::Opens current folder"
         "update::Update DYNO to its latest version"
         "check-update::Check for updates"
-        "reset::Reset the script to the factory defaults"
         "help::List all the commands available"
         "--uninstall::Uninstall DYNO"
     )
