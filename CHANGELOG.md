@@ -1,3 +1,12 @@
+## [2.6.13](https://github.com/ashindiano/dyno/compare/v2.6.12...v2.6.13) (2025-06-10)
+
+
+### Bug Fixes
+
+* Comments added ([cb53e68](https://github.com/ashindiano/dyno/commit/cb53e68c76707d0bdea6144678bd09810046b584))
+
+
+
 ## [2.6.12](https://github.com/ashindiano/dyno/compare/v2.6.10...v2.6.12) (2025-01-02)
 
 
@@ -37,15 +46,6 @@
 * Update on_release_update_version.yml ([56f82b4](https://github.com/ashindiano/dyno/commit/56f82b42fcec012e1265331012381d352a0ebae8))
 * Update on_release_update_version.yml ([b69a63a](https://github.com/ashindiano/dyno/commit/b69a63a5634d23224eff615b882e425a48a469b0))
 * Update on_release_update_version.yml ([15cca2f](https://github.com/ashindiano/dyno/commit/15cca2ffaff793dd5c9f0a352acd446f634bf736))
-
-
-
-## [2.6.7](https://github.com/ashindiano/dyno/compare/v2.6.6...v2.6.7) (2024-10-20)
-
-
-### Bug Fixes
-
-* update check disabled if no internet ([be1dd8e](https://github.com/ashindiano/dyno/commit/be1dd8eb14e52a1c277e2d1adf5a7e9a14f8c392))
 
 
 
