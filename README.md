@@ -2,8 +2,7 @@
 
 **Tired of jumping between terminal tabs and manually running repetitive commands?** Dyno lets you create powerful custom shell commands — tied to your folders or system-wide — so you can run, jump, and automate like a boss. Whether you're juggling projects or building one-off utilities, Dyno adapts to your flow.
 
-<img src="https://user-images.githubusercontent.com/7322170/179398912-f1ee5000-7e1e-4ce8-808f-d66a928fd399.gif" width="80%" >
----
+https://github.com/user-attachments/assets/12567cee-878f-44a6-a4aa-0e915ca93d55
 
 ## ✨ Key Features
 
