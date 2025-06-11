@@ -66,6 +66,30 @@ function template(){
         esac
     }
     
+    editor() {
+        if command -v code &>/dev/null; then
+            code "$@"
+        elif [[ "$OS" == "mac" ]]; then
+            open -a "TextEdit" "$@"
+        elif [[ "$OS" == "linux" ]]; then
+            if command -v gedit &>/dev/null; then
+                gedit "$@"
+            elif command -v nano &>/dev/null; then
+                nano "$@"
+            elif command -v vi &>/dev/null; then
+                vi "$@"
+            else
+                echo "No suitable editor found."
+                return 1
+            fi
+        elif [[ "$OS" == "windows" ]]; then
+            notepad "$@"
+        else
+            echo "No suitable editor found."
+            return 1
+        fi
+    }
+
     getos
 
     if [[ $prjFolder != "NOPATH" ]]; then
@@ -120,29 +144,11 @@ function template(){
 
         "script")
             echo -e "${Green}Opening ${(%):-%x}${ColorOff}"
-            code "${(%):-%x}"
+            editor "${(%):-%x}"
         ;;
         
         "code")
-            if command -v code &> /dev/null; then
-                code .
-            elif [[ "$OS" == "mac" ]]; then
-                open -a "TextEdit" .
-            elif [[ "$OS" == "linux" ]]; then
-                if command -v gedit &> /dev/null; then
-                    gedit .
-                elif command -v nano &> /dev/null; then
-                    nano .
-                elif command -v vim &> /dev/null; then
-                    vim .
-                else
-                    echo -e "${Red}No suitable editor found.${ColorOff}"
-                fi
-            elif [[ "$OS" == "windows" ]]; then
-                notepad .
-            else
-                echo -e "${Red}No suitable editor found.${ColorOff}"
-            fi
+            editor .
         ;;
         
         "source")

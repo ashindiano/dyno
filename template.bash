@@ -1,15 +1,15 @@
 function template() {
     local ColorOff='\033[0m'
-    local Black='\033[0;30m'        # Black
-    local Red='\033[0;31m'          # Red
-    local Green='\033[0;32m'        # Green
-    local Yellow='\033[0;33m'       # Yellow
-    local Blue='\033[0;34m'         # Blue
-    local Purple='\033[0;35m'       # Purple
-    local Cyan='\033[0;36m'         # Cyan
-    local White='\033[0;37m'        # White
+    local Black='\033[0;30m'  # Black
+    local Red='\033[0;31m'    # Red
+    local Green='\033[0;32m'  # Green
+    local Yellow='\033[0;33m' # Yellow
+    local Blue='\033[0;34m'   # Blue
+    local Purple='\033[0;35m' # Purple
+    local Cyan='\033[0;36m'   # Cyan
+    local White='\033[0;37m'  # White
 
-    local prjFolder="path"
+    local prjFolder="NOPATH"
     local -a commands
     local -a genericCommands=(
         "script::Open the 'template' Script file"
@@ -19,7 +19,7 @@ function template() {
         # To add a new sub command, append a line in the format:
         # "<command_name>::<description_of_command>"
         # For example, to add a command 'search', you would add:
-        # "search::Search the web using a search engine"   
+        # "search::Search the web using a search engine"
     )
 
     local -a folderCommands=(
@@ -29,7 +29,7 @@ function template() {
         # To add a new sub command, append a line in the format:
         # "<command_name>::<description_of_command>"
         # For example, to add a command 'search', you would add:
-        # "search::Search the web using a search engine"   
+        # "search::Search the web using a search engine"
     )
 
     # The following code helps in auto completion
@@ -64,6 +64,30 @@ function template() {
         esac
     }
 
+    editor() {
+        if command -v code &>/dev/null; then
+            code "$@"
+        elif [[ "$OS" == "mac" ]]; then
+            open -a "TextEdit" "$@"
+        elif [[ "$OS" == "linux" ]]; then
+            if command -v gedit &>/dev/null; then
+                gedit "$@"
+            elif command -v nano &>/dev/null; then
+                nano "$@"
+            elif command -v vi &>/dev/null; then
+                vi "$@"
+            else
+                echo "No suitable editor found."
+                return 1
+            fi
+        elif [[ "$OS" == "windows" ]]; then
+            notepad "$@"
+        else
+            echo "No suitable editor found."
+            return 1
+        fi
+    }
+
     getos
 
     if [[ $prjFolder != "NOPATH" ]]; then
@@ -78,7 +102,7 @@ function template() {
             while read -r line; do
                 local key="${line%%::*}"
                 allCommands+="${key} "
-            done <<< "$packageJsonCommands"
+            done <<<"$packageJsonCommands"
         fi
 
         if [[ ! $# -eq 0 && "$packageJsonCommands" == *"$1::"* ]]; then
@@ -94,111 +118,93 @@ function template() {
 
     case $1 in
 
-        "open")
-            echo -e "${Green}Opening Current Folder${ColorOff}"
-            if command -v nautilus &> /dev/null; then
-                nautilus .
-            elif command -v xdg-open &> /dev/null; then
-                xdg-open .
-            elif command -v open &> /dev/null; then
-                open .
-            elif command -v start &> /dev/null; then
-                start .
+    "open")
+        echo -e "${Green}Opening Current Folder${ColorOff}"
+        if command -v nautilus &>/dev/null; then
+            nautilus .
+        elif command -v xdg-open &>/dev/null; then
+            xdg-open .
+        elif command -v open &>/dev/null; then
+            open .
+        elif command -v start &>/dev/null; then
+            start .
+        else
+            echo -e "${Red}No suitable command found to open the current folder.${ColorOff}"
+        fi
+        ;;
+
+    "indexCommands")
+        complete -W "${allCommands}" template
+        ;;
+
+    "script")
+        echo -e "${Green}Opening $BASH_SOURCE${ColorOff}"
+        editor "$BASH_SOURCE"
+        ;;
+
+    "code")
+        editor .
+        ;;
+
+    "source")
+        echo -e "${Green}Sourcing $BASH_SOURCE${ColorOff}"
+        source "$BASH_SOURCE"
+        ;;
+
+    "repo")
+        echo -e "${Green}Opening current Git Repository in github.com${ColorOff}"
+        local remote
+        remote=$(git config --get remote.origin.url)
+        if [[ $remote != *".git"* ]]; then
+            echo -e "${Red}No Git Found${ColorOff}"
+        else
+            remote=${remote//:/\/}
+            remote=${remote//git@/https:\/\/}
+            $openCommand "$remote"
+        fi
+        ;;
+
+    "rename")
+        read -e -p "You are about to rename the command $FUNCNAME? (y/n): " answer
+        if [[ "$answer" == "y" ]]; then
+            echo -e "${Yellow}Please enter the new command: ${ColorOff}"
+            read newCommandName
+            if ! command -v "$newCommandName" &>/dev/null; then
+                sed -i -e "s/$FUNCNAME()/$newCommandName()/g" "${BASH_SOURCE[0]}" # replacing the function name
+                sed -i -e "\$s/$FUNCNAME/$newCommandName/g" "${BASH_SOURCE[0]}"   # replacing the command in last line
+                source "${BASH_SOURCE[0]}"
+                echo -e "${Green}Rename successful!!! $newCommandName is effective now${ColorOff}"
             else
-                echo -e "${Red}No suitable command found to open the current folder.${ColorOff}"
+                echo -e "${Red}Cannot use $newCommandName because this command already exists${ColorOff}"
             fi
+        fi
         ;;
 
-        "indexCommands")
-            complete -W "${allCommands}" template
-        ;;
-
-        "script")
-            echo -e "${Green}Opening $BASH_SOURCE${ColorOff}"
-            code "$BASH_SOURCE"
-        ;;
-
-        "code")
-                if command -v code &> /dev/null; then
-                    code .
-                elif [[ "$OS" == "mac" ]]; then
-                    open -a "TextEdit" .
-                elif [[ "$OS" == "linux" ]]; then
-                    if command -v gedit &> /dev/null; then
-                        gedit .
-                    elif command -v nano &> /dev/null; then
-                        nano .
-                    elif command -v vim &> /dev/null; then
-                        vim .
-                    else
-                        echo -e "${Red}No suitable editor found.${ColorOff}"
-                    fi
-                elif [[ "$OS" == "windows" ]]; then
-                    notepad .
-                else
-                    echo -e "${Red}No suitable editor found.${ColorOff}"
-                fi
-        ;;
-
-        "source")
-            echo -e "${Green}Sourcing $BASH_SOURCE${ColorOff}"
-            source "$BASH_SOURCE"
-        ;;
-
-        "repo")
-            echo -e "${Green}Opening current Git Repository in github.com${ColorOff}"
-            local remote
-            remote=$(git config --get remote.origin.url)
-            if [[ $remote != *".git"* ]]; then
-                echo -e "${Red}No Git Found${ColorOff}"
-            else
-                remote=${remote//:/\/}
-                remote=${remote//git@/https:\/\/}
-                $openCommand "$remote"
-            fi
-        ;;
-
-        "rename")
-            read -e -p "You are about to rename the command $FUNCNAME? (y/n): " answer
-            if [[ "$answer" == "y" ]]; then
-                echo -e "${Yellow}Please enter the new command: ${ColorOff}"
-                read newCommandName
-                if ! command -v "$newCommandName" &> /dev/null; then
-                    sed -i -e "s/$FUNCNAME()/$newCommandName()/g" "${BASH_SOURCE[0]}" # replacing the function name
-                    sed -i -e "\$s/$FUNCNAME/$newCommandName/g" "${BASH_SOURCE[0]}"  # replacing the command in last line
-                    source "${BASH_SOURCE[0]}"
-                    echo -e "${Green}Rename successful!!! $newCommandName is effective now${ColorOff}"
-                else
-                    echo -e "${Red}Cannot use $newCommandName because this command already exists${ColorOff}"
-                fi
-            fi
-        ;;
-
-        "help" | "h" | "--help" | "-h")
-            for index in "${genericCommands[@]}"; do
+    "help" | "h" | "--help" | "-h")
+        for index in "${genericCommands[@]}"; do
+            local key="${index%%::*}"
+            local value="${index##*::}"
+            echo -e "${Cyan}${key}${ColorOff} - ${value}"
+        done
+        if [[ $prjFolder != "NOPATH" ]]; then
+            for index in "${folderCommands[@]}"; do
                 local key="${index%%::*}"
                 local value="${index##*::}"
                 echo -e "${Cyan}${key}${ColorOff} - ${value}"
             done
-            if [[ $prjFolder != "NOPATH" ]]; then
-                for index in "${folderCommands[@]}"; do
-                    local key="${index%%::*}"
-                    local value="${index##*::}"
-                    echo -e "${Cyan}${key}${ColorOff} - ${value}"
-                done
-                while read -r line; do
-                    local key="${line%%::*}"
-                    local value="${line##*::}"
-                    echo -e "${Cyan}${key}${ColorOff} - ${value}"
-                done <<< "$packageJsonCommands"
-            fi
+            while read -r line; do
+                local key="${line%%::*}"
+                local value="${line##*::}"
+                echo -e "${Cyan}${key}${ColorOff} - ${value}"
+            done <<<"$packageJsonCommands"
+        fi
         ;;
 
         # Add your custom scripts here
         # Example of adding a custom command:
         # "search::Search the web using a search engine"
         # To implement this command, you would add a case like:
-        
+
         # "search")
         #     echo -n -e "${Yellow}Enter your search query: ${ColorOff}"
         #     read query
@@ -210,7 +216,7 @@ function template() {
         #         echo -e "${Red}No search query entered.${ColorOff}"
         #     fi
         # ;;
-        
+
     esac
 }
 
